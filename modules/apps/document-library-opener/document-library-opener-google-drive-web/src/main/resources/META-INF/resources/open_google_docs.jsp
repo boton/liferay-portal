@@ -20,6 +20,9 @@
 DLOpenerGoogleDriveFileReference dlOpenerGoogleDriveFileReference = (DLOpenerGoogleDriveFileReference)request.getAttribute(DLOpenerGoogleDriveWebKeys.DL_OPENER_GOOGLE_DRIVE_FILE_REFERENCE);
 
 long cssLastModifiedTime = PortalWebResourcesUtil.getLastModified(PortalWebResourceConstants.RESOURCE_TYPE_CSS);
+
+String googleDocsEditURL = ParamUtil.getString(request, "googleDocsEditURL");
+String redirect = ParamUtil.getString(request, "redirect");
 %>
 
 <!DOCTYPE html>
@@ -44,6 +47,13 @@ long cssLastModifiedTime = PortalWebResourcesUtil.getLastModified(PortalWebResou
 				</div>
 			</div>
 
+			<portlet:actionURL name="/document_library/edit_in_google_docs" var="actionURL">
+				<portlet:param name="fileEntryId" value="<%= String.valueOf(dlOpenerGoogleDriveFileReference.getFileEntryId()) %>" />
+				<portlet:param name="redirect" value="<%= redirect %>" />
+			</portlet:actionURL>
+
+			<%= actionURL %>
+
 			<div class="autofit-col">
 				<clay:button
 					id="discardChangesBtn"
@@ -53,7 +63,7 @@ long cssLastModifiedTime = PortalWebResourcesUtil.getLastModified(PortalWebResou
 			</div>
 		</div>
 
-		<iframe class="google-docs-iframe" frameborder="0" id="<portlet:namespace />gDocsIFrame" src="<%= dlOpenerGoogleDriveFileReference.getGoogleDocsEditURL() %>"></iframe>
+		<iframe class="google-docs-iframe" frameborder="0" id="<portlet:namespace />gDocsIFrame" src="<%= googleDocsEditURL %>"></iframe>
 
 		<portlet:actionURL name="/document_library/edit_in_google_docs" var="checkInURL">
 			<portlet:param name="<%= Constants.CMD %>" value="<%= DLOpenerGoogleDriveWebConstants.GOOGLE_DRIVE_CHECKIN %>" />
