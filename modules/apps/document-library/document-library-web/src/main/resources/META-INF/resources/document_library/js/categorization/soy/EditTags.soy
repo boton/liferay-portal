@@ -95,7 +95,7 @@
 
 	<p>{$description}</p>
 
-	{if $multiple}
+	{if not $multiple}
 		{call ClayRadio.render}
 			{param checked: true /}
 			{param events: [
