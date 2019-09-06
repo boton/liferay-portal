@@ -231,11 +231,9 @@ AUI.add(
 				_openModalTags() {
 					var instance = this;
 
-					var editTagsComponent = Liferay.component(
+					Liferay.componentReady(
 						instance.NS + 'EditTagsComponent'
-					);
-
-					if (editTagsComponent) {
+					).then(function(editTagsComponent) {
 						var bulkSelection =
 							instance._searchContainer.select &&
 							instance._searchContainer.select.get(
@@ -247,7 +245,7 @@ AUI.add(
 							bulkSelection,
 							instance.getFolderId()
 						);
-					}
+					});
 				},
 
 				_plugUpload(event, config) {
