@@ -312,7 +312,7 @@ String navigation = ParamUtil.getString(request, "navigation");
 		<div>
 			<react:component
 				data="<%= data %>"
-				module="document_library/js/categorization/tags/index.es"
+				module="document_library/js/categorization/tags/EditTags.es"
 			/>
 		</div>
 

@@ -14,6 +14,7 @@
 
 import React, {useState} from 'react';
 
+import EditTagsContext from './EditTagsContext.es';
 import EditTagsModal from './EditTagsModal.es';
 
 function EditTags(props) {
@@ -52,4 +53,10 @@ function EditTags(props) {
 	);
 }
 
-export default EditTags;
+export default function({context, props}) {
+	return (
+		<EditTagsContext.Provider value={context}>
+			<EditTags {...props} />
+		</EditTagsContext.Provider>
+	);
+}

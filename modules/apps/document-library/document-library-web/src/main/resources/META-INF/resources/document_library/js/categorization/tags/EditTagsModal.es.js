@@ -29,6 +29,10 @@ import React, {
 import {fetch} from 'frontend-js-web';
 import {AssetTagsSelector} from 'asset-taglib';
 
+const URL_SELECTION = '/bulk/v1.0/bulk-selection',
+	URL_TAGS = '/bulk/v1.0/keywords/common',
+	URL_UPDATE_TAGS = '/bulk/v1.0/keywords/batch';
+
 const EditTagsModal = ({
 	fileEntries,
 	folderId,
@@ -36,36 +40,41 @@ const EditTagsModal = ({
 	pathModule,
 	repositoryId,
 	selectAll = false,
-	urlSelection = '/bulk/v1.0/bulk-selection',
-	urlTags = '/bulk/v1.0/keywords/common',
-	urlUpdateTags = '/bulk/v1.0/keywords/batch',
 	onModalClose = () => {}
 }) => {
 	const {namespace} = useContext(EditTagsContext);
 
+	//Flag that indicates whether new selected items must be added to old ones
+	//or replace them.
 	const [append, setAppend] = useState(true);
-	const [bulkSelection, setBulkSelection] = useState();
 	const [description, setDescription] = useState('');
 	const [loading, setLoading] = useState(true);
 	const [multiple, setMultiple] = useState(false);
+
+	//Selected items received from the server and saved to compare with new
+	//ones.
 	const [initialSelectedItems, setInitialSelectedItems] = useState([]);
+	const [inputValue, setInputValue] = useState();
+
+	//Current selected items.
 	const [selectedItems, setSelectedItems] = useState([]);
 	const [selectedRadioGroupValue, setSelectedRadioGroupValue] = useState(
 		'add'
 	);
 
+	//Needed in order to use ClayModal correctly.
 	const {observer, onClose} = useModal({
 		onClose: onModalClose
 	});
 
-	useEffect(() => {
-		setBulkSelection(getBulkSelection());
-	}, [fileEntries, folderId, getBulkSelection, repositoryId, selectAll]);
-
+	//This makes the component call fetchSelectedItems only after mounting it
+	//(a.k.a. first render).
 	useEffect(() => {
 		fetchSelectedItems();
-	}, [urlTags, urlSelection, bulkSelection, fetchSelectedItems]);
+	}, []);
 
+	//Used to know if the component is mounted or not to avoid promises
+	//callbacks to be executed after the component is unmounted.
 	const isMounted = useRef(true);
 
 	useEffect(() => {
@@ -76,12 +85,12 @@ const EditTagsModal = ({
 		};
 	});
 
-	const fetchSelectedItems = () => {
+	const fetchSelectedItems = useCallback(() => {
 		const selection = getBulkSelection();
 
 		return Promise.all([
-			fetchTags(urlTags, 'POST', selection),
-			fetchTags(urlSelection, 'POST', selection)
+			fetchTags(URL_TAGS, 'POST', selection),
+			fetchTags(URL_SELECTION, 'POST', selection)
 		]).then(([responseTags, responseSelection]) => {
 			if (responseTags && responseSelection) {
 				const selectedItems = (responseTags.items || []).map(
@@ -97,7 +106,7 @@ const EditTagsModal = ({
 				}
 			}
 		});
-	};
+	});
 
 	const fetchTags = (url, method, bodyData) => {
 		const init = {
@@ -158,7 +167,7 @@ const EditTagsModal = ({
 			item => !selectedItemsSet.has(item)
 		);
 
-		fetchTags(urlUpdateTags, append ? 'PATCH' : 'PUT', {
+		fetchTags(URL_UPDATE_TAGS, append ? 'PATCH' : 'PUT', {
 			documentBulkSelection: getBulkSelection(),
 			keywordsToAdd: addedLabels,
 			keywordsToRemove: removedLabels
@@ -229,6 +238,8 @@ const EditTagsModal = ({
 					<AssetTagsSelector
 						groupIds={groupIds}
 						inputName={`${namespace}_hiddenInput`}
+						inputValue={inputValue}
+						onInputValueChange={setInputValue}
 						onSelectedItemsChange={setSelectedItems}
 						selectedItems={selectedItems}
 					/>
@@ -263,9 +274,6 @@ EditTagsModal.propTypes = {
 	pathModule: PropTypes.string,
 	repositoryId: PropTypes.string,
 	selectAll: PropTypes.bool,
-	urlSelection: PropTypes.string,
-	urlTags: PropTypes.string,
-	urlUpdateTags: PropTypes.string
 };
 
 export default EditTagsModal;
