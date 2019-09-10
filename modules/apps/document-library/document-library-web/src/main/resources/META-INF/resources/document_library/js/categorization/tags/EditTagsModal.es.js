@@ -67,28 +67,19 @@ const EditTagsModal = ({
 		onClose: onModalClose
 	});
 
-	//This makes the component call fetchSelectedItems only after mounting it
+	//This makes the component fetch selected items only after mounting it
 	//(a.k.a. first render).
 	useEffect(() => {
-		fetchSelectedItems();
-	}, []);
-
-	//Used to know if the component is mounted or not to avoid promises
-	//callbacks to be executed after the component is unmounted.
-	const isMounted = useRef(true);
-
-	useEffect(() => {
-		isMounted.current = true;
-
-		return () => {
-			isMounted.current = false;
+		const selection = {
+			documentIds: fileEntries,
+			selectionScope: {
+				folderId,
+				repositoryId,
+				selectAll
+			}
 		};
-	});
 
-	const fetchSelectedItems = useCallback(() => {
-		const selection = getBulkSelection();
-
-		return Promise.all([
+		Promise.all([
 			fetchTags(URL_TAGS, 'POST', selection),
 			fetchTags(URL_SELECTION, 'POST', selection)
 		]).then(([responseTags, responseSelection]) => {
@@ -106,32 +97,43 @@ const EditTagsModal = ({
 				}
 			}
 		});
-	});
+	}, [
+		fetchTags,
+		fileEntries,
+		fileEntries.length,
+		folderId,
+		repositoryId,
+		selectAll
+	]);
 
-	const fetchTags = (url, method, bodyData) => {
-		const init = {
-			body: JSON.stringify(bodyData),
-			headers: {'Content-Type': 'application/json'},
-			method
-		};
+	//Used to know if the component is mounted or not to avoid promises
+	//callbacks to be executed after the component is unmounted.
+	const isMounted = useRef(true);
 
-		return fetch(`${pathModule}${url}`, init)
-			.then(response => response.json())
-			.catch(() => {
-				onModalClose();
-			});
-	};
+	useEffect(() => {
+		isMounted.current = true;
 
-	const getBulkSelection = useCallback(() => {
-		return {
-			documentIds: fileEntries,
-			selectionScope: {
-				folderId,
-				repositoryId,
-				selectAll
-			}
+		return () => {
+			isMounted.current = false;
 		};
 	});
+
+	const fetchTags = useCallback(
+		(url, method, bodyData) => {
+			const init = {
+				body: JSON.stringify(bodyData),
+				headers: {'Content-Type': 'application/json'},
+				method
+			};
+
+			return fetch(`${pathModule}${url}`, init)
+				.then(response => response.json())
+				.catch(() => {
+					onModalClose();
+				});
+		},
+		[onModalClose, pathModule]
+	);
 
 	const getDescription = size => {
 		if (size === 1) {
@@ -168,7 +170,14 @@ const EditTagsModal = ({
 		);
 
 		fetchTags(URL_UPDATE_TAGS, append ? 'PATCH' : 'PUT', {
-			documentBulkSelection: getBulkSelection(),
+			documentBulkSelection: {
+				documentIds: fileEntries,
+				selectionScope: {
+					folderId,
+					repositoryId,
+					selectAll
+				}
+			},
 			keywordsToAdd: addedLabels,
 			keywordsToRemove: removedLabels
 		}).then(() => {
@@ -273,7 +282,7 @@ EditTagsModal.propTypes = {
 	id: PropTypes.string,
 	pathModule: PropTypes.string,
 	repositoryId: PropTypes.string,
-	selectAll: PropTypes.bool,
+	selectAll: PropTypes.bool
 };
 
 export default EditTagsModal;
