@@ -75,6 +75,8 @@ ItemSelectorRepositoryEntryManagementToolbarDisplayContext itemSelectorRepositor
 		<liferay-util:include page="/repository_entry_browser/search_info.jsp" servletContext="<%= application %>" />
 	</c:if>
 
+	<div class="message-container"></div>
+
 	<%
 	long folderId = ParamUtil.getLong(request, "folderId");
 
@@ -196,6 +198,14 @@ ItemSelectorRepositoryEntryManagementToolbarDisplayContext itemSelectorRepositor
 								<liferay-ui:message arguments="<%= new String[] {LanguageUtil.getTimeDescription(locale, System.currentTimeMillis() - fileEntry.getModifiedDate().getTime(), true), HtmlUtil.escape(fileEntry.getUserName())} %>" key="x-ago-by-x" translateArguments="<%= false %>" />
 							</liferay-ui:search-container-column-text>
 
+							<liferay-ui:search-container-column-text>
+								<clay:button
+									elementClasses="btn-outline-borderless btn-outline-secondary component-action icon-view"
+									icon="view"
+									monospaced="<%= true %>"
+									style="outline-secondary"
+								/>
+							</liferay-ui:search-container-column-text>
 						<%
 						}
 
@@ -232,6 +242,10 @@ ItemSelectorRepositoryEntryManagementToolbarDisplayContext itemSelectorRepositor
 							>
 								<liferay-ui:message arguments="<%= new String[] {LanguageUtil.getTimeDescription(locale, System.currentTimeMillis() - folder.getModifiedDate().getTime(), true), HtmlUtil.escape(folder.getUserName())} %>" key="x-ago-by-x" translateArguments="<%= false %>" />
 							</liferay-ui:search-container-column-text>
+
+							<liferay-ui:search-container-column-text
+								value="--"
+							/>
 
 						<%
 						}
@@ -318,6 +332,8 @@ ItemSelectorRepositoryEntryManagementToolbarDisplayContext itemSelectorRepositor
 										<c:choose>
 											<c:when test="<%= Validator.isNull(thumbnailSrc) %>">
 												<liferay-frontend:icon-vertical-card
+													actionJsp="/repository_entry_browser/action_button_preview.jsp"
+													actionJspServletContext="<%= application %>"
 													cardCssClass="card-interactive"
 													cssClass="file-card form-check form-check-card item-preview"
 													data="<%= data %>"
@@ -334,6 +350,8 @@ ItemSelectorRepositoryEntryManagementToolbarDisplayContext itemSelectorRepositor
 											</c:when>
 											<c:otherwise>
 												<liferay-frontend:vertical-card
+													actionJsp="/repository_entry_browser/action_button_preview.jsp"
+													actionJspServletContext="<%= application %>"
 													cardCssClass="card-interactive"
 													cssClass="form-check form-check-card image-card item-preview"
 													data="<%= data %>"
@@ -391,7 +409,6 @@ ItemSelectorRepositoryEntryManagementToolbarDisplayContext itemSelectorRepositor
 											url="<%= viewFolderURL.toString() %>"
 										/>
 									</liferay-ui:search-container-column-text>
-
 								<%
 								}
 
@@ -444,6 +461,10 @@ ItemSelectorRepositoryEntryManagementToolbarDisplayContext itemSelectorRepositor
 										</div>
 									</liferay-ui:search-container-column-text>
 
+									<liferay-ui:search-container-column-icon
+							   			icon="view"
+							   			cssClass="icon-view"
+							  		/>
 								<%
 								}
 								%>
@@ -468,10 +489,12 @@ ItemSelectorRepositoryEntryManagementToolbarDisplayContext itemSelectorRepositor
 			/>
 		</c:if>
 	</c:if>
+
+	<div class="item-selector-preview-container"></div>
 </div>
 
-<aui:script use="liferay-item-selector-repository-entry-browser">
-	new Liferay.ItemSelectorRepositoryEntryBrowser(
+<aui:script require='<%= npmResolvedPackageName + "/repository_entry_browser/js/ItemSelectorRepositoryEntryBrowser.es as ItemSelectorRepositoryEntryBrowser" %>'>
+	var itemSelector = new ItemSelectorRepositoryEntryBrowser.default(
 		{
 			closeCaption: '<%= UnicodeLanguageUtil.get(request, tabName) %>',
 
@@ -491,12 +514,9 @@ ItemSelectorRepositoryEntryManagementToolbarDisplayContext itemSelectorRepositor
 			</c:if>
 
 			maxFileSize: '<%= maxFileSize %>',
-			on: {
-				selectedItem: function(event) {
-					Liferay.Util.getOpener().Liferay.fire('<%= itemSelectedEventName %>', event);
-				}
-			},
+
 			rootNode: '#<%= randomNamespace %>ItemSelectorContainer',
+
 			validExtensions: '<%= ListUtil.isEmpty(extensions) ? "*" : StringUtil.merge(extensions) %>'
 
 			<c:if test="<%= uploadURL != null %>">
@@ -510,6 +530,15 @@ ItemSelectorRepositoryEntryManagementToolbarDisplayContext itemSelectorRepositor
 				, uploadItemReturnType: '<%= HtmlUtil.escapeAttribute(returnType) %>',
 				uploadItemURL: '<%= uploadURL.toString() %>'
 			</c:if>
+		}
+	);
+
+	itemSelector.on(
+		'selectedItem',
+		function(event) {
+			Liferay.Util.getOpener().Liferay.fire('<%= itemSelectedEventName %>', event);
+
+			Liferay.Util.getOpener().Liferay.fire('<%= itemSelectedEventName %>AddItem');
 		}
 	);
 </aui:script>
