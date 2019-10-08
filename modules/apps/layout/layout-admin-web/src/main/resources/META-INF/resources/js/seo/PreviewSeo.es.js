@@ -19,31 +19,52 @@ const MAX_LENGTH_DESCIPTION = 160;
 
 const PreviewSeo = ({
 	description = '',
+	displayType = 'serp',
+	imgUrl = '',
 	suffixTitle = '',
 	title = '',
 	url = ''
-}) => (
-	<div className="preview-seo preview-seo-serp">
-		<div className="preview-seo-title text-truncate">
+}) => {
+	const titleUrl = [
+		<div className="preview-seo-title text-truncate" key="title">
 			{title}
 			{suffixTitle && ` - ${suffixTitle}`}
+		</div>,
+		<div className="preview-seo-url text-truncate" key="url">
+			{url}
 		</div>
-		<div className="preview-seo-url text-truncate">{url}</div>
-		<div className="preview-seo-description">
-			{description > MAX_LENGTH_DESCIPTION
-				? description
-				: `${description.slice(0, MAX_LENGTH_DESCIPTION)} \u2026`}
+	];
+
+	return (
+		<div className={`preview-seo preview-seo-${displayType}`}>
+			{imgUrl && (
+				<div className="preview-seo-image aspect-ratio aspect-ratio-191-to-100">
+					<img
+						alt=""
+						className="aspect-ratio-item aspect-ratio-item-center-middle aspect-ratio-item-flush"
+						src={imgUrl}
+					/>
+				</div>
+			)}
+			{displayType === 'og' ? titleUrl.reverse() : titleUrl}
+			<div className="preview-seo-description">
+				{description > MAX_LENGTH_DESCIPTION
+					? description
+					: `${description.slice(0, MAX_LENGTH_DESCIPTION)} \u2026`}
+			</div>
 		</div>
-	</div>
-);
+	);
+};
 PreviewSeo.propTypes = {
 	description: PropTypes.string,
+	displayType: PropTypes.oneOf(['serp', 'og']),
 	suffixTitle: PropTypes.string,
 	title: PropTypes.string,
 	url: PropTypes.string
 };
 
 const PreviewSeoContainer = ({
+	displayType,
 	portletNamespace,
 	suffixTitle,
 	targetsIds,
@@ -96,6 +117,7 @@ const PreviewSeoContainer = ({
 	return (
 		<PreviewSeo
 			description={description}
+			displayType={displayType}
 			suffixTitle={suffixTitle}
 			title={title}
 			url={url}
@@ -104,11 +126,12 @@ const PreviewSeoContainer = ({
 };
 
 PreviewSeoContainer.propTypes = {
+	displayType: PropTypes.string,
 	targetsIds: PropTypes.shape({
 		description: PropTypes.string.isRequired,
 		title: PropTypes.string.isRequired
 	}).isRequired,
-	url: PropTypes.string.isRequired
+	url: PropTypes.string
 };
 
 export default PreviewSeoContainer;
