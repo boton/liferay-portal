@@ -19,31 +19,57 @@ const MAX_LENGTH_DESCIPTION = 160;
 
 const PreviewSeo = ({
 	description = '',
+	displayType = 'serp',
+	imgUrl = '',
+	suffixTitle = '',
 	title = '',
-	titleSuffix = '',
 	url = ''
-}) => (
-	<div className="preview-seo preview-seo-serp">
-		<div className="preview-seo-title text-truncate">
+}) => {
+	const titleUrl = [
+		<div className="preview-seo-title text-truncate" key="title">
 			{title}
-			{titleSuffix && ` - ${titleSuffix}`}
+			{suffixTitle && ` - ${suffixTitle}`}
+		</div>,
+		<div className="preview-seo-url text-truncate" key="url">
+			{url}
 		</div>
-		<div className="preview-seo-url text-truncate">{url}</div>
-		<div className="preview-seo-description">
-			{description.length < MAX_LENGTH_DESCIPTION
-				? description
-				: `${description.slice(0, MAX_LENGTH_DESCIPTION)}\u2026`}
+	];
+
+	return (
+		<div className={`preview-seo preview-seo-${displayType}`}>
+			{imgUrl && (
+				<div className="preview-seo-image aspect-ratio aspect-ratio-191-to-100">
+					<img
+						alt=""
+						className="aspect-ratio-item aspect-ratio-item-center-middle aspect-ratio-item-flush"
+						src={imgUrl}
+					/>
+				</div>
+			)}
+			{displayType === 'og' ? titleUrl.reverse() : titleUrl}
+			<div className="preview-seo-description">
+				{description.length < MAX_LENGTH_DESCIPTION
+					? description
+					: `${description.slice(0, MAX_LENGTH_DESCIPTION)}\u2026`}
+				{suffixTitle && ` - ${suffixTitle}`}
+			</div>
 		</div>
-	</div>
-);
+	);
+};
 PreviewSeo.propTypes = {
 	description: PropTypes.string,
-	titleSuffix: PropTypes.string,
+	displayType: PropTypes.oneOf(['serp', 'og']),
+	suffixTitle: PropTypes.string,
 	title: PropTypes.string,
 	url: PropTypes.string
 };
 
-const PreviewSeoContainer = ({portletNamespace, titleSuffix, targets}) => {
+const PreviewSeoContainer = ({
+	portletNamespace,
+	targets,
+	displayType,
+	suffixTitle
+}) => {
 	const [description, setDescription] = useState('');
 	const [title, setTitle] = useState('');
 	const [url, setUrl] = useState('');
@@ -115,14 +141,16 @@ const PreviewSeoContainer = ({portletNamespace, titleSuffix, targets}) => {
 	return (
 		<PreviewSeo
 			description={description}
+			displayType={displayType}
+			suffixTitle={suffixTitle}
 			title={title}
-			titleSuffix={titleSuffix}
 			url={url}
 		/>
 	);
 };
 
 PreviewSeoContainer.propTypes = {
+	displayType: PropTypes.string,
 	targets: PropTypes.arrayOf(
 		PropTypes.shape({
 			id: PropTypes.string.isRequired,
