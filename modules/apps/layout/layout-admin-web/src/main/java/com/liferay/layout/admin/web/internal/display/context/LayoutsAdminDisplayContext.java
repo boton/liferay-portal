@@ -296,6 +296,24 @@ public class LayoutsAdminDisplayContext {
 		return breadcrumbEntriesJSONArray;
 	}
 
+	public String getCanonicalLayoutURL() throws PortalException {
+		String completeURL = PortalUtil.getCurrentCompleteURL(
+			_httpServletRequest);
+
+		String canonicalURL = PortalUtil.getCanonicalURL(
+			completeURL, _themeDisplay, _selLayout, false, false);
+
+		Map<Locale, String> alternateURLs = PortalUtil.getAlternateURLs(
+			canonicalURL, _themeDisplay, _selLayout);
+
+		LayoutSEOLink canonicalLayoutSEOLink =
+			_layoutSEOLinkManager.getCanonicalLayoutSEOLink(
+				_selLayout, _themeDisplay.getLocale(), canonicalURL,
+				alternateURLs);
+
+		return canonicalLayoutSEOLink.getHref();
+	}
+
 	public String getConfigureLayoutURL(Layout layout) {
 		PortletURL configureLayoutURL =
 			_liferayPortletResponse.createRenderURL();
@@ -750,6 +768,23 @@ public class LayoutsAdminDisplayContext {
 		return _layoutsSearchContainer;
 	}
 
+	public String getLayoutTitle() throws PortalException {
+		String portletId = (String)_httpServletRequest.getAttribute(
+			WebKeys.PORTLET_ID);
+
+		ListMergeable<String> titleListMergeable =
+			(ListMergeable<String>)_httpServletRequest.getAttribute(
+				WebKeys.PAGE_TITLE);
+		ListMergeable<String> subtitleListMergeable =
+			(ListMergeable<String>)_httpServletRequest.getAttribute(
+				WebKeys.PAGE_SUBTITLE);
+
+		return _layoutSEOLinkManager.getLayoutTitle(
+			_selLayout, portletId, _themeDisplay.getTilesTitle(),
+			titleListMergeable, subtitleListMergeable,
+			_themeDisplay.getLocale());
+	}
+
 	public Group getLiveGroup() {
 		return _groupDisplayContextHelper.getLiveGroup();
 	}
@@ -836,6 +871,25 @@ public class LayoutsAdminDisplayContext {
 			"selPlid", String.valueOf(layout.getPlid()));
 
 		return orphanPortletsURL.toString();
+	}
+
+	public String getPageTitle() throws PortalException {
+		String portletId = (String)_httpServletRequest.getAttribute(
+			WebKeys.PORTLET_ID);
+
+		ListMergeable<String> titleListMergeable =
+			(ListMergeable<String>)_httpServletRequest.getAttribute(
+				WebKeys.PAGE_TITLE);
+		ListMergeable<String> subtitleListMergeable =
+			(ListMergeable<String>)_httpServletRequest.getAttribute(
+				WebKeys.PAGE_SUBTITLE);
+
+		Company company = _themeDisplay.getCompany();
+
+		return _layoutSEOLinkManager.getPageTitle(
+			_selLayout, portletId, _themeDisplay.getTilesTitle(),
+			titleListMergeable, subtitleListMergeable, company.getName(),
+			_themeDisplay.getLocale());
 	}
 
 	public long getParentLayoutId() {
@@ -1127,6 +1181,13 @@ public class LayoutsAdminDisplayContext {
 			_liferayPortletRequest, "selPlid", LayoutConstants.DEFAULT_PLID);
 
 		return _selPlid;
+	}
+
+	public String getSiteAndCompanyName() throws PortalException {
+		Company company = _themeDisplay.getCompany();
+
+		return _layoutSEOLinkManager.getSiteAndCompanyName(
+			_selLayout, company.getName());
 	}
 
 	public Group getStagingGroup() {
@@ -1459,6 +1520,12 @@ public class LayoutsAdminDisplayContext {
 		}
 
 		return true;
+	}
+
+	public void setLayoutSEOLinkManager(
+		LayoutSEOLinkManager layoutSEOLinkManager) {
+
+		_layoutSEOLinkManager = layoutSEOLinkManager;
 	}
 
 	private JSONObject _getActionURLsJSONObject(Layout layout)
@@ -1822,6 +1889,7 @@ public class LayoutsAdminDisplayContext {
 	private final LayoutCopyHelper _layoutCopyHelper;
 	private List<LayoutDescription> _layoutDescriptions;
 	private Long _layoutId;
+	private LayoutSEOLinkManager _layoutSEOLinkManager;
 	private SearchContainer _layoutsSearchContainer;
 	private final LiferayPortletRequest _liferayPortletRequest;
 	private final LiferayPortletResponse _liferayPortletResponse;
@@ -1836,70 +1904,5 @@ public class LayoutsAdminDisplayContext {
 	private Long _selPlid;
 	private String _tabs1;
 	private final ThemeDisplay _themeDisplay;
-	private LayoutSEOLinkManager _layoutSEOLinkManager;
-
-	public void setLayoutSEOLinkManager(LayoutSEOLinkManager layoutSEOLinkManager) {
-		_layoutSEOLinkManager = layoutSEOLinkManager;
-	}
-
-	public String getPageTitle()throws  PortalException{
-
-		String portletId = (String)_httpServletRequest.getAttribute(
-			WebKeys.PORTLET_ID);
-
-		ListMergeable<String> titleListMergeable =
-			(ListMergeable<String>)_httpServletRequest.getAttribute(
-				WebKeys.PAGE_TITLE);
-		ListMergeable<String> subtitleListMergeable =
-			(ListMergeable<String>)_httpServletRequest.getAttribute(
-				WebKeys.PAGE_SUBTITLE);
-
-		Company company = _themeDisplay.getCompany();
-
-		return _layoutSEOLinkManager.getPageTitle(
-			_selLayout, portletId, _themeDisplay.getTilesTitle(),
-			titleListMergeable, subtitleListMergeable, company.getName(),
-			_themeDisplay.getLocale());
-	}
-	public String getSiteAndCompanyName() throws PortalException {
-
-		Company company = _themeDisplay.getCompany();
-		return _layoutSEOLinkManager.getSiteAndCompanyName(_selLayout, company.getName());
-	}
-
-	public String getLayoutTitle() throws PortalException {
-		String portletId = (String)_httpServletRequest.getAttribute(
-			WebKeys.PORTLET_ID);
-
-		ListMergeable<String> titleListMergeable =
-			(ListMergeable<String>)_httpServletRequest.getAttribute(
-				WebKeys.PAGE_TITLE);
-		ListMergeable<String> subtitleListMergeable =
-			(ListMergeable<String>)_httpServletRequest.getAttribute(
-				WebKeys.PAGE_SUBTITLE);
-
-		return _layoutSEOLinkManager.getLayoutTitle(_selLayout, portletId,
-			_themeDisplay.getTilesTitle(), titleListMergeable,
-			subtitleListMergeable, _themeDisplay.getLocale());
-	}
-
-	public String getCanonicalLayoutURL() throws PortalException {
-		String completeURL = PortalUtil.getCurrentCompleteURL(
-			_httpServletRequest);
-
-		String canonicalURL = PortalUtil.getCanonicalURL(
-			completeURL, _themeDisplay, _selLayout, false, false);
-
-		Map<Locale, String> alternateURLs = PortalUtil.getAlternateURLs(
-			canonicalURL, _themeDisplay, _selLayout);
-
-		LayoutSEOLink canonicalLayoutSEOLink =
-			_layoutSEOLinkManager.getCanonicalLayoutSEOLink(
-				_selLayout, _themeDisplay.getLocale(), canonicalURL,
-				alternateURLs);
-
-		return canonicalLayoutSEOLink.getHref();
-	}
-
 
 }
