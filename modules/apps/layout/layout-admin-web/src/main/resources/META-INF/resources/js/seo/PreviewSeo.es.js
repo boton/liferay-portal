@@ -145,6 +145,8 @@ const PreviewSeoContainer = ({
 			suffixTitle={suffixTitle}
 			title={title}
 			url={url}
+			displayType="og"
+			imgUrl="https://placekitten.com/1000/1000"
 		/>
 	);
 };
