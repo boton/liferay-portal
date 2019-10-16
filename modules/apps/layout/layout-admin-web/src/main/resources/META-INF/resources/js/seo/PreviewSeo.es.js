@@ -121,6 +121,10 @@ const PreviewSeoContainer = ({
 			suffixTitle={suffixTitle}
 			title={title}
 			url={url}
+			url="https://liferay.com/blog/en/example-url"
+			displayType="og"
+			imgUrl="https://placekitten.com/1200/630"
+			imgUrl="https://placekitten.com/1000/1000"
 		/>
 	);
 };
