@@ -37,7 +37,6 @@ import com.liferay.layout.page.template.service.LayoutPageTemplateEntryLocalServ
 import com.liferay.layout.page.template.service.LayoutPageTemplateEntryServiceUtil;
 import com.liferay.layout.page.template.util.comparator.LayoutPageTemplateCollectionNameComparator;
 import com.liferay.layout.seo.canonical.url.LayoutSEOCanonicalURLProvider;
-import com.liferay.layout.seo.kernel.LayoutSEOLink;
 import com.liferay.layout.seo.kernel.LayoutSEOLinkManager;
 import com.liferay.layout.seo.model.LayoutSEOEntry;
 import com.liferay.layout.seo.service.LayoutSEOEntryLocalServiceUtil;
@@ -315,21 +314,11 @@ public class LayoutsAdminDisplayContext {
 		return breadcrumbEntriesJSONArray;
 	}
 
-	public String getCanonicalLayoutURL() throws PortalException {
-		String completeURL = getViewLayoutURL(_selLayout);
+	public Map<Locale, String> getCanonicalLayoutURLMap()
+		throws PortalException {
 
-		String canonicalURL = PortalUtil.getCanonicalURL(
-			completeURL, _themeDisplay, _selLayout, false, false);
-
-		Map<Locale, String> alternateURLs = PortalUtil.getAlternateURLs(
-			canonicalURL, _themeDisplay, _selLayout);
-
-		LayoutSEOLink canonicalLayoutSEOLink =
-			_layoutSEOLinkManager.getCanonicalLayoutSEOLink(
-				_selLayout, _themeDisplay.getLocale(), canonicalURL,
-				alternateURLs);
-
-		return canonicalLayoutSEOLink.getHref();
+		return _layoutSEOCanonicalURLProvider.getCanonicalURLMap(
+			_selLayout, _themeDisplay);
 	}
 
 	public String getConfigureLayoutURL(Layout layout) {
@@ -406,16 +395,8 @@ public class LayoutsAdminDisplayContext {
 	}
 
 	public String getDefaultCanonicalURL() throws PortalException {
-		String completeURL = getViewLayoutURL(_selLayout);
-
-		String canonicalURL = PortalUtil.getCanonicalURL(
-			completeURL, _themeDisplay, _selLayout, false, false);
-
-		Map<Locale, String> alternateURLs = PortalUtil.getAlternateURLs(
-			canonicalURL, _themeDisplay, _selLayout);
-
 		return _layoutSEOCanonicalURLProvider.getDefaultCanonicalURL(
-			_selLayout, _themeDisplay.getLocale(), canonicalURL, alternateURLs);
+			_selLayout, _themeDisplay);
 	}
 
 	public String getDeleteLayoutURL(Layout layout) throws PortalException {

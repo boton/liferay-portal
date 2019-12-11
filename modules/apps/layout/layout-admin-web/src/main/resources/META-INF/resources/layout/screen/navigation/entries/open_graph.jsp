@@ -76,7 +76,7 @@ Layout selLayout = layoutsAdminDisplayContext.getSelLayout();
 
 						<aui:input checked="<%= selLayoutSEOEntry.isOpenGraphDescriptionEnabled() %>" helpMessage="use-custom-open-graph-description-help" label="use-custom-open-graph-description" name="openGraphDescriptionEnabled" type="checkbox" wrapperCssClass="mb-1" />
 
-						<aui:input disabled="<%= !selLayoutSEOEntry.isOpenGraphDescriptionEnabled() %>" label="<%= StringPool.BLANK %>" name="openGraphDescription" placeholder="descripton" />
+						<aui:input disabled="<%= !selLayoutSEOEntry.isOpenGraphDescriptionEnabled() %>" label="<%= StringPool.BLANK %>" name="openGraphDescription" placeholder="description" />
 
 						<aui:input id="openGraphImageFileEntryId" name="openGraphImageFileEntryId" type="hidden" />
 					</div>
@@ -111,7 +111,7 @@ Layout selLayout = layoutsAdminDisplayContext.getSelLayout();
 							HashMapBuilder.<String, Object>put(
 								"customizable", Boolean.TRUE
 							).put(
-								"defaultValue", selLayout.getDescription(locale)
+								"defaultValue", selLayout.getDescriptionMap()
 							).put(
 								"id", "openGraphDescription"
 							).build()
@@ -122,13 +122,13 @@ Layout selLayout = layoutsAdminDisplayContext.getSelLayout();
 							HashMapBuilder.<String, Object>put(
 								"customizable", Boolean.TRUE
 							).put(
-								"defaultValue", layoutsAdminDisplayContext.getPageTitle()
+								"defaultValue", selLayout.getTitleMap()
 							).put(
 								"id", "openGraphTitle"
 							).build()
 						).put(
 							"url",
-							Collections.singletonMap("defaultValue", layoutsAdminDisplayContext.getCanonicalLayoutURL())
+							Collections.singletonMap("defaultValue", layoutsAdminDisplayContext.getCanonicalLayoutURLMap())
 						).build()
 					).put(
 						"titleSuffix", layoutsAdminDisplayContext.getPageTitleSuffix()
