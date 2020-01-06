@@ -15,7 +15,11 @@
 import React from 'react';
 
 import {AppContextProvider} from './AppContext.es';
+import Tags from './pages/tags/Tags.es';
 
-export default function({props}) {
-	return <AppContextProvider {...props}>Hola!</AppContextProvider>;
+export default function (props) {
+	return <AppContextProvider {...props}>
+		Tags!
+		<Tags/>
+	</AppContextProvider>;
 }
