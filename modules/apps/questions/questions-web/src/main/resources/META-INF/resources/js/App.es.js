@@ -12,47 +12,28 @@
  * details.
  */
 
-import ClayNavigationBar from '@clayui/navigation-bar';
-import ClayLink from '@clayui/link';
 import React from 'react';
-import {Link, Route, HashRouter as Router, Switch} from 'react-router-dom';
+import {HashRouter as Router, Route, Switch} from 'react-router-dom';
 
 import {AppContextProvider} from './AppContext.es';
-import Tags from './pages/tags/Tags.es';
+import NavigationBar from './pages/NavigationBar.es';
 import Questions from './pages/questions/Questions.es';
+import Tags from './pages/tags/Tags.es';
 
-export default function (props) {
-	return <AppContextProvider {...props}>
+export default props => {
+	return (
+		<AppContextProvider {...props}>
+			<Router>
+				<div>
+					<NavigationBar />
 
-		<Router>
-			<div>
-				
-				<ClayNavigationBar triggerLabel="Questions">
-					<ClayNavigationBar.Item active>
-						<ClayLink className="nav-link" displayType="unstyled">
-							<Link to={"/"}>Questions</Link>
-						</ClayLink>
-					</ClayNavigationBar.Item>
-					<ClayNavigationBar.Item>
-						<ClayLink className="nav-link" displayType="unstyled">
-							<Link to={"/tags"}>Tags</Link>
-						</ClayLink>
-					</ClayNavigationBar.Item>
-				</ClayNavigationBar>
+					<Switch>
+						<Route component={Questions} exact path="/questions" />
 
-				<Switch>
-					<Route
-						component={Questions}
-						exact
-						path="/"
-					/>
-
-					<Route
-						component={Tags}
-						path="/tags"
-					/>
-				</Switch>
-			</div>
-		</Router>
-	</AppContextProvider>;
-}
+						<Route component={Tags} path="/tags" />
+					</Switch>
+				</div>
+			</Router>
+		</AppContextProvider>
+	);
+};
