@@ -100,7 +100,6 @@ export const createAnswer = (articleBody, messageBoardThreadId) =>
 	request(gql`
         mutation {
             createMessageBoardThreadMessageBoardMessage(messageBoardMessage: {articleBody: ${articleBody}, viewableBy: ANYONE}, messageBoardThreadId: ${messageBoardThreadId}){
-                siteKey
                 viewableBy
             }
         }`);
