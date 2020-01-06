@@ -16,11 +16,11 @@ import React, {createContext} from 'react';
 
 const AppContext = createContext();
 
-const AppContextProvider = ({children, ...restProps}) => {
+const AppContextProvider = ({children, ...context}) => {
 	return (
 		<AppContext.Provider
 			value={{
-				...restProps
+				...context
 			}}
 		>
 			{children}
