@@ -35,7 +35,9 @@ const HEADERS = {
 };
 
 export function isAdvancedUser({roleBriefs}) {
-	if (!roleBriefs) return false;
+	if (!roleBriefs) {
+		return false;
+	}
 	const roles = roleBriefs.map(role => role.name);
 	return roles.includes('PowerUser') || roles.includes('Administrator');
 }
@@ -72,7 +74,9 @@ export const request = query =>
 		.then(json => {
 			const data = json.data;
 
-			if (!data) return Promise.reject(json.errors);
+			if (!data) {
+				return Promise.reject(json.errors);
+			}
 
 			return data[Object.keys(data)[0]];
 		});
@@ -301,18 +305,17 @@ export const getThreadContent = messageBoardThreadId =>
             }
         }`);
 
-export const getThreads = (
-	filter,
-	page,
-	pageSize,
-	search,
+export const getThreads = ({
+	filter = '',
+	page = 1,
+	pageSize = 30,
+	search = '',
 	siteKey,
 	sort = 'dateModified:desc'
-) =>
+}) =>
 	request(gql`
         query {
-            messageBoardThreads(filter: ${filter}, page: ${page}, pageSize: ${pageSize}, search: ${search ||
-		''}, siteKey: ${siteKey}, sort: ${sort}){
+            messageBoardThreads(filter: ${filter}, page: ${page}, pageSize: ${pageSize}, search: ${search}, siteKey: ${siteKey}, sort: ${sort}){
                 items {
                     aggregateRating {
                         ratingAverage
@@ -322,6 +325,7 @@ export const getThreads = (
                     articleBody
                     creator {
                         id
+                        image
                         name
                     } 
                     dateModified
@@ -339,6 +343,38 @@ export const getThreads = (
                 pageSize 
                 totalCount
             }
+        }`);
+
+export const getRankedThreads = (dateModified, page = 1, pageSize = 30, sort) =>
+	request(gql`
+        query {
+          messageBoardThreadsRanked(dateModified: ${dateModified.toISOString()}, page: ${page}, pageSize: ${pageSize}, sort: ${sort}){
+            items {
+                aggregateRating {
+                    ratingAverage
+                    ratingCount
+                    ratingValue
+                } 
+                articleBody
+                creator {
+                    id
+                    name
+                } 
+                dateModified
+                headline
+                id 
+                keywords 
+                messageBoardMessages {
+                    items {
+                        showAsAnswer
+                    }
+                }
+                viewCount
+            }   
+            page
+            pageSize
+            totalCount
+          }
         }`);
 
 export const getRelatedThreads = (search = '', siteKey) =>
