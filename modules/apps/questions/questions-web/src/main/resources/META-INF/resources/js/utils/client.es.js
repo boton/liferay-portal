@@ -11,12 +11,27 @@
  * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
  * details.
  */
+
+/**
+ * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
+ *
+ * This library is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU Lesser General Public License as published by the Free
+ * Software Foundation; either version 2.1 of the License, or (at your option)
+ * any later version.
+ *
+ * This library is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
+ * details.
+ */
+
 import {fetch} from 'frontend-js-web';
 
 const HEADERS = {
 	Accept: 'application/json',
 	'Accept-Language': Liferay.ThemeDisplay.getBCP47LanguageId(),
-	'Content-Type': 'text/plain; charset=utf-8',
+	'Content-Type': 'text/plain; charset=utf-8'
 };
 
 export function isAdvancedUser({roleBriefs}) {
@@ -26,37 +41,43 @@ export function isAdvancedUser({roleBriefs}) {
 }
 
 function escape(x) {
-	return x !== undefined && JSON.stringify(x).replace(/[\\]/g, '\\\\')
-		.replace(/[/]/g, '\\/')
-		.replace(/[\b]/g, '\\b')
-		.replace(/[\f]/g, '\\f')
-		.replace(/[\n]/g, '\\n')
-		.replace(/[\r]/g, '\\r')
-		.replace(/[\t]/g, '\\t');
+	return (
+		x !== undefined &&
+		JSON.stringify(x)
+			.replace(/[\\]/g, '\\\\')
+			.replace(/[/]/g, '\\/')
+			.replace(/[\b]/g, '\\b')
+			.replace(/[\f]/g, '\\f')
+			.replace(/[\n]/g, '\\n')
+			.replace(/[\r]/g, '\\r')
+			.replace(/[\t]/g, '\\t')
+	);
 }
 
 function gql(strings, ...values) {
-	return strings.map((string, i) => string + (escape(values[i]) || ''))
+	return strings
+		.map((string, i) => string + (escape(values[i]) || ''))
 		.join('')
 		.replace(/\s+/g, ' ')
 		.replace(/"/g, '\\"');
 }
 
-export const request = (query) =>
+export const request = query =>
 	fetch(getURL(), {
 		body: `{"query": "${query}"}`,
 		headers: HEADERS,
 		method: 'POST'
-	}).then(response => response.json()
-	).then(json => {
-		const data = json.data;
+	})
+		.then(response => response.json())
+		.then(json => {
+			const data = json.data;
 
-		if (!data) return Promise.reject(json.errors);
+			if (!data) return Promise.reject(json.errors);
 
-		return data[Object.keys(data)[0]];
-	});
+			return data[Object.keys(data)[0]];
+		});
 
-export const getURL = (params) => {
+export const getURL = params => {
 	params = {
 		['p_auth']: Liferay.authToken,
 		t: Date.now(),
@@ -78,8 +99,7 @@ export const createAnswer = (articleBody, messageBoardThreadId) =>
                 siteKey
                 viewableBy
             }
-        }`
-	);
+        }`);
 
 export const createComment = (articleBody, messageBoardMessageId) =>
 	request(gql`
@@ -88,11 +108,9 @@ export const createComment = (articleBody, messageBoardMessageId) =>
                 articleBody
                 id
             }
-        }`
-	);
+        }`);
 
 export const createQuestion = (articleBody, headline, keywords, siteKey) => {
-
 	keywords = keywords.length ? keywords.split(',').filter(x => x) : null;
 
 	return request(gql`
@@ -103,8 +121,7 @@ export const createQuestion = (articleBody, headline, keywords, siteKey) => {
                 keywords
                 showAsQuestion
             }
-        }`
-	);
+        }`);
 };
 
 export const createVoteMessage = (id, rating) =>
@@ -114,8 +131,7 @@ export const createVoteMessage = (id, rating) =>
                 id
                 ratingValue
           }
-        }`
-	);
+        }`);
 
 export const createVoteThread = (id, rating) =>
 	request(gql`
@@ -124,24 +140,22 @@ export const createVoteThread = (id, rating) =>
                 id
                 ratingValue
           }
-        }`
-	);
+        }`);
 
 export const deleteMessage = messageBoardMessage =>
 	request(gql`
         mutation {
             deleteMessageBoardMessage(messageBoardMessageId: ${messageBoardMessage.id})
-        }`
-	).then(
-		data => {
-			if (messageBoardMessage.messageBoardMessages) {
-				return Promise.all(
-					messageBoardMessage.messageBoardMessages.items.map(x => deleteMessage(x))
-				);
-			}
-			return data;
+        }`).then(data => {
+		if (messageBoardMessage.messageBoardMessages) {
+			return Promise.all(
+				messageBoardMessage.messageBoardMessages.items.map(x =>
+					deleteMessage(x)
+				)
+			);
 		}
-	);
+		return data;
+	});
 
 export const getKeywords = siteKey =>
 	request(gql`
@@ -157,8 +171,7 @@ export const getKeywords = siteKey =>
                 pageSize
                 totalCount
             }
-        }`
-	);
+        }`);
 
 export const getMessage = messageBoardMessageId =>
 	request(gql`
@@ -169,10 +182,13 @@ export const getMessage = messageBoardMessageId =>
                 id 
                 keywords 
             }
-        }`
-	);
+        }`);
 
-export const getThread = (messageBoardThreadId, page = 1, sort = 'showAsAnswer:desc,dateModified:desc') =>
+export const getThread = (
+	messageBoardThreadId,
+	page = 1,
+	sort = 'showAsAnswer:desc,dateModified:desc'
+) =>
 	request(gql`
         query {
             messageBoardThread(messageBoardThreadId: ${messageBoardThreadId}){
@@ -229,13 +245,18 @@ export const getThread = (messageBoardThreadId, page = 1, sort = 'showAsAnswer:d
                 subscribed
                 viewCount
             }
-        }`
-	);
+        }`);
 
-export const getMessages = (parentMessageBoardMessageId, sort = '', page = 1, pageSize = 20) =>
+export const getMessages = (
+	parentMessageBoardMessageId,
+	sort = '',
+	page = 1,
+	pageSize = 20
+) =>
 	request(gql`
         query {
-              messageBoardThreadMessageBoardMessages(messageBoardThreadId: ${parentMessageBoardMessageId}, page: ${page}, pageSize: ${pageSize}, sort: ${'showAsAnswer:desc,' + sort}){
+              messageBoardThreadMessageBoardMessages(messageBoardThreadId: ${parentMessageBoardMessageId}, page: ${page}, pageSize: ${pageSize}, sort: ${'showAsAnswer:desc,' +
+		sort}){
                 items {
                     aggregateRating {
                         ratingAverage
@@ -267,8 +288,7 @@ export const getMessages = (parentMessageBoardMessageId, sort = '', page = 1, pa
                 pageSize
                 totalCount
             }
-        }`
-	).then(x => x.items);
+        }`).then(x => x.items);
 
 export const getThreadContent = messageBoardThreadId =>
 	request(gql`
@@ -279,13 +299,20 @@ export const getThreadContent = messageBoardThreadId =>
                 id 
                 keywords 
             }
-        }`
-	);
+        }`);
 
-export const getThreads = (filter, page, pageSize, search, siteKey, sort = 'dateModified:desc') =>
+export const getThreads = (
+	filter,
+	page,
+	pageSize,
+	search,
+	siteKey,
+	sort = 'dateModified:desc'
+) =>
 	request(gql`
         query {
-            messageBoardThreads(filter: ${filter}, page: ${page}, pageSize: ${pageSize}, search: ${search || ""}, siteKey: ${siteKey}, sort: ${sort}){
+            messageBoardThreads(filter: ${filter}, page: ${page}, pageSize: ${pageSize}, search: ${search ||
+		''}, siteKey: ${siteKey}, sort: ${sort}){
                 items {
                     aggregateRating {
                         ratingAverage
@@ -312,8 +339,7 @@ export const getThreads = (filter, page, pageSize, search, siteKey, sort = 'date
                 pageSize 
                 totalCount
             }
-        }`
-	);
+        }`);
 
 export const getRelatedThreads = (search = '', siteKey) =>
 	request(gql`
@@ -332,8 +358,7 @@ export const getRelatedThreads = (search = '', siteKey) =>
                 pageSize 
                 totalCount
             }
-        }`
-	);
+        }`);
 
 export const getUserAccount = userAccountId =>
 	request(gql`
@@ -343,17 +368,18 @@ export const getUserAccount = userAccountId =>
                 id
                 name
             }
-        }`
-	);
+        }`);
 
-export const markAsAnswerMessageBoardMessage = (messageBoardMessageId, showAsAnswer) =>
+export const markAsAnswerMessageBoardMessage = (
+	messageBoardMessageId,
+	showAsAnswer
+) =>
 	request(gql`
         mutation {
             patchMessageBoardMessage(messageBoardMessage: {showAsAnswer: ${showAsAnswer}}, messageBoardMessageId: ${messageBoardMessageId}){
                 id
             }
-        }`
-	);
+        }`);
 
 export const updateMessage = (articleBody, messageBoardMessageId) =>
 	request(gql`
@@ -361,11 +387,14 @@ export const updateMessage = (articleBody, messageBoardMessageId) =>
             patchMessageBoardMessage(messageBoardMessage: {articleBody: ${articleBody}}, messageBoardMessageId: ${messageBoardMessageId}){
                 articleBody
             }
-        }`
-	);
+        }`);
 
-export const updateThread = (articleBody, headline, keywords, messageBoardThreadId) => {
-
+export const updateThread = (
+	articleBody,
+	headline,
+	keywords,
+	messageBoardThreadId
+) => {
 	keywords = keywords.length ? keywords.split(',').filter(x => x) : null;
 
 	return request(gql`
@@ -375,22 +404,21 @@ export const updateThread = (articleBody, headline, keywords, messageBoardThread
                 headline
                 keywords
             }
-        }`
-	);
+        }`);
 };
 
 export const getMyUserAccount = () =>
 	request(gql`
-        query {
-            myUserAccount {
-                id
-                name
-                roleBriefs {
-                    name
-                }
-            }
-        }`
-	);
+		query {
+			myUserAccount {
+				id
+				name
+				roleBriefs {
+					name
+				}
+			}
+		}
+	`);
 
 export const subscribe = messageBoardThreadId =>
 	request(gql`
