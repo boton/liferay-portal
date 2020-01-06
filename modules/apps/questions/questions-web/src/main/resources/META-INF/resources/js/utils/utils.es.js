@@ -12,6 +12,9 @@
  * details.
  */
 
+import {debounce, cancelDebounce} from 'frontend-js-web';
+import {useRef} from 'react';
+
 export function dateToInternationalHuman(
 	ISOString,
 	localeKey = navigator.language
@@ -27,4 +30,10 @@ export function dateToInternationalHuman(
 	const intl = new Intl.DateTimeFormat(localeKey, options);
 
 	return intl.format(date);
+}
+
+export function useDebounceCallback(callback, milliseconds) {
+	const callbackRef = useRef(debounce(callback, milliseconds));
+
+	return [callbackRef.current, () => cancelDebounce(callbackRef.current)];
 }
