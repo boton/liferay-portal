@@ -13,13 +13,14 @@
  */
 
 import ClayIcon from '@clayui/icon';
-import ClayLabel from '@clayui/label';
 import ClayLoadingIndicator from '@clayui/loading-indicator';
 import {ClayPaginationWithBasicItems} from '@clayui/pagination';
 import React, {useContext, useEffect, useState} from 'react';
+import {Link} from 'react-router-dom';
 
 import {AppContext} from '../../AppContext.es';
 import {getThreads} from '../../utils/client.es';
+import KeywordsList from '../components/KeywordList.es';
 import {dateToInternationalHuman} from '../../utils/utils.es';
 
 export default () => {
@@ -48,8 +49,9 @@ export default () => {
 				questions.items.map(question => (
 					<div key={question.id}>
 						<h2>
-							{/*<Link to={'/questions/' + question.id}>{question.headline}</Link>*/}
-							{question.headline}
+							<Link to={'/questions/' + question.id}>
+								{question.headline}
+							</Link>
 							<small>
 								<ClayIcon
 									spritemap={
@@ -123,18 +125,7 @@ export default () => {
 								</span>
 							</p>
 
-							{question.keywords &&
-								question.keywords.map(keyword => (
-									// <Link key={keyword}
-									//    to={`/questions/tag/${keyword}`}>
-									<ClayLabel
-										displayType="secondary"
-										key={keyword}
-									>
-										{keyword}
-									</ClayLabel>
-									// 	 </Link>
-								))}
+							<KeywordsList keywords={question.keywords}/>
 						</div>
 					</div>
 				))}
