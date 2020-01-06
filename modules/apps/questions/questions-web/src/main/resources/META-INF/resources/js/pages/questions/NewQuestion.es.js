@@ -1,0 +1,114 @@
+/**
+ * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
+ *
+ * This library is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU Lesser General Public License as published by the Free
+ * Software Foundation; either version 2.1 of the License, or (at your option)
+ * any later version.
+ *
+ * This library is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
+ * details.
+ */
+
+import ClayForm, {ClayInput} from '@clayui/form';
+import React, {useContext, useState} from 'react';
+import {Link, withRouter} from 'react-router-dom';
+
+import {AppContext} from '../../AppContext.es';
+import {createQuestion} from '../../utils/client.es';
+
+export default withRouter(({history}) => {
+	const context = useContext(AppContext);
+	const [articleBody, setArticleBody] = useState('');
+	const [headline, setHeadline] = useState('');
+	const [keywords, setKeywords] = useState('');
+
+	const submit = () =>
+		createQuestion(articleBody, headline, keywords, context.siteKey).then(
+			() => history.push('/')
+		);
+
+	return (
+		<>
+			<h1>New Question</h1>
+
+			<ClayForm>
+				<ClayForm.Group className="form-group-sm">
+					<label htmlFor="basicInput">Title</label>
+					<ClayInput
+						onChange={event => setHeadline(event.target.value)}
+						placeholder="What's your programming question?"
+						required
+						type="text"
+						value={headline}
+					/>
+					<ClayForm.FeedbackGroup>
+						<ClayForm.FeedbackItem>
+							{
+								'Be specific and imagine you’re asking a question to another developer'
+							}
+							{'Whats your programming question? Be specific.'}
+						</ClayForm.FeedbackItem>
+					</ClayForm.FeedbackGroup>
+				</ClayForm.Group>
+				<ClayForm.Group className="form-group-sm">
+					<label htmlFor="basicInput">Body</label>
+					<textarea
+						className="form-control"
+						onChange={event => setArticleBody(event.target.value)}
+						placeholder="Description"
+						required
+						value={articleBody}
+					/>
+					<ClayForm.FeedbackGroup>
+						<ClayForm.FeedbackItem>
+							{
+								'Include all the information someone would need to answer your question'
+							}
+						</ClayForm.FeedbackItem>
+						<ClayForm.Text>{''}</ClayForm.Text>
+					</ClayForm.FeedbackGroup>
+				</ClayForm.Group>
+				<ClayForm.Group className="form-group-sm">
+					<label htmlFor="basicInput">Tags</label>
+					<ClayInput
+						onChange={event => setKeywords(event.target.value)}
+						placeholder="Add your keywords..."
+						type="text"
+						value={keywords}
+					/>
+					<ClayForm.FeedbackGroup>
+						<ClayForm.FeedbackItem>
+							{
+								'Add up to 5 tags to describe what your question is about'
+							}
+						</ClayForm.FeedbackItem>
+					</ClayForm.FeedbackGroup>
+				</ClayForm.Group>
+			</ClayForm>
+
+			<div className="sheet-footer">
+				<div className="btn-group-item">
+					<div className="btn-group-item">
+						<button
+							className="btn btn-primary"
+							disabled={!articleBody || !headline}
+							onClick={submit}
+						>
+							Post your question
+						</button>
+					</div>
+					<div className="btn-group-item">
+						<Link to={`/`}>
+							<button className="btn btn-secondary">
+								Cancel
+							</button>
+						</Link>
+					</div>
+				</div>
+			</div>
+		</>
+	);
+});
