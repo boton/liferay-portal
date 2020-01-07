@@ -20,12 +20,9 @@ export default ({keywords}) => {
 		<>
 			{keywords &&
 				keywords.map(keyword => (
-					// <Link key={keyword}
-					//    to={`/questions/tag/${keyword}`}>
 					<ClayLabel displayType="secondary" key={keyword}>
 						{keyword}
 					</ClayLabel>
-					// 	 </Link>
 				))}
 		</>
 	);

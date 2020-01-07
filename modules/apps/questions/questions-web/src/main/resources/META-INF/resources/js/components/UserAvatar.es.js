@@ -18,7 +18,7 @@ import React from 'react';
 
 export default ({image}) => {
 	return (
-		<ClaySticker className="sticker-user-icon" size="lg">
+		<ClaySticker className="sticker-user-icon" size="md">
 			{image ? (
 				<div className="sticker-overlay">
 					<img className="sticker-img" src={image} />

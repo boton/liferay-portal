@@ -19,10 +19,10 @@ import React, {useContext, useEffect, useState} from 'react';
 import {Link} from 'react-router-dom';
 
 import {AppContext} from '../../AppContext.es';
+import KeywordsList from '../../components/KeywordList.es';
+import UserAvatar from '../../components/UserAvatar.es';
 import {getThreads} from '../../utils/client.es';
 import {dateToInternationalHuman} from '../../utils/utils.es';
-import KeywordsList from '../components/KeywordList.es';
-import UserAvatar from '../components/UserAvatar.es';
 
 export default () => {
 	const context = useContext(AppContext);
