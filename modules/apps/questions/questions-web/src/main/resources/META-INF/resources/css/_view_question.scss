@@ -1,0 +1,12 @@
+@import 'variables';
+
+.question-accepted-answer {
+	background: $success-background;
+	border: 1px solid $success-border;
+	box-sizing: border-box;
+	border-radius: 4px;
+}
+
+.question-icon-rotate-180 {
+	transform: rotate(-180deg);
+}
