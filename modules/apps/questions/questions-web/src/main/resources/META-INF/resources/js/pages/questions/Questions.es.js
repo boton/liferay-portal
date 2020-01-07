@@ -20,6 +20,7 @@ import {Link} from 'react-router-dom';
 
 import {AppContext} from '../../AppContext.es';
 import KeywordsList from '../../components/KeywordList.es';
+import QuestionBadge from '../../components/QuestionsBadge.es';
 import UserAvatar from '../../components/UserAvatar.es';
 import {getThreads} from '../../utils/client.es';
 import {dateToInternationalHuman} from '../../utils/utils.es';
@@ -48,7 +49,7 @@ export default () => {
 			{loading && <ClayLoadingIndicator/>}
 			{questions.items &&
 			 questions.items.map(question => (
-				 <div key={question.id}>
+				 <div key={question.id} className={'question-row'}>
 
 					 <div className="autofit-row autofit-padded">
 						 <div className="autofit-col autofit-col-expand">
@@ -62,32 +63,19 @@ export default () => {
 						 </div>
 						 <div className="autofit-col">
 							 <p>
-								 <small>
-									 <ClayIcon symbol="caret-top"/>
-									 {(question.aggregateRating &&
-									   question.aggregateRating.ratingCount) ||
-									  0}
-								 </small>
-								 <small>
-									 <ClayIcon symbol="view"/>
-									 {question.viewCount}
-								 </small>
-								 <small
-									 style={{
-										 background: hasValidAnswer(question)
-											 ? 'green'
-											 : ''
-									 }}
-								 >
-									 <ClayIcon
-										 symbol={
-											 hasValidAnswer(question)
-												 ? 'check-circle-full'
-												 : 'message'
-										 }
-									 />
-									 {question.messageBoardMessages.items.length}
-								 </small>
+								 <QuestionBadge value={question.aggregateRating && question.aggregateRating.ratingCount} symbol="caret-top"/>
+
+								 <QuestionBadge value={question.viewCount} symbol="view"/>
+
+								 <QuestionBadge
+									 className={hasValidAnswer(question)
+										 ? 'question-accepted-badge'
+										 : ''}
+									 value={question.messageBoardMessages.items.length} symbol={
+									 hasValidAnswer(question)
+										 ? 'check-circle-full'
+										 : 'message'
+								 }/>
 							 </p>
 						 </div>
 					 </div>
@@ -99,14 +87,13 @@ export default () => {
 
 					 <div className="autofit-row autofit-padded autofit-row-center">
 						 <div className="autofit-col autofit-col-expand">
-							 <p>
+							 <div>
 								 <UserAvatar user={question.creator}/>
-
-								 <span><strong>{question.creator.name}</strong></span>
+								 <span><strong>{" " + question.creator.name}</strong></span>
 								 <span>
-									{" - " + dateToInternationalHuman(question.dateModified)}
-								 </span>
-							 </p>
+								{" - " + dateToInternationalHuman(question.dateModified)}
+							 	</span>
+							 </div>
 						 </div>
 						 <div className="autofit-col">
 							 <KeywordsList keywords={question.keywords}/>
