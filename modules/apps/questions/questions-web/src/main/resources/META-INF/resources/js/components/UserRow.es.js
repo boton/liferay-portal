@@ -16,12 +16,14 @@ import React from 'react';
 
 import UserAvatar from './UserAvatar.es';
 
-export default ({answer, creator}) => {
-	return (
-		<div style={{display: 'flex'}}>
-			<UserAvatar user={creator} />
-			<div style={{textAlign: 'right'}}>
-				<p style={{marginBottom: '0px'}}>
+export default ({answer, creator}) =>
+	(
+		<div className="autofit-row autofit-padded">
+			<div className="autofit-col">
+				<UserAvatar user={creator}/>
+			</div>
+			<div className="text-right">
+				<p className="mb-0">
 					<small>{answer ? 'answered' : 'asked'} by</small>
 				</p>
 				<p>
@@ -30,4 +32,3 @@ export default ({answer, creator}) => {
 			</div>
 		</div>
 	);
-};

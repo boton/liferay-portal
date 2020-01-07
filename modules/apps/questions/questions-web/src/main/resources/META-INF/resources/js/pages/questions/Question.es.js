@@ -25,10 +25,10 @@ import {createAnswer, getThread} from '../../utils/client.es';
 import {dateToInternationalHuman} from '../../utils/utils.es';
 
 export default ({
-	match: {
-		params: {questionId}
-	}
-}) => {
+					match: {
+						params: {questionId}
+					}
+				}) => {
 	const [answers, setAnswers] = useState([]);
 	const [articleBody, setArticleBody] = useState();
 	const [page, setPage] = useState(1);
@@ -58,76 +58,77 @@ export default ({
 		<section>
 			{question && (
 				<>
-					<div style={{display: 'flex'}}>
-						<Rating
-							aggregateRating={question.aggregateRating}
-							entityId={question.id}
-							myRating={
-								question.myRating &&
-								question.myRating.ratingValue
-							}
-							type={'Thread'}
-						/>
+					<div className="autofit-row autofit-padded">
+						<div className="autofit-col">
+							<Rating
+								aggregateRating={question.aggregateRating}
+								entityId={question.id}
+								myRating={question.myRating && question.myRating.ratingValue}
+								type={'Thread'}
+							/>
+						</div>
 
-						<div>
-							<h1>{question.headline}</h1>
+						<div className="autofit-col autofit-col-expand">
+							<div className="autofit-section">
+								<h1>{question.headline}</h1>
 
-							<small>
+								<small>
 								<span>
 									Asked{' '}
 									{dateToInternationalHuman(
 										question.dateCreated
 									)}
 								</span>
-								<span>
+									<span>
 									{' '}
-									Active{' '}
-									{dateToInternationalHuman(
-										question.dateModified
-									)}
+										Active{' '}
+										{dateToInternationalHuman(
+											question.dateModified
+										)}
 								</span>
-								<span> Viewed {question.viewCount} times</span>
-							</small>
+									<span> Viewed {question.viewCount} times</span>
+								</small>
 
-							<Subscription
-								onSubscription={subscribed =>
-									setQuestion({...question, subscribed})
-								}
-								question={question}
-							/>
+								<Subscription
+									onSubscription={subscribed =>
+										setQuestion({...question, subscribed})
+									}
+									question={question}
+								/>
 
-							<p>{question.articleBody}</p>
+								<p>{question.articleBody}</p>
 
-							<KeywordList keywords={question.keywords} />
+								<KeywordList keywords={question.keywords}/>
+							</div>
+							<UserRow answer={false} creator={question.creator}/>
 						</div>
 					</div>
 
-					<hr />
-					<UserRow answer={false} creator={question.creator} />
+					<hr/>
 
 					<h3 className="subtitle">{answers.length} Answers</h3>
 
-					<hr />
+					<hr/>
 
 					{answers.map(answer => (
-						<Answer answer={answer} key={answer.id} />
+						<Answer answer={answer} key={answer.id}/>
 					))}
 
 					{!!answers.totalCount &&
-						answers.totalCount > answers.pageSize && (
-							<ClayPaginationWithBasicItems
-								activePage={page}
-								ellipsisBuffer={2}
-								onPageChange={setPage}
-								spritemap={
-									Liferay.ThemeDisplay.getPathThemeImages() +
-									'/lexicon/icons.svg'
-								}
-								totalPages={
-									answers.totalCount / answers.pageSize
-								}
-							/>
-						)}
+					 answers.totalCount > answers.pageSize && (
+						 <ClayPaginationWithBasicItems
+							 activePage={page}
+							 ellipsisBuffer={2}
+							 onPageChange={setPage}
+							 spritemap={
+								 Liferay.ThemeDisplay.getPathThemeImages() +
+								 '/lexicon/icons.svg'
+							 }
+							 totalPages={
+								 answers.totalCount / answers.pageSize
+							 }
+						 />
+					 )}
 
 					<ClayForm>
 						<ClayForm.Group className="form-group-sm">

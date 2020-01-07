@@ -40,33 +40,39 @@ export default ({answer}) => {
 
 	return (
 		<>
-			<div style={{display: 'flex'}}>
-				<Rating
-					aggregateRating={answer.aggregateRating}
-					entityId={answer.id}
-					myRating={answer.myRating && answer.myRating.ratingValue}
-					ratingChange={answerRatingChange}
-					type={'Message'}
-				/>
-
-				<div style={{flexGrow: 1}}>
-					{showAsAnswer && (
-						<p>
-							<ClayIcon symbol="check-circle-full" /> Chosen
-							answer
-						</p>
-					)}
-					<p>{answer.articleBody}</p>
-
-					<Comments
-						commentChange={commentChange}
-						comments={comments}
+			<div className="autofit-row autofit-padded">
+				<div className="autofit-col">
+					<Rating
+						aggregateRating={answer.aggregateRating}
 						entityId={answer.id}
+						myRating={answer.myRating && answer.myRating.ratingValue}
+						ratingChange={answerRatingChange}
+						type={'Message'}
 					/>
 				</div>
-				<UserRow answer={true} creator={answer.creator} />
+
+				<div className="autofit-col autofit-col-expand">
+					<div className="autofit-section">
+						{showAsAnswer && (
+							<p>
+								<ClayIcon symbol="check-circle-full"/> Chosen
+								answer
+							</p>
+						)}
+						<p>{answer.articleBody}</p>
+
+						<Comments
+							commentChange={commentChange}
+							comments={comments}
+							entityId={answer.id}
+						/>
+					</div>
+				</div>
+				<div className="autofit-col">
+					<UserRow answer={true} creator={answer.creator}/>
+				</div>
 			</div>
-			<hr />
+			<hr/>
 		</>
 	);
 };

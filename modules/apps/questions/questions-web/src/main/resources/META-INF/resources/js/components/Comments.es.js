@@ -50,33 +50,34 @@ export default ({commentChange, comments, entityId}) => {
 			)}
 
 			{showNewComment && (
-				<div
-					style={{
-						display: 'flex',
-						flexDirection: 'row',
-						flexFlow: 'wrap'
-					}}
-				>
-					<input
-						onChange={event => setComment(event.target.value)}
-						style={{flexGrow: 1}}
-						value={comment}
-					/>
-					<button
-						className="btn btn-primary"
-						disabled={comment.length < 15}
-						onClick={postComment}
-					>
-						Add Comment
-					</button>
-					<p style={{flexBasis: '100%'}}>
-						{comment.length < 15 && (
-							<span>
+				<>
+					<div className="autofit-row autofit-padded">
+						<div className="autofit-col autofit-col-expand">
+						<textarea
+							onChange={event => setComment(event.target.value)}
+							value={comment}
+						/>
+						</div>
+						<div className="autofit-col">
+							<button
+								className="btn btn-primary"
+								disabled={comment.length < 15}
+								onClick={postComment}
+							>
+								Add Comment
+							</button>
+						</div>
+					</div>
+					<div className="autofit-row autofit-padded">
+						<div className="autofit-col">
+							{comment.length < 15 && (
+								<span>
 								Enter at least {15 - comment.length} characters
 							</span>
-						)}
-					</p>
-				</div>
+							)}
+						</div>
+					</div>
+				</>
 			)}
 		</div>
 	);
