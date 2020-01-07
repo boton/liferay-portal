@@ -109,6 +109,9 @@ export const createComment = (articleBody, messageBoardMessageId) =>
         mutation {
             createMessageBoardMessageMessageBoardMessage(messageBoardMessage: {articleBody: ${articleBody}, viewableBy: ANYONE}, parentMessageBoardMessageId: ${messageBoardMessageId}){
                 articleBody
+                creator {
+                	name
+                }
                 id
             }
         }`);
