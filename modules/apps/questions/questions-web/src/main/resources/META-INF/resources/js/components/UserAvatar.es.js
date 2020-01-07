@@ -16,12 +16,12 @@ import ClayIcon from '@clayui/icon';
 import ClaySticker from '@clayui/sticker';
 import React from 'react';
 
-export default ({image}) =>
+export default ({image, name}) =>
 	(
-		<ClaySticker className="sticker-user-icon" size="md">
+		<ClaySticker className="sticker-user-icon" size="sm">
 			{image ? (
 				<div className="sticker-overlay">
-					<img className="sticker-img" src={image}/>
+					<img className="sticker-img" src={image} alt={name}/>
 				</div>
 			) : (
 				<ClayIcon symbol="user"/>
