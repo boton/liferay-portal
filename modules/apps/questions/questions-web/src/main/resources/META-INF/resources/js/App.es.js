@@ -21,7 +21,7 @@ import NavigationBar from './pages/NavigationBar.es';
 import NewQuestion from './pages/questions/NewQuestion.es';
 import Question from './pages/questions/Question.es';
 import Questions from './pages/questions/Questions.es';
-import Tags from './pages/tags/Tags.es';
+import Tags from './pages/tags/Keywords.es';
 
 export default props => {
 	return (
