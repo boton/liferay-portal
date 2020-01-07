@@ -40,7 +40,7 @@ export default ({answer}) => {
 
 	return (
 		<>
-			<div className="autofit-row autofit-padded">
+			<div className={"autofit-row autofit-padded " + (showAsAnswer ? 'question-accepted-answer' : '')}>
 				<div className="autofit-col">
 					<Rating
 						aggregateRating={answer.aggregateRating}

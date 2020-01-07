@@ -30,7 +30,7 @@ export default ({comment, unmountComment}) => {
 			onMouseLeave={() => setShowDelete(false)}
 			onMouseOver={() => setShowDelete(true)}
 		>
-			<ClayIcon style={{transform: 'rotate(-180deg)'}} symbol="reply" />
+			<ClayIcon className="question-icon-rotate-180" symbol="reply" />
 			{comment.articleBody} - <strong>{comment.creator.name}</strong>
 			{showDelete && <span onClick={deleteComment}>{' Delete '}</span>}
 			<hr />
