@@ -29,35 +29,25 @@ export default () => {
 	}, [context.siteKey]);
 
 	return (
-		<section>
-			<div className="col-md-5">
-				{tags.items &&
-					tags.items.map(keyword => (
-						<ClayCard key={keyword.id}>
-							<ClayCard.Body>
-								<ClayCard.Description displayType="title">
-									#{keyword.name}
-									{/*<Link*/}
-									{/*	to={`/questions/tag/${keyword.name}`}></Link>*/}
-								</ClayCard.Description>
-								<ClayCard.Description
-									displayType="text"
-									truncate={false}
-								>
-									<span>
-										Usage: {keyword.keywordUsageCount}
-									</span>
-									<br />
-									<span>
-										{dateToInternationalHuman(
-											keyword.dateCreated
-										)}
-									</span>
-								</ClayCard.Description>
-							</ClayCard.Body>
-						</ClayCard>
-					))}
-			</div>
-		</section>
+		<>
+			{tags.items &&
+			 tags.items.map(keyword => (
+				 <ClayCard key={keyword.id}>
+					 <ClayCard.Body>
+						 <ClayCard.Description displayType="title">
+							 #{keyword.name}
+						 </ClayCard.Description>
+						 <ClayCard.Description displayType="text">
+							<span>
+								Usage: {keyword.keywordUsageCount}
+							</span>
+							 <span>
+								{dateToInternationalHuman(keyword.dateCreated)}
+							</span>
+						 </ClayCard.Description>
+					 </ClayCard.Body>
+				 </ClayCard>
+			 ))}
+		</>
 	);
 };
