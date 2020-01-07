@@ -163,16 +163,17 @@ export const deleteMessage = messageBoardMessage =>
 		return data;
 	});
 
-export const getKeywords = siteKey =>
+export const getKeywords = (page = 1, siteKey) =>
 	request(gql`
         query {
-            keywords(siteKey: ${siteKey}, sort: "dateModified:desc"){
+            keywords(page: ${page}, pageSize: 20, siteKey: ${siteKey} sort: "dateModified:desc"){
                 items {
                     name
                     dateCreated
                     id
                     keywordUsageCount
                 }
+                lastPage
                 page
                 pageSize
                 totalCount
