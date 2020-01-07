@@ -17,7 +17,7 @@ import React, {useCallback, useState} from 'react';
 import {createComment} from '../utils/client.es';
 import Comment from './Comment.es';
 
-export default ({commentChange, comments, entityId}) => {
+export default ({commentsChange, comments, entityId}) => {
 	const [comment, setComment] = useState('');
 	const [showNewComment, setShowNewComment] = useState(false);
 
@@ -25,17 +25,17 @@ export default ({commentChange, comments, entityId}) => {
 		return createComment(comment, entityId).then(data => {
 			setComment('');
 			setShowNewComment(false);
-			commentChange([...comments, data]);
+			commentsChange([...comments, data]);
 		});
 	};
 
 	const _commentChange = useCallback(
 		comment => {
-			if (commentChange) {
-				return commentChange([...comments.filter(o => o.id !== comment.id)]);
+			if (commentsChange) {
+				return commentsChange([...comments.filter(o => o.id !== comment.id)]);
 			}
 			return null;
-		}, [commentChange, comments]
+		}, [commentsChange, comments]
 	);
 
 	return (

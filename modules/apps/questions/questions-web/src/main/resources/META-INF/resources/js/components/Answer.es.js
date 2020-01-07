@@ -30,7 +30,7 @@ export default ({answer}) => {
 		[answer]
 	);
 
-	const _commentChange = useCallback(comments => {
+	const _commentsChange = useCallback(comments => {
 		setComments([...comments]);
 	}, []);
 
@@ -62,7 +62,7 @@ export default ({answer}) => {
 						<p>{answer.articleBody}</p>
 
 						<Comments
-							commentChange={_commentChange}
+							commentsChange={_commentsChange}
 							comments={comments}
 							entityId={answer.id}
 						/>
