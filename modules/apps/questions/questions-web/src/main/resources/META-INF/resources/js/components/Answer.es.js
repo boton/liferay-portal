@@ -23,14 +23,14 @@ export default ({answer}) => {
 	const [comments, setComments] = useState(answer.messageBoardMessages.items);
 	const [showAsAnswer, setShowAsAnswer] = useState(answer.showAsAnswer);
 
-	const answerRatingChange = useCallback(
+	const _answerRatingChange = useCallback(
 		ratingValue => {
 			answer.aggregateRating = {...answer.aggregateRating, ratingValue};
 		},
 		[answer]
 	);
 
-	const commentChange = useCallback(comments => {
+	const _commentChange = useCallback(comments => {
 		setComments([...comments]);
 	}, []);
 
@@ -46,7 +46,7 @@ export default ({answer}) => {
 						aggregateRating={answer.aggregateRating}
 						entityId={answer.id}
 						myRating={answer.myRating && answer.myRating.ratingValue}
-						ratingChange={answerRatingChange}
+						ratingChange={_answerRatingChange}
 						type={'Message'}
 					/>
 				</div>
@@ -62,7 +62,7 @@ export default ({answer}) => {
 						<p>{answer.articleBody}</p>
 
 						<Comments
-							commentChange={commentChange}
+							commentChange={_commentChange}
 							comments={comments}
 							entityId={answer.id}
 						/>

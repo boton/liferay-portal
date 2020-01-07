@@ -29,10 +29,13 @@ export default ({commentChange, comments, entityId}) => {
 		});
 	};
 
-	const unmountComment = useCallback(
-		comment =>
-			commentChange([...comments.filter(o => o.id !== comment.id)]),
-		[commentChange, comments]
+	const _commentChange = useCallback(
+		comment => {
+			if (commentChange) {
+				return commentChange([...comments.filter(o => o.id !== comment.id)]);
+			}
+			return null;
+		}, [commentChange, comments]
 	);
 
 	return (
@@ -41,7 +44,7 @@ export default ({commentChange, comments, entityId}) => {
 				<Comment
 					comment={comment}
 					key={comment.id}
-					unmountComment={unmountComment}
+					commentChange={_commentChange}
 				/>
 			))}
 

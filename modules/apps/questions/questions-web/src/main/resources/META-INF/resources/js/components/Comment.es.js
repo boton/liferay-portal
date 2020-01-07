@@ -17,12 +17,12 @@ import React, {useState} from 'react';
 
 import {deleteMessage} from '../utils/client.es';
 
-export default ({comment, unmountComment}) => {
+export default ({comment, commentChange}) => {
 	const [showDelete, setShowDelete] = useState(false);
 
 	const deleteComment = () => {
 		deleteMessage(comment);
-		unmountComment(comment);
+		commentChange(comment);
 	};
 
 	return (
