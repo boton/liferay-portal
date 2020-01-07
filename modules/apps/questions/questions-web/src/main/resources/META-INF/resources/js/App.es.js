@@ -38,6 +38,11 @@ export default props => {
 
 						<Switch>
 							<Route
+								exact
+								path="/"
+								render={props => <Questions {...props} />}
+							/>
+							<Route
 								component={Questions}
 								exact
 								path="/questions"
