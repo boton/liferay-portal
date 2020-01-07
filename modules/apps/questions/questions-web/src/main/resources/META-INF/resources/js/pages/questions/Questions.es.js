@@ -45,73 +45,89 @@ export default () => {
 
 	return (
 		<section>
-			{loading && <ClayLoadingIndicator />}
+			{loading && <ClayLoadingIndicator/>}
 			{questions.items &&
-				questions.items.map(question => (
-					<div key={question.id}>
-						<h2>
-							<Link to={'/questions/' + question.id}>
-								{question.headline}
-							</Link>
-							<small>
-								<ClayIcon symbol="caret-top" />
-								{(question.aggregateRating &&
-									question.aggregateRating.ratingCount) ||
-									0}
-							</small>
-							<small>
-								<ClayIcon symbol="view" />
-								{question.viewCount}
-							</small>
-							<small
-								style={{
-									background: hasValidAnswer(question)
-										? 'green'
-										: ''
-								}}
-							>
-								<ClayIcon
-									symbol={
-										hasValidAnswer(question)
-											? 'check-circle-full'
-											: 'message'
-									}
-								/>
-								{question.messageBoardMessages.items.length}
-							</small>
-						</h2>
-						<p className="text-truncate">{question.articleBody}</p>
+			 questions.items.map(question => (
+				 <div key={question.id}>
 
-						<div>
-							<p>
-								<UserAvatar user={question.creator} />
+					 <div className="autofit-row autofit-padded">
+						 <div className="autofit-col autofit-col-expand">
+							 <div className="autofit-section">
+								 <h2>
+									 <Link to={'/questions/' + question.id}>
+										 {question.headline}
+									 </Link>
+								 </h2>
+							 </div>
+						 </div>
+						 <div className="autofit-col">
+							 <p>
+								 <small>
+									 <ClayIcon symbol="caret-top"/>
+									 {(question.aggregateRating &&
+									   question.aggregateRating.ratingCount) ||
+									  0}
+								 </small>
+								 <small>
+									 <ClayIcon symbol="view"/>
+									 {question.viewCount}
+								 </small>
+								 <small
+									 style={{
+										 background: hasValidAnswer(question)
+											 ? 'green'
+											 : ''
+									 }}
+								 >
+									 <ClayIcon
+										 symbol={
+											 hasValidAnswer(question)
+												 ? 'check-circle-full'
+												 : 'message'
+										 }
+									 />
+									 {question.messageBoardMessages.items.length}
+								 </small>
+							 </p>
+						 </div>
+					 </div>
+					 <div className="autofit-row autofit-padded">
+						 <div className="autofit-col autofit-col-expand">
+							 <p className="text-truncate">{question.articleBody}</p>
+						 </div>
+					 </div>
 
-								{question.creator.name}
-								<span className="date-posted">
-									{dateToInternationalHuman(
-										question.dateModified
-									)}
-								</span>
-							</p>
+					 <div className="autofit-row autofit-padded autofit-row-center">
+						 <div className="autofit-col autofit-col-expand">
+							 <p>
+								 <UserAvatar user={question.creator}/>
 
-							<KeywordsList keywords={question.keywords} />
-						</div>
-					</div>
-				))}
+								 <span><strong>{question.creator.name}</strong></span>
+								 <span>
+									{" - " + dateToInternationalHuman(question.dateModified)}
+								 </span>
+							 </p>
+						 </div>
+						 <div className="autofit-col">
+							 <KeywordsList keywords={question.keywords}/>
+						 </div>
+					 </div>
+				 </div>
+			 ))}
 
 			{!!questions.totalCount &&
-				questions.totalCount > questions.pageSize && (
-					<ClayPaginationWithBasicItems
-						activePage={page}
-						ellipsisBuffer={2}
-						onPageChange={setPage}
-						spritemap={
-							Liferay.ThemeDisplay.getPathThemeImages() +
-							'/lexicon/icons.svg'
-						}
-						totalPages={questions.totalCount / questions.pageSize}
-					/>
-				)}
+			 questions.totalCount > questions.pageSize && (
+				 <ClayPaginationWithBasicItems
+					 activePage={page}
+					 ellipsisBuffer={2}
+					 onPageChange={setPage}
+					 spritemap={
+						 Liferay.ThemeDisplay.getPathThemeImages() +
+						 '/lexicon/icons.svg'
+					 }
+					 totalPages={questions.totalCount / questions.pageSize}
+				 />
+			 )}
 		</section>
 	);
 };
