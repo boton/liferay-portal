@@ -20,8 +20,9 @@ import {Link} from 'react-router-dom';
 
 import {AppContext} from '../../AppContext.es';
 import {getThreads} from '../../utils/client.es';
-import KeywordsList from '../components/KeywordList.es';
 import {dateToInternationalHuman} from '../../utils/utils.es';
+import KeywordsList from '../components/KeywordList.es';
+import UserAvatar from '../components/UserAvatar.es';
 
 export default () => {
 	const context = useContext(AppContext);
@@ -99,33 +100,17 @@ export default () => {
 
 						<div>
 							<p>
-								{question.creator.image ? (
-									<img
-										src={question.creator.image}
-										style={{height: '15px'}}
-									/>
-								) : (
-									<ClayIcon
-										spritemap={
-											Liferay.ThemeDisplay.getPathThemeImages() +
-											'/lexicon/icons.svg'
-										}
-										symbol="user"
-									/>
-								)}
+								<UserAvatar user={question.creator} />
+
 								{question.creator.name}
 								<span className="date-posted">
 									{dateToInternationalHuman(
 										question.dateModified
 									)}
-									{/*<Link*/}
-									{/* to={`/user/${question.creator.id}`}>*/}
-
-									{/*</Link>*/}
 								</span>
 							</p>
 
-							<KeywordsList keywords={question.keywords}/>
+							<KeywordsList keywords={question.keywords} />
 						</div>
 					</div>
 				))}
