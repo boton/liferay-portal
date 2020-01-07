@@ -17,7 +17,7 @@ import React, {useCallback, useState} from 'react';
 import {createComment} from '../utils/client.es';
 import Comment from './Comment.es';
 
-export default ({commentsChange, comments, entityId}) => {
+export default ({comments, commentsChange, entityId}) => {
 	const [comment, setComment] = useState('');
 	const [showNewComment, setShowNewComment] = useState(false);
 
@@ -32,10 +32,13 @@ export default ({commentsChange, comments, entityId}) => {
 	const _commentChange = useCallback(
 		comment => {
 			if (commentsChange) {
-				return commentsChange([...comments.filter(o => o.id !== comment.id)]);
+				return commentsChange([
+					...comments.filter(o => o.id !== comment.id)
+				]);
 			}
 			return null;
-		}, [commentsChange, comments]
+		},
+		[commentsChange, comments]
 	);
 
 	return (
@@ -43,23 +46,21 @@ export default ({commentsChange, comments, entityId}) => {
 			{comments.map(comment => (
 				<Comment
 					comment={comment}
-					key={comment.id}
 					commentChange={_commentChange}
+					key={comment.id}
 				/>
 			))}
 
-			{!showNewComment && (
-				<p onClick={() => setShowNewComment(true)}>Reply</p>
-			)}
-
-			{showNewComment && (
+			{showNewComment ? (
 				<>
-					<div className="autofit-row autofit-padded">
+					<div className="autofit-padded autofit-row">
 						<div className="autofit-col autofit-col-expand">
-						<textarea
-							onChange={event => setComment(event.target.value)}
-							value={comment}
-						/>
+							<textarea
+								onChange={event =>
+									setComment(event.target.value)
+								}
+								value={comment}
+							/>
 						</div>
 						<div className="autofit-col">
 							<button
@@ -71,16 +72,19 @@ export default ({commentsChange, comments, entityId}) => {
 							</button>
 						</div>
 					</div>
-					<div className="autofit-row autofit-padded">
+					<div className="autofit-padded autofit-row">
 						<div className="autofit-col">
 							{comment.length < 15 && (
 								<span>
-								Enter at least {15 - comment.length} characters
-							</span>
+									Enter at least {15 - comment.length}{' '}
+									characters
+								</span>
 							)}
 						</div>
 					</div>
 				</>
+			) : (
+				<p onClick={() => setShowNewComment(true)}>Reply</p>
 			)}
 		</div>
 	);
