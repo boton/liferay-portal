@@ -27,7 +27,7 @@ export default withRouter(({history}) => {
 	const [active, setActive] = useState('questions');
 
 	return (
-		<div className="autofit-row autofit-padded">
+		<div className="autofit-padded autofit-row">
 			<div className="autofit-col autofit-col-expand">
 				<ClayNavigationBar triggerLabel="Questions">
 					<ClayNavigationBar.Item
@@ -47,7 +47,6 @@ export default withRouter(({history}) => {
 						</ClayLink>
 					</ClayNavigationBar.Item>
 				</ClayNavigationBar>
-
 			</div>
 			<div className="autofit-col">
 				<ClayButton

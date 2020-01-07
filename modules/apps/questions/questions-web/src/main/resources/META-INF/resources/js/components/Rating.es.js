@@ -24,8 +24,8 @@ export default ({aggregateRating, entityId, myRating, ratingChange, type}) => {
 	useEffect(() => {
 		setRating(
 			aggregateRating &&
-			aggregateRating.ratingCount *
-			normalize(aggregateRating.ratingAverage)
+				aggregateRating.ratingCount *
+					normalize(aggregateRating.ratingAverage)
 		);
 	}, [aggregateRating]);
 
@@ -63,11 +63,11 @@ export default ({aggregateRating, entityId, myRating, ratingChange, type}) => {
 
 	return (
 		<div className="autofit-col text-center">
-			<ClayIcon onClick={() => voteChange(1)} symbol="caret-top"/>
+			<ClayIcon onClick={() => voteChange(1)} symbol="caret-top" />
 
 			<span>{rating || 0}</span>
 
-			<ClayIcon onClick={() => voteChange(-1)} symbol="caret-bottom"/>
+			<ClayIcon onClick={() => voteChange(-1)} symbol="caret-bottom" />
 		</div>
 	);
 };

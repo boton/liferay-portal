@@ -32,25 +32,31 @@ export default () => {
 
 	return (
 		<>
-			<div className="autofit-row autofit-padded">
+			<div className="autofit-padded autofit-row">
 				{keywords.items &&
-				 keywords.items.map(keyword => (
-					 <ClayCard className="autofit-column question-keywords" key={keyword.id}>
-						 <ClayCard.Body>
-							 <ClayCard.Description displayType="title">
-								 #{keyword.name}
-							 </ClayCard.Description>
-							 <ClayCard.Description displayType="text">
-								 <span className="d-block">
-								 Uses: {keyword.keywordUsageCount}
-								 </span>
-								 <span className="d-block">
-									 Last updated: {dateToInternationalHuman(keyword.dateCreated)}
-								 </span>
-							 </ClayCard.Description>
-						 </ClayCard.Body>
-					 </ClayCard>
-				 ))}
+					keywords.items.map(keyword => (
+						<ClayCard
+							className="autofit-column question-keywords"
+							key={keyword.id}
+						>
+							<ClayCard.Body>
+								<ClayCard.Description displayType="title">
+									#{keyword.name}
+								</ClayCard.Description>
+								<ClayCard.Description displayType="text">
+									<span className="d-block">
+										Uses: {keyword.keywordUsageCount}
+									</span>
+									<span className="d-block">
+										Last updated:{' '}
+										{dateToInternationalHuman(
+											keyword.dateCreated
+										)}
+									</span>
+								</ClayCard.Description>
+							</ClayCard.Body>
+						</ClayCard>
+					))}
 			</div>
 			{keywords.lastPage > 1 && (
 				<ClayPaginationWithBasicItems

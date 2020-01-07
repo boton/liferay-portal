@@ -16,19 +16,18 @@ import React from 'react';
 
 import UserAvatar from './UserAvatar.es';
 
-export default ({answer, creator}) =>
-	(
-		<div className="autofit-row autofit-padded">
-			<div className="autofit-col">
-				<UserAvatar user={creator}/>
-			</div>
-			<div className="text-right">
-				<p className="mb-0">
-					<small>{answer ? 'answered' : 'asked'} by</small>
-				</p>
-				<p>
-					<strong>{creator.name}</strong>
-				</p>
-			</div>
+export default ({answer, creator}) => (
+	<div className="autofit-padded autofit-row">
+		<div className="autofit-col">
+			<UserAvatar user={creator} />
 		</div>
-	);
+		<div className="text-right">
+			<p className="mb-0">
+				<small>{answer ? 'answered' : 'asked'} by</small>
+			</p>
+			<p>
+				<strong>{creator.name}</strong>
+			</p>
+		</div>
+	</div>
+);

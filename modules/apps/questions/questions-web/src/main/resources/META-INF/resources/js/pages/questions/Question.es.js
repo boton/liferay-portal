@@ -25,10 +25,10 @@ import {createAnswer, getThread} from '../../utils/client.es';
 import {dateToInternationalHuman} from '../../utils/utils.es';
 
 export default ({
-					match: {
-						params: {questionId}
-					}
-				}) => {
+	match: {
+		params: {questionId}
+	}
+}) => {
 	const [answers, setAnswers] = useState([]);
 	const [articleBody, setArticleBody] = useState();
 	const [page, setPage] = useState(1);
@@ -58,12 +58,15 @@ export default ({
 		<section>
 			{question && (
 				<>
-					<div className="autofit-row autofit-padded">
+					<div className="autofit-padded autofit-row">
 						<div className="autofit-col">
 							<Rating
 								aggregateRating={question.aggregateRating}
 								entityId={question.id}
-								myRating={question.myRating && question.myRating.ratingValue}
+								myRating={
+									question.myRating &&
+									question.myRating.ratingValue
+								}
 								type={'Thread'}
 							/>
 						</div>
@@ -73,20 +76,23 @@ export default ({
 								<h1>{question.headline}</h1>
 
 								<small>
-								<span>
-									Asked{' '}
-									{dateToInternationalHuman(
-										question.dateCreated
-									)}
-								</span>
 									<span>
-									{' '}
+										Asked{' '}
+										{dateToInternationalHuman(
+											question.dateCreated
+										)}
+									</span>
+									<span>
+										{' '}
 										Active{' '}
 										{dateToInternationalHuman(
 											question.dateModified
 										)}
-								</span>
-									<span> Viewed {question.viewCount} times</span>
+									</span>
+									<span>
+										{' '}
+										Viewed {question.viewCount} times
+									</span>
 								</small>
 
 								<Subscription
@@ -98,37 +104,40 @@ export default ({
 
 								<p>{question.articleBody}</p>
 
-								<KeywordList keywords={question.keywords}/>
+								<KeywordList keywords={question.keywords} />
 							</div>
-							<UserRow answer={false} creator={question.creator}/>
+							<UserRow
+								answer={false}
+								creator={question.creator}
+							/>
 						</div>
 					</div>
 
-					<hr/>
+					<hr />
 
 					<h3 className="subtitle">{answers.length} Answers</h3>
 
-					<hr/>
+					<hr />
 
 					{answers.map(answer => (
-						<Answer answer={answer} key={answer.id}/>
+						<Answer answer={answer} key={answer.id} />
 					))}
 
 					{!!answers.totalCount &&
-					 answers.totalCount > answers.pageSize && (
-						 <ClayPaginationWithBasicItems
-							 activePage={page}
-							 ellipsisBuffer={2}
-							 onPageChange={setPage}
-							 spritemap={
-								 Liferay.ThemeDisplay.getPathThemeImages() +
-								 '/lexicon/icons.svg'
-							 }
-							 totalPages={
-								 answers.totalCount / answers.pageSize
-							 }
-						 />
-					 )}
+						answers.totalCount > answers.pageSize && (
+							<ClayPaginationWithBasicItems
+								activePage={page}
+								ellipsisBuffer={2}
+								onPageChange={setPage}
+								spritemap={
+									Liferay.ThemeDisplay.getPathThemeImages() +
+									'/lexicon/icons.svg'
+								}
+								totalPages={
+									answers.totalCount / answers.pageSize
+								}
+							/>
+						)}
 
 					<ClayForm>
 						<ClayForm.Group className="form-group-sm">

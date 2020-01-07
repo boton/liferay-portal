@@ -12,7 +12,6 @@
  * details.
  */
 
-import ClayIcon from '@clayui/icon';
 import ClayLoadingIndicator from '@clayui/loading-indicator';
 import {ClayPaginationWithBasicItems} from '@clayui/pagination';
 import React, {useContext, useEffect, useState} from 'react';
@@ -46,75 +45,99 @@ export default () => {
 
 	return (
 		<section>
-			{loading && <ClayLoadingIndicator/>}
+			{loading && <ClayLoadingIndicator />}
 			{questions.items &&
-			 questions.items.map(question => (
-				 <div key={question.id} className={'question-row'}>
+				questions.items.map(question => (
+					<div className={'question-row'} key={question.id}>
+						<div className="autofit-padded autofit-row">
+							<div className="autofit-col autofit-col-expand">
+								<div className="autofit-section">
+									<h2>
+										<Link to={'/questions/' + question.id}>
+											{question.headline}
+										</Link>
+									</h2>
+								</div>
+							</div>
+							<div className="autofit-col">
+								<p>
+									<QuestionBadge
+										symbol="caret-top"
+										value={
+											question.aggregateRating &&
+											question.aggregateRating.ratingCount
+										}
+									/>
 
-					 <div className="autofit-row autofit-padded">
-						 <div className="autofit-col autofit-col-expand">
-							 <div className="autofit-section">
-								 <h2>
-									 <Link to={'/questions/' + question.id}>
-										 {question.headline}
-									 </Link>
-								 </h2>
-							 </div>
-						 </div>
-						 <div className="autofit-col">
-							 <p>
-								 <QuestionBadge value={question.aggregateRating && question.aggregateRating.ratingCount} symbol="caret-top"/>
+									<QuestionBadge
+										symbol="view"
+										value={question.viewCount}
+									/>
 
-								 <QuestionBadge value={question.viewCount} symbol="view"/>
+									<QuestionBadge
+										className={
+											hasValidAnswer(question)
+												? 'question-accepted-badge'
+												: ''
+										}
+										symbol={
+											hasValidAnswer(question)
+												? 'check-circle-full'
+												: 'message'
+										}
+										value={
+											question.messageBoardMessages.items
+												.length
+										}
+									/>
+								</p>
+							</div>
+						</div>
+						<div className="autofit-padded autofit-row">
+							<div className="autofit-col autofit-col-expand">
+								<p className="text-truncate">
+									{question.articleBody}
+								</p>
+							</div>
+						</div>
 
-								 <QuestionBadge
-									 className={hasValidAnswer(question)
-										 ? 'question-accepted-badge'
-										 : ''}
-									 value={question.messageBoardMessages.items.length} symbol={
-									 hasValidAnswer(question)
-										 ? 'check-circle-full'
-										 : 'message'
-								 }/>
-							 </p>
-						 </div>
-					 </div>
-					 <div className="autofit-row autofit-padded">
-						 <div className="autofit-col autofit-col-expand">
-							 <p className="text-truncate">{question.articleBody}</p>
-						 </div>
-					 </div>
-
-					 <div className="autofit-row autofit-padded autofit-row-center">
-						 <div className="autofit-col autofit-col-expand">
-							 <div>
-								 <UserAvatar user={question.creator}/>
-								 <span><strong>{" " + question.creator.name}</strong></span>
-								 <span>
-								{" - " + dateToInternationalHuman(question.dateModified)}
-							 	</span>
-							 </div>
-						 </div>
-						 <div className="autofit-col">
-							 <KeywordsList keywords={question.keywords}/>
-						 </div>
-					 </div>
-				 </div>
-			 ))}
+						<div className="autofit-padded autofit-row autofit-row-center">
+							<div className="autofit-col autofit-col-expand">
+								<div>
+									<UserAvatar user={question.creator} />
+									<span>
+										<strong>
+											{' ' + question.creator.name}
+										</strong>
+									</span>
+									<span>
+										{' - ' +
+											dateToInternationalHuman(
+												question.dateModified
+											)}
+									</span>
+								</div>
+							</div>
+							<div className="autofit-col">
+								<KeywordsList keywords={question.keywords} />
+							</div>
+						</div>
+					</div>
+				))}
 
 			{!!questions.totalCount &&
-			 questions.totalCount > questions.pageSize && (
-				 <ClayPaginationWithBasicItems
-					 activePage={page}
-					 ellipsisBuffer={2}
-					 onPageChange={setPage}
-					 spritemap={
-						 Liferay.ThemeDisplay.getPathThemeImages() +
-						 '/lexicon/icons.svg'
-					 }
-					 totalPages={questions.totalCount / questions.pageSize}
-				 />
-			 )}
+				questions.totalCount > questions.pageSize && (
+					<ClayPaginationWithBasicItems
+						activePage={page}
+						ellipsisBuffer={2}
+						onPageChange={setPage}
+						spritemap={
+							Liferay.ThemeDisplay.getPathThemeImages() +
+							'/lexicon/icons.svg'
+						}
+						totalPages={questions.totalCount / questions.pageSize}
+					/>
+				)}
 		</section>
 	);
 };

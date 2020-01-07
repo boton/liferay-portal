@@ -40,12 +40,19 @@ export default ({answer}) => {
 
 	return (
 		<>
-			<div className={"autofit-row autofit-padded " + (showAsAnswer ? 'question-accepted-answer' : '')}>
+			<div
+				className={
+					'autofit-row autofit-padded ' +
+					(showAsAnswer ? 'question-accepted-answer' : '')
+				}
+			>
 				<div className="autofit-col">
 					<Rating
 						aggregateRating={answer.aggregateRating}
 						entityId={answer.id}
-						myRating={answer.myRating && answer.myRating.ratingValue}
+						myRating={
+							answer.myRating && answer.myRating.ratingValue
+						}
 						ratingChange={_answerRatingChange}
 						type={'Message'}
 					/>
@@ -55,24 +62,24 @@ export default ({answer}) => {
 					<div className="autofit-section">
 						{showAsAnswer && (
 							<p>
-								<ClayIcon symbol="check-circle-full"/> Chosen
+								<ClayIcon symbol="check-circle-full" /> Chosen
 								answer
 							</p>
 						)}
 						<p>{answer.articleBody}</p>
 
 						<Comments
-							commentsChange={_commentsChange}
 							comments={comments}
+							commentsChange={_commentsChange}
 							entityId={answer.id}
 						/>
 					</div>
 				</div>
 				<div className="autofit-col">
-					<UserRow answer={true} creator={answer.creator}/>
+					<UserRow answer={true} creator={answer.creator} />
 				</div>
 			</div>
-			<hr/>
+			<hr />
 		</>
 	);
 };
