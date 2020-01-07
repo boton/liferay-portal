@@ -12,21 +12,22 @@
  * details.
  */
 
-import ClayLabel from '@clayui/label';
 import React from 'react';
 
-export default ({keywords}) => {
+import UserAvatar from './UserAvatar.es';
+
+export default ({answer, creator}) => {
 	return (
-		<>
-			{keywords &&
-				keywords.map(keyword => (
-					// <Link key={keyword}
-					//    to={`/questions/tag/${keyword}`}>
-					<ClayLabel displayType="secondary" key={keyword}>
-						{keyword}
-					</ClayLabel>
-					// 	 </Link>
-				))}
-		</>
+		<div style={{display: 'flex'}}>
+			<UserAvatar user={creator} />
+			<div style={{textAlign: 'right'}}>
+				<p style={{marginBottom: '0px'}}>
+					<small>{answer ? 'answered' : 'asked'} by</small>
+				</p>
+				<p>
+					<strong>{creator.name}</strong>
+				</p>
+			</div>
+		</div>
 	);
 };

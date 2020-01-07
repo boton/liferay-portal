@@ -12,21 +12,27 @@
  * details.
  */
 
-import ClayLabel from '@clayui/label';
+import ClayIcon from '@clayui/icon';
 import React from 'react';
 
-export default ({keywords}) => {
+import {subscribe, unsubscribe} from '../utils/client.es';
+
+export default ({onSubscription, question}) => {
+	const changeSubscription = () => {
+		const promise = question.subscribed
+			? unsubscribe(question.id)
+			: subscribe(question.id);
+		promise.then(() => {
+			if (onSubscription) {
+				onSubscription(!question.subscribed);
+			}
+		});
+	};
+
 	return (
-		<>
-			{keywords &&
-				keywords.map(keyword => (
-					// <Link key={keyword}
-					//    to={`/questions/tag/${keyword}`}>
-					<ClayLabel displayType="secondary" key={keyword}>
-						{keyword}
-					</ClayLabel>
-					// 	 </Link>
-				))}
-		</>
+		<ClayIcon
+			onClick={changeSubscription}
+			symbol={question.subscribed ? 'bell-off' : 'bell-on'}
+		/>
 	);
 };

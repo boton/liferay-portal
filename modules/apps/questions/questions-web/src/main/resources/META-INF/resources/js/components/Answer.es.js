@@ -1,0 +1,72 @@
+/**
+ * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
+ *
+ * This library is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU Lesser General Public License as published by the Free
+ * Software Foundation; either version 2.1 of the License, or (at your option)
+ * any later version.
+ *
+ * This library is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
+ * details.
+ */
+
+import ClayIcon from '@clayui/icon';
+import React, {useCallback, useEffect, useState} from 'react';
+
+import Comments from './Comments.es';
+import Rating from './Rating.es';
+import UserRow from './UserRow.es';
+
+export default ({answer}) => {
+	const [comments, setComments] = useState(answer.messageBoardMessages.items);
+	const [showAsAnswer, setShowAsAnswer] = useState(answer.showAsAnswer);
+
+	const answerRatingChange = useCallback(
+		ratingValue => {
+			answer.aggregateRating = {...answer.aggregateRating, ratingValue};
+		},
+		[answer]
+	);
+
+	const commentChange = useCallback(comments => {
+		setComments([...comments]);
+	}, []);
+
+	useEffect(() => {
+		setShowAsAnswer(answer.showAsAnswer);
+	}, [answer.showAsAnswer]);
+
+	return (
+		<>
+			<div style={{display: 'flex'}}>
+				<Rating
+					aggregateRating={answer.aggregateRating}
+					entityId={answer.id}
+					myRating={answer.myRating && answer.myRating.ratingValue}
+					ratingChange={answerRatingChange}
+					type={'Message'}
+				/>
+
+				<div style={{flexGrow: 1}}>
+					{showAsAnswer && (
+						<p>
+							<ClayIcon symbol="check-circle-full" /> Chosen
+							answer
+						</p>
+					)}
+					<p>{answer.articleBody}</p>
+
+					<Comments
+						commentChange={commentChange}
+						comments={comments}
+						entityId={answer.id}
+					/>
+				</div>
+				<UserRow answer={true} creator={answer.creator} />
+			</div>
+			<hr />
+		</>
+	);
+};

@@ -18,6 +18,7 @@ import {HashRouter as Router, Route, Switch} from 'react-router-dom';
 import {AppContextProvider} from './AppContext.es';
 import NavigationBar from './pages/NavigationBar.es';
 import NewQuestion from './pages/questions/NewQuestion.es';
+import Question from './pages/questions/Question.es';
 import Questions from './pages/questions/Questions.es';
 import Tags from './pages/tags/Tags.es';
 
@@ -34,6 +35,10 @@ export default props => {
 							component={NewQuestion}
 							exact
 							path="/questions/new"
+						/>
+						<Route
+							component={Question}
+							path="/questions/:questionId"
 						/>
 						<Route component={Tags} path="/tags" />
 					</Switch>
