@@ -15,13 +15,12 @@
 import ClayLabel from '@clayui/label';
 import React from 'react';
 
-export default ({keywords}) => (
+export default ({keywords = []}) => (
 	<div className="autofit-row">
-		{keywords &&
-			keywords.map(keyword => (
-				<ClayLabel displayType="secondary" key={keyword}>
-					{keyword}
-				</ClayLabel>
-			))}
+		{keywords.map(keyword => (
+			<ClayLabel displayType="secondary" key={keyword}>
+				{keyword}
+			</ClayLabel>
+		))}
 	</div>
 );
