@@ -27,32 +27,36 @@ export default withRouter(({history}) => {
 	const [active, setActive] = useState('questions');
 
 	return (
-		<>
-			<ClayNavigationBar triggerLabel="Questions">
-				<ClayNavigationBar.Item
-					active={active === 'questions'}
-					onClick={() => navigate('questions')}
+		<div className="autofit-row autofit-padded">
+			<div className="autofit-col autofit-col-expand">
+				<ClayNavigationBar triggerLabel="Questions">
+					<ClayNavigationBar.Item
+						active={active === 'questions'}
+						onClick={() => navigate('questions')}
+					>
+						<ClayLink className="nav-link" displayType="unstyled">
+							Questions
+						</ClayLink>
+					</ClayNavigationBar.Item>
+					<ClayNavigationBar.Item
+						active={active === 'tags'}
+						onClick={() => navigate('tags')}
+					>
+						<ClayLink className="nav-link" displayType="unstyled">
+							Tags
+						</ClayLink>
+					</ClayNavigationBar.Item>
+				</ClayNavigationBar>
+
+			</div>
+			<div className="autofit-col">
+				<ClayButton
+					displayType="primary"
+					onClick={() => navigate('questions/new')}
 				>
-					<ClayLink className="nav-link" displayType="unstyled">
-						Questions
-					</ClayLink>
-				</ClayNavigationBar.Item>
-				<ClayNavigationBar.Item
-					active={active === 'tags'}
-					onClick={() => navigate('tags')}
-				>
-					<ClayLink className="nav-link" displayType="unstyled">
-						Tags
-					</ClayLink>
-				</ClayNavigationBar.Item>
-			</ClayNavigationBar>
-			<ClayButton
-				displayType="primary"
-				onClick={() => navigate('questions/new')}
-				style={{float: 'right'}}
-			>
-				Ask Question
-			</ClayButton>
-		</>
+					Ask Question
+				</ClayButton>
+			</div>
+		</div>
 	);
 });
