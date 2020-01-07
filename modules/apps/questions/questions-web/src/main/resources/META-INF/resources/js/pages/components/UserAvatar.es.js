@@ -24,13 +24,7 @@ export default ({image}) => {
 					<img className="sticker-img" src={image} />
 				</div>
 			) : (
-				<ClayIcon
-					spritemap={
-						Liferay.ThemeDisplay.getPathThemeImages() +
-						'/lexicon/icons.svg'
-					}
-					symbol="user"
-				/>
+				<ClayIcon symbol="user" />
 			)}
 		</ClaySticker>
 	);

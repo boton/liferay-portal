@@ -54,25 +54,13 @@ export default () => {
 								{question.headline}
 							</Link>
 							<small>
-								<ClayIcon
-									spritemap={
-										Liferay.ThemeDisplay.getPathThemeImages() +
-										'/lexicon/icons.svg'
-									}
-									symbol="caret-top"
-								/>
+								<ClayIcon symbol="caret-top" />
 								{(question.aggregateRating &&
 									question.aggregateRating.ratingCount) ||
 									0}
 							</small>
 							<small>
-								<ClayIcon
-									spritemap={
-										Liferay.ThemeDisplay.getPathThemeImages() +
-										'/lexicon/icons.svg'
-									}
-									symbol="view"
-								/>
+								<ClayIcon symbol="view" />
 								{question.viewCount}
 							</small>
 							<small
@@ -83,10 +71,6 @@ export default () => {
 								}}
 							>
 								<ClayIcon
-									spritemap={
-										Liferay.ThemeDisplay.getPathThemeImages() +
-										'/lexicon/icons.svg'
-									}
 									symbol={
 										hasValidAnswer(question)
 											? 'check-circle-full'

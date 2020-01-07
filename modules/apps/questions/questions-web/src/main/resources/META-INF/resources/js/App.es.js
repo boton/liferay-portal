@@ -12,6 +12,7 @@
  * details.
  */
 
+import {ClayIconSpriteContext} from '@clayui/icon';
 import React from 'react';
 import {HashRouter as Router, Route, Switch} from 'react-router-dom';
 
@@ -25,25 +26,36 @@ import Tags from './pages/tags/Tags.es';
 export default props => {
 	return (
 		<AppContextProvider {...props}>
-			<Router>
-				<div>
-					<NavigationBar />
+			<ClayIconSpriteContext.Provider
+				value={
+					Liferay.ThemeDisplay.getPathThemeImages() +
+					'/lexicon/icons.svg'
+				}
+			>
+				<Router>
+					<div>
+						<NavigationBar />
 
-					<Switch>
-						<Route component={Questions} exact path="/questions" />
-						<Route
-							component={NewQuestion}
-							exact
-							path="/questions/new"
-						/>
-						<Route
-							component={Question}
-							path="/questions/:questionId"
-						/>
-						<Route component={Tags} path="/tags" />
-					</Switch>
-				</div>
-			</Router>
+						<Switch>
+							<Route
+								component={Questions}
+								exact
+								path="/questions"
+							/>
+							<Route
+								component={NewQuestion}
+								exact
+								path="/questions/new"
+							/>
+							<Route
+								component={Question}
+								path="/questions/:questionId"
+							/>
+							<Route component={Tags} path="/tags" />
+						</Switch>
+					</div>
+				</Router>
+			</ClayIconSpriteContext.Provider>
 		</AppContextProvider>
 	);
 };
