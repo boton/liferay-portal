@@ -35,7 +35,7 @@ export default withRouter(({history}) => {
 						onClick={() => navigate('questions')}
 					>
 						<ClayLink className="nav-link" displayType="unstyled">
-							Questions
+							{Liferay.Language.get('questions')}
 						</ClayLink>
 					</ClayNavigationBar.Item>
 					<ClayNavigationBar.Item
@@ -43,7 +43,7 @@ export default withRouter(({history}) => {
 						onClick={() => navigate('tags')}
 					>
 						<ClayLink className="nav-link" displayType="unstyled">
-							Tags
+							{Liferay.Language.get('keywords')}
 						</ClayLink>
 					</ClayNavigationBar.Item>
 				</ClayNavigationBar>
@@ -53,7 +53,7 @@ export default withRouter(({history}) => {
 					displayType="primary"
 					onClick={() => navigate('questions/new')}
 				>
-					Ask Question
+					{Liferay.Language.get('ask-question')}
 				</ClayButton>
 			</div>
 		</div>
