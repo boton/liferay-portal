@@ -45,10 +45,11 @@ export default () => {
 								</ClayCard.Description>
 								<ClayCard.Description displayType="text">
 									<span className="d-block">
-										Uses: {keyword.keywordUsageCount}
+										{Liferay.Language.get('uses')}:{' '}
+										{keyword.keywordUsageCount}
 									</span>
 									<span className="d-block">
-										Last updated:{' '}
+										{Liferay.Language.get('last-updated')}:{' '}
 										{dateToInternationalHuman(
 											keyword.dateCreated
 										)}
