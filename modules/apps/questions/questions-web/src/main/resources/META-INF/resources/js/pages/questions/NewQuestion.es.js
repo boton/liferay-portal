@@ -92,7 +92,7 @@ export default withRouter(({history}) => {
 					<ClayForm.FeedbackGroup>
 						<ClayForm.FeedbackItem>
 							{Liferay.Language.get(
-								'add-up-to-5-tags-to-describe-what-your-question-is-about'
+								'add-up-to-5-keywords-to-describe-what-your-question-is-about'
 							)}
 						</ClayForm.FeedbackItem>
 					</ClayForm.FeedbackGroup>

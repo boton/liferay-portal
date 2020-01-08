@@ -64,11 +64,7 @@ export default () => {
 					activePage={page}
 					ellipsisBuffer={2}
 					onPageChange={setPage}
-					spritemap={
-						Liferay.ThemeDisplay.getPathThemeImages() +
-						'/lexicon/icons.svg'
-					}
-					totalPages={keywords.totalCount / keywords.pageSize}
+					totalPages={Math.ceil(keywords.totalCount / keywords.pageSize)}
 				/>
 			)}
 		</>

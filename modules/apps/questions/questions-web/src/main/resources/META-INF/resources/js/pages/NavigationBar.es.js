@@ -39,8 +39,8 @@ export default withRouter(({history}) => {
 						</ClayLink>
 					</ClayNavigationBar.Item>
 					<ClayNavigationBar.Item
-						active={active === 'tags'}
-						onClick={() => navigate('tags')}
+						active={active === 'keywords'}
+						onClick={() => navigate('keywords')}
 					>
 						<ClayLink className="nav-link" displayType="unstyled">
 							{Liferay.Language.get('keywords')}
