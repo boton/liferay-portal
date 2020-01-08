@@ -45,8 +45,10 @@ export default () => {
 
 	return (
 		<section>
-			{loading && <ClayLoadingIndicator />}
-			{questions.items &&
+			{loading ? (
+				<ClayLoadingIndicator />
+			) : (
+				questions.items &&
 				questions.items.map(question => (
 					<div className={'question-row'} key={question.id}>
 						<div className="autofit-padded autofit-row">
@@ -123,7 +125,8 @@ export default () => {
 							</div>
 						</div>
 					</div>
-				))}
+				))
+			)}
 
 			{!!questions.totalCount &&
 				questions.totalCount > questions.pageSize && (
