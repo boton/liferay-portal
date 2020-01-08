@@ -15,6 +15,7 @@
 import React, {useCallback, useState} from 'react';
 
 import {createComment} from '../utils/client.es';
+import lang from '../utils/lang.es';
 import Comment from './Comment.es';
 
 export default ({comments, commentsChange, entityId}) => {
@@ -68,7 +69,7 @@ export default ({comments, commentsChange, entityId}) => {
 								disabled={comment.length < 15}
 								onClick={postComment}
 							>
-								Add Comment
+								{Liferay.Language.get('add-comment')}
 							</button>
 						</div>
 					</div>
@@ -76,15 +77,21 @@ export default ({comments, commentsChange, entityId}) => {
 						<div className="autofit-col">
 							{comment.length < 15 && (
 								<span>
-									Enter at least {15 - comment.length}{' '}
-									characters
+									{lang.sub(
+										Liferay.Language.get(
+											'enter-at-least-x-characters'
+										),
+										[15 - comment.length]
+									)}
 								</span>
 							)}
 						</div>
 					</div>
 				</>
 			) : (
-				<p onClick={() => setShowNewComment(true)}>Reply</p>
+				<p onClick={() => setShowNewComment(true)}>
+					{Liferay.Language.get('reply')}
+				</p>
 			)}
 		</div>
 	);

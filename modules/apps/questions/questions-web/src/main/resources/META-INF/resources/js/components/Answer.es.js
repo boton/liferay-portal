@@ -62,8 +62,8 @@ export default ({answer}) => {
 					<div className="autofit-section">
 						{showAsAnswer && (
 							<p>
-								<ClayIcon symbol="check-circle-full" /> Chosen
-								answer
+								<ClayIcon symbol="check-circle-full" />{' '}
+								{Liferay.Language.get('chosen-answer')}
 							</p>
 						)}
 						<p>{answer.articleBody}</p>

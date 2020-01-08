@@ -32,7 +32,11 @@ export default ({comment, commentChange}) => {
 		>
 			<ClayIcon className="question-icon-rotate-180" symbol="reply" />
 			{comment.articleBody} - <strong>{comment.creator.name}</strong>
-			{showDelete && <span onClick={deleteComment}>{' Delete '}</span>}
+			{showDelete && (
+				<span onClick={deleteComment}>
+					{Liferay.Language.get('delete')}
+				</span>
+			)}
 			<hr />
 		</div>
 	);

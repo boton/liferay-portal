@@ -22,6 +22,7 @@ import Rating from '../../components/Rating.es';
 import Subscription from '../../components/Subscription.es';
 import UserRow from '../../components/UserRow.es';
 import {createAnswer, getThread} from '../../utils/client.es';
+import lang from '../../utils/lang.es';
 import {dateToInternationalHuman} from '../../utils/utils.es';
 
 export default ({
@@ -77,21 +78,26 @@ export default ({
 
 								<small>
 									<span>
-										Asked{' '}
+										{Liferay.Language.get('asked')}{' '}
 										{dateToInternationalHuman(
 											question.dateCreated
 										)}
 									</span>
 									<span>
 										{' '}
-										Active{' '}
+										{Liferay.Language.get('active')}{' '}
 										{dateToInternationalHuman(
 											question.dateModified
 										)}
 									</span>
 									<span>
 										{' '}
-										Viewed {question.viewCount} times
+										{lang.sub(
+											Liferay.Language.get(
+												'viewed-x-times'
+											),
+											[question.viewCount]
+										)}
 									</span>
 								</small>
 
@@ -115,7 +121,9 @@ export default ({
 
 					<hr />
 
-					<h3 className="subtitle">{answers.length} Answers</h3>
+					<h3 className="subtitle">
+						{answers.length} {Liferay.Language.get('answers')}
+					</h3>
 
 					<hr />
 
@@ -141,7 +149,9 @@ export default ({
 
 					<ClayForm>
 						<ClayForm.Group className="form-group-sm">
-							<label htmlFor="basicInput">Your Answer</label>
+							<label htmlFor="basicInput">
+								{Liferay.Language.get('your-answer')}
+							</label>
 							<textarea
 								className="form-control"
 								onChange={event =>
@@ -157,7 +167,7 @@ export default ({
 						disabled={!articleBody}
 						onClick={postAnswer}
 					>
-						Post your answer
+						{Liferay.Language.get('post-your-answer')}
 					</button>
 				</>
 			)}

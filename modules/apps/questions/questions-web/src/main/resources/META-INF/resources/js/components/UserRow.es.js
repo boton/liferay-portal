@@ -23,7 +23,11 @@ export default ({answer, creator}) => (
 		</div>
 		<div className="text-right">
 			<p className="mb-0">
-				<small>{answer ? 'answered' : 'asked'} by</small>
+				<small>
+					{answer
+						? Liferay.Language.get('answered-by')
+						: Liferay.Language.get('asked-by')}
+				</small>
 			</p>
 			<p>
 				<strong>{creator.name}</strong>
