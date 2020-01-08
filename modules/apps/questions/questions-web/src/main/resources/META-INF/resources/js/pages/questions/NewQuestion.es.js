@@ -32,58 +32,68 @@ export default withRouter(({history}) => {
 
 	return (
 		<>
-			<h1>New Question</h1>
+			<h1>{Liferay.Language.get('new-question')}</h1>
 
 			<ClayForm>
 				<ClayForm.Group className="form-group-sm">
-					<label htmlFor="basicInput">Title</label>
+					<label htmlFor="basicInput">
+						{Liferay.Language.get('title')}
+					</label>
 					<ClayInput
 						onChange={event => setHeadline(event.target.value)}
-						placeholder="What's your programming question?"
+						placeholder={Liferay.Language.get(
+							'what-is-your-programming-question'
+						)}
 						required
 						type="text"
 						value={headline}
 					/>
 					<ClayForm.FeedbackGroup>
 						<ClayForm.FeedbackItem>
-							{
-								'Be specific and imagine you’re asking a question to another developer'
-							}
-							{'Whats your programming question? Be specific.'}
+							{Liferay.Language.get(
+								'be-specific-and-imagine-you-re-asking-a-question-to-another-developer'
+							)}
+							{Liferay.Language.get(
+								'what-is-your-programming-question-be-specific'
+							)}
 						</ClayForm.FeedbackItem>
 					</ClayForm.FeedbackGroup>
 				</ClayForm.Group>
 				<ClayForm.Group className="form-group-sm">
-					<label htmlFor="basicInput">Body</label>
+					<label htmlFor="basicInput">
+						{Liferay.Language.get('body')}
+					</label>
 					<textarea
 						className="form-control"
 						onChange={event => setArticleBody(event.target.value)}
-						placeholder="Description"
+						placeholder={Liferay.Language.get('description')}
 						required
 						value={articleBody}
 					/>
 					<ClayForm.FeedbackGroup>
 						<ClayForm.FeedbackItem>
-							{
-								'Include all the information someone would need to answer your question'
-							}
+							{Liferay.Language.get(
+								'include-all-the-information-someone-would-need'
+							)}
 						</ClayForm.FeedbackItem>
 						<ClayForm.Text>{''}</ClayForm.Text>
 					</ClayForm.FeedbackGroup>
 				</ClayForm.Group>
 				<ClayForm.Group className="form-group-sm">
-					<label htmlFor="basicInput">Tags</label>
+					<label htmlFor="basicInput">
+						{Liferay.Language.get('keywords')}
+					</label>
 					<ClayInput
 						onChange={event => setKeywords(event.target.value)}
-						placeholder="Add your keywords..."
+						placeholder={Liferay.Language.get('add-your-keywords')}
 						type="text"
 						value={keywords}
 					/>
 					<ClayForm.FeedbackGroup>
 						<ClayForm.FeedbackItem>
-							{
-								'Add up to 5 tags to describe what your question is about'
-							}
+							{Liferay.Language.get(
+								'add-up-to-5-tags-to-describe-what-your-question-is-about'
+							)}
 						</ClayForm.FeedbackItem>
 					</ClayForm.FeedbackGroup>
 				</ClayForm.Group>
@@ -97,13 +107,13 @@ export default withRouter(({history}) => {
 							disabled={!articleBody || !headline}
 							onClick={submit}
 						>
-							Post your question
+							{Liferay.Language.get('post-your-question')}
 						</button>
 					</div>
 					<div className="btn-group-item">
 						<Link to={`/`}>
 							<button className="btn btn-secondary">
-								Cancel
+								{Liferay.Language.get('cancel')}
 							</button>
 						</Link>
 					</div>
