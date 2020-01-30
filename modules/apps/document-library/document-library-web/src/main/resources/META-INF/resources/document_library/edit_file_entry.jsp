@@ -590,6 +590,7 @@ renderResponse.setTitle(headerTitle);
 	}
 
 	function <portlet:namespace />saveFileEntry(draft) {
+		console.log(1)
 		var fileElement = Liferay.Util.getFormElement(form, 'file');
 
 		if (fileElement && fileElement.value) {

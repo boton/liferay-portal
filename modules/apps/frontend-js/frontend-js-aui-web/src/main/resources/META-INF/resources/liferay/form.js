@@ -38,6 +38,7 @@ AUI.add(
 		};
 
 		var maxFileSize = function(_val, node, ruleValue) {
+			debugger;
 			var nodeType = node.get('type').toLowerCase();
 
 			if (nodeType === 'file') {

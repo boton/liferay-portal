@@ -254,6 +254,8 @@ AUI.add(
 							errorType ===
 								STATUS_CODE.SC_UPLOAD_REQUEST_CONTENT_LENGTH_EXCEPTION
 						) {
+
+							alert("3");
 							message = Lang.sub(
 								Liferay.Language.get(
 									'please-enter-a-file-with-a-valid-file-size-no-larger-than-x'
@@ -462,6 +464,8 @@ AUI.add(
 						if (file.size <= maxFileSize) {
 							instance._previewFile(file);
 						} else {
+
+							alert("4");
 							errorMessage = Lang.sub(
 								Liferay.Language.get(
 									'please-enter-a-file-with-a-valid-file-size-no-larger-than-x'

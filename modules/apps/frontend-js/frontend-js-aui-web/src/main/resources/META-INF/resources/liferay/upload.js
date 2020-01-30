@@ -479,6 +479,7 @@ AUI.add(
 						var error;
 						var file;
 
+					alert("NO 1");
 						if (size === 0) {
 							error = strings.zeroByteSizeText;
 						} else if (name.length > 240) {
