@@ -136,7 +136,7 @@ class ItemSelectorRepositoryEntryBrowser extends PortletBase {
 
 		if (this.uploadItemURL) {
 			const itemSelectorUploader = this._itemSelectorUploader;
-			const rootNode = this.rootNode;
+			// const rootNode = this.rootNode;
 
 			this._eventHandler.add(
 				itemSelectorUploader.after('itemUploadCancel', () => {
@@ -169,16 +169,16 @@ class ItemSelectorRepositoryEntryBrowser extends PortletBase {
 				}),
 				itemSelectorUploader.after('itemUploadError', event => {
 					this._onItemUploadError(event);
-				}),
-				rootNode.addEventListener(STR_DRAG_OVER, event =>
-					this._ddEventHandler(event)
-				),
-				rootNode.addEventListener(STR_DRAG_LEAVE, event =>
-					this._ddEventHandler(event)
-				),
-				rootNode.addEventListener(STR_DROP, event =>
-					this._ddEventHandler(event)
-				)
+				})
+				// rootNode.addEventListener(STR_DRAG_OVER, event =>
+				// 	this._ddEventHandler(event)
+				// ),
+				// rootNode.addEventListener(STR_DRAG_LEAVE, event =>
+				// 	this._ddEventHandler(event)
+				// ),
+				// rootNode.addEventListener(STR_DROP, event =>
+				// 	this._ddEventHandler(event)
+				// )
 			);
 		}
 	}
