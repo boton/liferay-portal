@@ -17,6 +17,8 @@ import ClayProgressBar from '@clayui/progress-bar';
 import React, {useEffect, useState} from 'react';
 import {useDropzone} from 'react-dropzone';
 
+import ItemSelectorPreview from '../../item_selector_preview/js/ItemSelectorPreview.es';
+
 // import ClayCard from '@clayui/card';
 import '../css/main.scss';
 
@@ -26,14 +28,15 @@ function parse(req) {
 	var result;
 	try {
 		result = JSON.parse(req.responseText);
-	} catch (e) {
+	}
+	catch (e) {
 		result = req.responseText;
 	}
 
 	return result;
 }
 
-function openPreview(itemData) {
+function getPreviewProps({closeCaption, itemData, itemSelectedEventName}) {
 	const itemFile = itemData.file;
 	const itemFileUrl = itemFile.url;
 	let itemFileValue = itemFile.resolvedValue;
@@ -51,12 +54,29 @@ function openPreview(itemData) {
 		itemFileValue = JSON.stringify(imageValue);
 	}
 
-	Liferay.componentReady('ItemSelectorPreview').then(() => {
-		Liferay.fire('updateCurrentItem', {
-			url: itemFileUrl,
-			value: itemFileValue
-		});
-	});
+	return {
+		currentIndex: 0,
+		// editItemURL: this.editItemURL,
+		handleSelectedItem: item => {
+			Liferay.Util.getOpener().Liferay.fire(itemSelectedEventName, {
+				data: {
+					returnType: item.returntype,
+					value: item.value
+				}
+			});
+		},
+		headerTitle: closeCaption,
+		items: [
+			{
+				// Empty metadata
+				metadata: JSON.stringify({groups: []}),
+				title: itemFile.title,
+				url: itemFileUrl,
+				value: itemFileValue
+				// returntype: this.uploadItemReturnType,
+			}
+		]
+	};
 }
 
 function sendFile({
@@ -80,7 +100,8 @@ function sendFile({
 			onProgress(null);
 			if (request.status >= 200 && request.status < 300) {
 				onSuccess(response);
-			} else {
+			}
+			else {
 				onError(response);
 			}
 		}
@@ -100,10 +121,18 @@ function validateFile(acceptedFiles) {
 	}));
 }
 
-function SingleUploader({maxFileSize, uploadItemURL, validExtensions}) {
+function SingleUploader({
+	closeCaption,
+	itemSelectedEventName,
+	maxFileSize,
+	uploadItemURL,
+	validExtensions
+}) {
 	const [file, setFile] = useState();
 	const [progress, setProgess] = useState(null);
 	const [abort, setAbort] = useState(null);
+	const [showPreview, setShowPreview] = useState(false);
+	const [itemServerData, setItemServerData] = useState(null);
 	const {getInputProps, getRootProps} = useDropzone({
 		accept: validExtensions,
 		maxSize: maxFileSize,
@@ -124,7 +153,10 @@ function SingleUploader({maxFileSize, uploadItemURL, validExtensions}) {
 			const client = sendFile({
 				file: file.file,
 				onProgress: setProgess,
-				onSuccess: openPreview,
+				onSuccess: itemData => {
+					setItemServerData(itemData);
+					setShowPreview(true);
+				},
 				url: uploadItemURL
 			});
 
@@ -139,7 +171,7 @@ function SingleUploader({maxFileSize, uploadItemURL, validExtensions}) {
 				}
 			};
 		}
-	}, [file, uploadItemURL]);
+	}, [closeCaption, file, itemSelectedEventName, uploadItemURL]);
 
 	return (
 		<section>
@@ -150,7 +182,7 @@ function SingleUploader({maxFileSize, uploadItemURL, validExtensions}) {
 					here, or click to select file
 				</span>
 			</div>
-			{/* {file ? (
+			{/* {file && (
 				<div className="mt-3 row">
 					<div className="col-md-3">
 						<ClayCard displayType="image">
@@ -184,8 +216,8 @@ function SingleUploader({maxFileSize, uploadItemURL, validExtensions}) {
 						</ClayCard>
 					</div>
 				</div>
-			) : null} */}
-			{file ? (
+			) */}
+			{file && (
 				<div className="mt-3 row">
 					<div className="col-md-3">
 						<div className="card-type-asset form-check form-check-card image-card item-preview">
@@ -231,7 +263,21 @@ function SingleUploader({maxFileSize, uploadItemURL, validExtensions}) {
 						</div>
 					</div>
 				</div>
-			) : null}
+			)}
+			{showPreview && (
+				<div className="item-selector-preview-container">
+					{
+						// TODO: refactor item selector, add handleClose instead of container
+					}
+					<ItemSelectorPreview
+						{...getPreviewProps({
+							closeCaption,
+							itemData: itemServerData,
+							itemSelectedEventName
+						})}
+					/>
+				</div>
+			)}
 		</section>
 	);
 }

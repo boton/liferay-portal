@@ -123,7 +123,7 @@ ItemSelectorRepositoryEntryManagementToolbarDisplayContext itemSelectorRepositor
 
 		uploadURL.setParameter("returnType", returnType);
 
-		Map<String, Object> dataSingleUploader = HashMapBuilder.<String, Object>put("maxFileSize", maxFileSize).put("uploadItemReturnType", HtmlUtil.escapeAttribute(returnType)).put("uploadItemURL", uploadURL.toString()).put("validExtensions", StringUtil.merge(extensions)).build();
+		Map<String, Object> dataSingleUploader = HashMapBuilder.<String, Object>put("closeCaption", LanguageUtil.get(request, tabName)).put("itemSelectedEventName", itemSelectedEventName).put("maxFileSize", maxFileSize).put("uploadItemReturnType", HtmlUtil.escapeAttribute(returnType)).put("uploadItemURL", uploadURL.toString()).put("validExtensions", StringUtil.merge(extensions)).build();
 		%>
 
 		<react:component
