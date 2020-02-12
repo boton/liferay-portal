@@ -116,6 +116,22 @@ ItemSelectorRepositoryEntryManagementToolbarDisplayContext itemSelectorRepositor
 		</div>
 	</c:if>
 
+	<div>
+
+		<%
+		String returnType = ItemSelectorRepositoryEntryBrowserUtil.getItemSelectorReturnTypeClassName(itemSelectorReturnTypeResolver, existingFileEntryReturnType);
+
+		uploadURL.setParameter("returnType", returnType);
+
+		Map<String, Object> dataSingleUploader = HashMapBuilder.<String, Object>put("maxFileSize", maxFileSize).put("uploadItemReturnType", HtmlUtil.escapeAttribute(returnType)).put("uploadItemURL", uploadURL.toString()).put("validExtensions", StringUtil.merge(extensions)).build();
+		%>
+
+		<react:component
+			data="<%= dataSingleUploader %>"
+			module="item_selector_uploader/js/SingleUploader.es"
+		/>
+	</div>
+
 	<c:if test="<%= (existingFileEntryReturnType != null) || (itemSelectorReturnTypeResolver != null) %>">
 		<liferay-ui:search-container
 			cssClass='<%= displayStyle.equals("list") ? "main-content-body" : StringPool.BLANK %>'
@@ -532,13 +548,6 @@ ItemSelectorRepositoryEntryManagementToolbarDisplayContext itemSelectorRepositor
 			'<%= ListUtil.isEmpty(extensions) ? "*" : StringUtil.merge(extensions) %>',
 
 		<c:if test="<%= uploadURL != null %>">
-
-			<%
-			String returnType = ItemSelectorRepositoryEntryBrowserUtil.getItemSelectorReturnTypeClassName(itemSelectorReturnTypeResolver, existingFileEntryReturnType);
-
-			uploadURL.setParameter("returnType", returnType);
-			%>
-
 			uploadItemReturnType: '<%= HtmlUtil.escapeAttribute(returnType) %>',
 			uploadItemURL: '<%= uploadURL.toString() %>'
 		</c:if>

@@ -1,0 +1,23 @@
+.dropzone {
+	align-items: center;
+	background-color: #fafafa;
+	border-color: #eee;
+	border-radius: 2px;
+	border-style: dashed;
+	border-width: 2px;
+	color: #686868;
+	display: flex;
+	flex: 1;
+	flex-direction: column;
+	outline: none;
+	padding: 20px;
+	transition: border 0.24s ease-in-out;
+}
+
+.dropzone:focus {
+	border-color: #2196f3;
+}
+
+.dropzone.disabled {
+	opacity: 0.6;
+}
