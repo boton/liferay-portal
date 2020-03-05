@@ -615,6 +615,16 @@
 		</attribute>
 	</tag>
 	<tag>
+		<name>horizontal-card-image</name>
+		<tag-class>com.liferay.frontend.taglib.servlet.taglib.HorizontalCardImageTag</tag-class>
+		<body-content>JSP</body-content>
+		<attribute>
+			<name>image</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+	<tag>
 		<description>Creates a lexicon-based card component with a custom HTML header.</description>
 		<name>html-vertical-card</name>
 		<tag-class>com.liferay.frontend.taglib.servlet.taglib.HtmlVerticalCardTag</tag-class>
