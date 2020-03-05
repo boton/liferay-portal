@@ -31,7 +31,7 @@ if (bodyContent != null) {
 		<%= bodyContentString %>
 	</c:when>
 	<c:otherwise>
-		<div class="sticker sticker-secondary sticker-static">
+		<div class="sticker sticker-secondary">
 			<img class="sticker-img" src="<%= image %>" />
 		</div>
 	</c:otherwise>
