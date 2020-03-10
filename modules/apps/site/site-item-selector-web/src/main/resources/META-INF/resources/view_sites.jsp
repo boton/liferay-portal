@@ -83,9 +83,18 @@ GroupSearch groupSearch = siteItemSelectorViewDisplayContext.getGroupSearch();
 
 			<c:choose>
 				<c:when test='<%= displayStyle.equals("descriptive") %>'>
-					<liferay-ui:search-container-column-icon
-						icon="<%= group.getIconCssClass() %>"
-					/>
+					<c:choose>
+						<c:when test="<%= Validator.isNotNull(group.getLogoURL(themeDisplay, false)) %>">
+							<liferay-ui:search-container-column-image
+								src="<%= group.getLogoURL(themeDisplay, false) %>"
+							/>
+						</c:when>
+						<c:otherwise>
+							<liferay-ui:search-container-column-icon
+								icon="<%= group.getIconCssClass() %>"
+							/>
+						</c:otherwise>
+					</c:choose>
 
 					<liferay-ui:search-container-column-text
 						colspan="<%= 2 %>"
@@ -129,12 +138,14 @@ GroupSearch groupSearch = siteItemSelectorViewDisplayContext.getGroupSearch();
 						<c:choose>
 							<c:when test="<%= Validator.isNotNull(siteVerticalCard.getImageSrc()) %>">
 								<div class="card card-type-asset">
-									<div class="aspect-ratio bg-checkered card-item-first selector-button" <%= AUIUtil.buildData(data) %>>
-										<img alt="thumbnail" class="aspect-ratio-item-center-middle aspect-ratio-item-fluid" src="<%= siteVerticalCard.getImageSrc() %>" />
-									</div>
-
 									<div class="card-body">
 										<div class="card-row">
+											<div class="autofit-col autofit-col-expand autofit-col-gutters">
+												<div class="sticker sticker-secondary" <%= AUIUtil.buildData(data) %>>
+													<img alt="thumbnail" class="aspect-ratio-item-center-middle aspect-ratio-item-fluid" src="<%= siteVerticalCard.getImageSrc() %>" />
+												</div>
+											</div>
+
 											<div class="autofit-col autofit-col-expand">
 												<div class="card-title text-truncate">
 													<div class="row">
@@ -164,17 +175,17 @@ GroupSearch groupSearch = siteItemSelectorViewDisplayContext.getGroupSearch();
 							</c:when>
 							<c:otherwise>
 								<div class="card card-type-asset file-card">
-									<div class="aspect-ratio card-item-first selector-button" <%= AUIUtil.buildData(data) %>>
-										<div class="aspect-ratio-item-center-middle aspect-ratio-item-fluid card-type-asset-icon">
-											<svg class="lexicon-icon" focusable="false" role="presentation">
-												<use xlink:href="<%= themeDisplay.getPathThemeImages() %>/lexicon/icons.svg#<%= group.getIconCssClass() %>" />
-											</svg>
-										</div>
-									</div>
-
 									<div class="card-body">
 										<div class="card-row">
-											<div class="autofit-col autofit-col-expand">
+											<div class="autofit-col autofit-col-expand autofit-col-gutters">
+												<div class="sticker sticker-secondary" <%= AUIUtil.buildData(data) %>>
+													<svg class="lexicon-icon" focusable="false" role="presentation">
+														<use xlink:href="<%= themeDisplay.getPathThemeImages() %>/lexicon/icons.svg#<%= group.getIconCssClass() %>" />
+													</svg>
+												</div>
+											</div>
+
+											<div class="autofit-col autofit-col-expand autofit-col-gutters">
 												<div class="card-title text-truncate">
 													<div class="row">
 														<p class="col font-weight-bold h5 text-truncate">

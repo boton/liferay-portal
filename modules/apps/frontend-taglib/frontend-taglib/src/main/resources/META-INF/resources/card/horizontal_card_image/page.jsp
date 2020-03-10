@@ -14,10 +14,10 @@
  */
 --%>
 
-<%@ include file="/card/horizontal_card_icon/init.jsp" %>
+<%@ include file="/card/horizontal_card_image/init.jsp" %>
 
 <%
-Object bodyContent = request.getAttribute("liferay-frontend:horizontal-card-icon:bodyContent");
+Object bodyContent = request.getAttribute("liferay-frontend:horizontal-card-image:bodyContent");
 
 String bodyContentString = StringPool.BLANK;
 
@@ -32,7 +32,7 @@ if (bodyContent != null) {
 	</c:when>
 	<c:otherwise>
 		<div class="sticker sticker-secondary">
-			<aui:icon image="<%= icon %>" markupView="lexicon" />
+			<img class="sticker-img" src="<%= image %>" />
 		</div>
 	</c:otherwise>
 </c:choose>
