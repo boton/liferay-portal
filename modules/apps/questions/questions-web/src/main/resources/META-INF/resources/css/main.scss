@@ -96,12 +96,27 @@
 	}
 }
 
-.questions-home-card {
-	margin: 1rem;
+.question-card {
+	.card {
+		border-radius: 0.5rem;
+		box-shadow: none;
+		transition: box-shadow 300ms ease-in-out;
+		will-change: box-shadow;
+	}
+
+	.card-body {
+		padding: 1.5rem;
+	}
+
+	.card-title {
+		font-size: 1.5rem;
+	}
 
 	&:hover,
 	&:focus {
-		box-shadow: 0 20px 40px rgba(39, 40, 51, 0.16);
+		.card {
+			box-shadow: 0 1.25rem 2.5rem rgba($dark, 0.16);
+		}
 	}
 }
 
