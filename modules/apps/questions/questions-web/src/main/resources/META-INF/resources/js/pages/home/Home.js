@@ -31,14 +31,21 @@ export default () => {
 		);
 	}, [context.siteKey]);
 
+	function descriptionTruncate(description) {
+		return description.length > 150
+			? description.substring(0, 150) + '...'
+			: description;
+	}
+
 	return (
-		<div>
-			<div className="autofit-row">
-				{sections.map(section => (
-					<div
-						className="autofit-col autofit-col-expand"
-						key={section.id}
+		<div className="row">
+			{sections.map(section => (
+				<div className="col-lg-4 col-md-6 col-xl-3" key={section.id}>
+					<Link
+						className="question-card text-decoration-none text-secondary"
+						to={`/questions/${section.title}`}
 					>
+<<<<<<< HEAD
 						<Link to={`/questions/${section.title}`}>
 							<ClayCard className="questions-home-card">
 								<ClayCard.Body>
@@ -67,6 +74,44 @@ export default () => {
 					</div>
 				))}
 			</div>
+=======
+						<ClayCard>
+							<ClayCard.Body>
+								<ClayCard.Description
+									className="text-dark"
+									displayType="title"
+								>
+									{section.title}
+								</ClayCard.Description>
+
+								<ClayCard.Description
+									className="c-mt-3"
+									displayType="text"
+									truncate={false}
+								>
+									{descriptionTruncate(section.description)}
+								</ClayCard.Description>
+
+								<ClayCard.Description
+									className="c-mt-4 small"
+									displayType="text"
+									truncate={false}
+								>
+									<span>
+										{section.numberOfMessageBoardThreads}{' '}
+										{Liferay.Language.get('threads')}
+									</span>
+
+									<button className="btn btn-link btn-sm d-xl-none float-right font-weight-bold p-0">
+										View Topic
+									</button>
+								</ClayCard.Description>
+							</ClayCard.Body>
+						</ClayCard>
+					</Link>
+				</div>
+			))}
+>>>>>>> LPS-110094 Fix layout of questions landing cards
 		</div>
 	);
 };
