@@ -159,20 +159,16 @@ describe('Languages', () => {
 			siteAvailableLocales: availableLocales,
 		});
 
-		result.debug();
+		const dropdownTriggers = result.container.querySelectorAll('.dropdown');
+		const moveDownButtons = result.getAllByText('move-up');
+		const dropdownMenus = result.baseElement.querySelectorAll(
+			'.dropdown-menu'
+		);
+		const dropdownMenuFirst = dropdownMenus[0];
 
-		expect(
-			queryAllByText(
-				result.container.querySelectorAll('tbody > tr')[0],
-				'move-up'
-			)
-		).toHaveLength(0);
-		expect(
-			queryAllByText(
-				result.container.querySelectorAll('tbody > tr')[1],
-				'move-up'
-			)
-		).toHaveLength(1);
+		expect(dropdownTriggers).toHaveLength(4);
+		expect(moveDownButtons).toHaveLength(3);
+		expect(queryAllByText(dropdownMenuFirst, 'move-up')).toHaveLength(0);
 	});
 
 	it('renders a list with move down actions in all elements except the last one', () => {
