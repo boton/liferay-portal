@@ -159,10 +159,7 @@ describe('Languages', () => {
 			siteAvailableLocales: availableLocales,
 		});
 
-		result.debug(
-			result.container.querySelectorAll('tbody > tr')[1],
-			'move-up'
-		);
+		result.debug();
 
 		expect(
 			queryAllByText(
