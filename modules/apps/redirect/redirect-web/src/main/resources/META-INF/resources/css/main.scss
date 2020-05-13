@@ -38,11 +38,49 @@
 		text-transform: uppercase;
 	}
 
-	.table-cell-content {
-		direction: rtl;
+	// https://hugogiraudel.com/2014/12/16/css-riddle-reverse-ellipsis/
+
+	.ellipsis {
 		overflow: hidden;
-		text-align: left;
 		text-overflow: ellipsis;
 		white-space: nowrap;
+	}
+
+	.reverse-ellipsis {
+		background-color: #fff;
+		padding-left: 1em;
+		position: relative;
+		text-overflow: clip;
+	}
+
+	.reverse-ellipsis:before {
+		background-color: inherit;
+		content: '\02026';
+		left: -1em;
+		margin-left: 0.5em;
+		padding-left: 1em;
+		position: absolute;
+		z-index: 1;
+	}
+
+	.reverse-ellipsis span {
+		background-color: inherit;
+		display: inline-block;
+		float: right;
+		min-width: 100%;
+		overflow: visible;
+		position: relative;
+		text-indent: 0.5em;
+	}
+
+	.reverse-ellipsis span:before {
+		background-color: inherit;
+		content: '';
+		display: inline-block;
+		height: 1.5em;
+		left: -0.5em;
+		position: absolute;
+		width: 1em;
+		z-index: 200;
 	}
 }
