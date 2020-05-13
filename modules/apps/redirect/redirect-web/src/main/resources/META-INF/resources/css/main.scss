@@ -39,18 +39,13 @@
 	}
 
 	// https://hugogiraudel.com/2014/12/16/css-riddle-reverse-ellipsis/
-
-	.ellipsis {
-		overflow: hidden;
-		text-overflow: ellipsis;
-		white-space: nowrap;
-	}
-
 	.reverse-ellipsis {
 		background-color: #fff;
+		overflow: hidden;
 		padding-left: 1em;
 		position: relative;
 		text-overflow: clip;
+		white-space: nowrap;
 	}
 
 	.reverse-ellipsis:before {
