@@ -68,7 +68,7 @@ RedirectManagementToolbarDisplayContext redirectManagementToolbarDisplayContext 
 						String sourceURL = RedirectUtil.getGroupBaseURL(themeDisplay) + StringPool.SLASH + redirectEntry.getSourceURL();
 						%>
 
-						<div class="reverse-ellipsis" data-title="<%= sourceURL %>">
+						<div class="text-truncate-reverse" data-title="<%= sourceURL %>">
 							<span><%= HtmlUtil.escape(sourceURL) %></span>
 						</div>
 					</liferay-ui:search-container-column-text>
@@ -82,7 +82,7 @@ RedirectManagementToolbarDisplayContext redirectManagementToolbarDisplayContext 
 						String destinationURL = HtmlUtil.escape(redirectEntry.getDestinationURL());
 						%>
 
-						<div class="reverse-ellipsis" data-title="<%= destinationURL %>">
+						<div class="text-truncate-reverse" data-title="<%= destinationURL %>">
 							<span><%= destinationURL %></span>
 						</div>
 					</liferay-ui:search-container-column-text>
