@@ -510,7 +510,8 @@ AUI.add(
 						);
 					}
 
-					Liferay.Util.openSelectionModal({
+					Liferay.Util.openModal({
+						height: 480,
 						id: namespace + 'selectFolder',
 						onSelect: (selectedItem) => {
 							if (parameterName && parameterValue) {
@@ -528,6 +529,7 @@ AUI.add(
 						},
 						selectEventName: namespace + 'selectFolder',
 						title: Lang.sub(dialogTitle, [selectedItems]),
+						size: 'md',
 						url: instance.get('selectFolderURL'),
 					});
 				},
