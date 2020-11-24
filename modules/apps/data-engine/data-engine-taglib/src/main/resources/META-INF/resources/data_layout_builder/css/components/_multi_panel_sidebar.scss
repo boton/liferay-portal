@@ -100,6 +100,28 @@ $zIndexContent: 0;
 		}
 	}
 
+	&.publications-enabled {
+		height: calc(100vh - #{$toolbarHeight + $publicationsHeight});
+		top: $toolbarHeight + $publicationsHeight;
+
+		body.has-control-menu & {
+			height: calc(
+				100vh - #{$controlMenuHeight + $managementBarHeight +
+					$publicationsHeight}
+			);
+			top: $controlMenuHeight + $managementBarHeight + $publicationsHeight;
+
+			@include media-breakpoint-up(lg) {
+				height: calc(
+					100vh - #{$desktopControlMenuHeight + $toolbarHeight +
+						$publicationsHeight}
+				);
+				top: $desktopControlMenuHeight + $toolbarHeight +
+					$publicationsHeight;
+			}
+		}
+	}
+
 	&-dark {
 		& .multi-panel-sidebar-buttons {
 			background-color: $gray-800;
