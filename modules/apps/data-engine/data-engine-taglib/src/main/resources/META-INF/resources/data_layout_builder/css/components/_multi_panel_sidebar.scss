@@ -100,24 +100,25 @@ $zIndexContent: 0;
 		}
 	}
 
-	&.publications-enabled {
-		height: calc(100vh - #{$toolbarHeight + $publicationsHeight});
-		top: $toolbarHeight + $publicationsHeight;
+	&.menu-indicator-enabled {
+		height: calc(100vh - #{$toolbarHeight + $menuIndicatorHeight});
+		top: $toolbarHeight + $menuIndicatorHeight;
 
 		body.has-control-menu & {
 			height: calc(
 				100vh - #{$controlMenuHeight + $managementBarHeight +
-					$publicationsHeight}
+					$menuIndicatorHeight}
 			);
-			top: $controlMenuHeight + $managementBarHeight + $publicationsHeight;
+			top: $controlMenuHeight + $managementBarHeight +
+				$menuIndicatorHeight;
 
 			@include media-breakpoint-up(lg) {
 				height: calc(
 					100vh - #{$desktopControlMenuHeight + $toolbarHeight +
-						$publicationsHeight}
+						$menuIndicatorHeight}
 				);
 				top: $desktopControlMenuHeight + $toolbarHeight +
-					$publicationsHeight;
+					$menuIndicatorHeight;
 			}
 		}
 	}

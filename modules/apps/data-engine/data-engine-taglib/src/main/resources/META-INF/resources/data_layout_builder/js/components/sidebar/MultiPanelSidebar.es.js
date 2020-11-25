@@ -195,8 +195,11 @@ export default function MultiPanelSidebar({
 					'multi-panel-sidebar',
 					`multi-panel-sidebar-${variant}`,
 					{
-						'publications-enabled': document.querySelector(
-							'.change-tracking-indicator'
+						'menu-indicator-enabled': document.querySelector(
+							[
+								'.change-tracking-indicator',
+								'.staging-indicator',
+							].join(',')
 						),
 					}
 				)}
