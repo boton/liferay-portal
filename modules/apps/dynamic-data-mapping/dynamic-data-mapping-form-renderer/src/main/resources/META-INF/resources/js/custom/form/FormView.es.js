@@ -65,11 +65,24 @@ const useFormSubmit = ({apiRef, containerRef}) => {
 							liferayForm?.formValidator?.errors ?? {}
 						).length;
 
-						if (!validLiferayForm) {
+						if (
+							(!validLiferayForm,
+							event.target?.classList.contains(
+								'data-engine-avoid-submit'
+							))
+						) {
 							return;
 						}
 
+						// The problem is Liferay.Util.submitForm(event.target);
+						// trigger a submit after the fetch call in
+						// https://github.com/liferay/liferay-portal/blob/5dff0e4b8f856d2f4f83453ee62cd3081dcbd083/modules/apps/document-library/document-library-web/src/main/resources/META-INF/resources/document_library/upload_multiple_file_entries.jsp#L156-L159
+						// and this submit turns into a fetch that make the request the second
+						// time, and the backend is responding with JSON errors about
+						// duplication at this second request
+
 						Liferay.Util.submitForm(event.target);
+						console.log(event.target);
 
 						Liferay.fire('ddmFormSubmit', {
 							formId: getFormId(
