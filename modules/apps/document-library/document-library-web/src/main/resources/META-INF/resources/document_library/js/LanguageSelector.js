@@ -17,6 +17,7 @@ import ClayDropDown from '@clayui/drop-down';
 import ClayIcon from '@clayui/icon';
 import PropTypes from 'prop-types';
 import React, {useEffect, useState} from 'react';
+import {test} from 'item-selector-taglib';
 
 function getLanguage(id) {
 	const text = id.replace('_', '-');
@@ -31,6 +32,7 @@ function getLanguage(id) {
 function LanguageSelector({languageIds, onChange, selectedLanguageId}) {
 	const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 	const selectedLanguage = getLanguage(selectedLanguageId);
+	test('holi');
 
 	return (
 		<ClayDropDown

@@ -13,3 +13,5 @@
  */
 
 export {default as ItemSelectorRepositoryEntryBrowser} from './repository_entry_browser/js/ItemSelectorRepositoryEntryBrowser.es';
+export const test = (...args) =>
+	console.log('testing exporting in item-selector-taglib: ', args);
