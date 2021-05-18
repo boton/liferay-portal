@@ -66,7 +66,7 @@ export const parseProps = ({
 	showSubmitButton,
 	spritemap,
 	submitLabel,
-	submittable,
+	submittable = true,
 	view,
 	...otherProps
 }) => ({
