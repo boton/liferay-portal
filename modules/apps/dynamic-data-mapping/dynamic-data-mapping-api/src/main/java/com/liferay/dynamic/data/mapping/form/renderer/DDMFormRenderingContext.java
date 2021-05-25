@@ -239,6 +239,6 @@ public class DDMFormRenderingContext {
 	private boolean _showRequiredFieldsWarning = true;
 	private boolean _showSubmitButton = true;
 	private String _submitLabel;
-	private boolean _submittable;
+	private boolean _submittable = true;
 
 }
