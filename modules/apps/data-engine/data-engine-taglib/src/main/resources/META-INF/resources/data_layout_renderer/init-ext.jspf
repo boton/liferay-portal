@@ -16,5 +16,4 @@
 
 <%
 String content = (String)request.getAttribute("liferay-data-engine:data-layout-renderer:content");
-Map<String, Object> dynamicAttributes = (Map<String, Object>)request.getAttribute("liferay-data-engine:data-layout-renderer:dynamicAttributes");
 %>
