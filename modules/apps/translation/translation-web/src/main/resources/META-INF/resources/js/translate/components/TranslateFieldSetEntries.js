@@ -99,46 +99,62 @@ const TranslateFieldEditor = ({
 	label,
 	sourceContent,
 	sourceContentDir,
-	targetContent,
+
+	// targetContent,
+
 	targetContentDir,
 	onChange = noop,
-}) => (
-	<ClayLayout.Row>
-		<ClayLayout.Col md={6}>
-			<ClayForm.Group>
-				<label className="control-label">{label}</label>
-				<div
-					className="translation-editor-preview"
-					dangerouslySetInnerHTML={{__html: sourceContent}}
-					dir={sourceContentDir}
-				/>
-			</ClayForm.Group>
-		</ClayLayout.Col>
-		<ClayLayout.Col md={6}>
-			<ClayForm.Group>
-				<label className="control-label">{label}</label>
-				<ClassicEditor
-					data={targetContent}
-					editorConfig={{
-						...editorConfiguration.editorConfig,
-						contentsLangDirection: targetContentDir,
-					}}
-					name={id}
-					onChange={(data) => {
-						if (targetContent !== data.trim()) {
-							onChange(data);
-						}
-					}}
-				/>
-				<input defaultValue={targetContent} name={id} type="hidden" />
-				<TranslateFieldFeedback
-					message={fieldStatus.message}
-					status={fieldStatus.status}
-				/>
-			</ClayForm.Group>
-		</ClayLayout.Col>
-	</ClayLayout.Row>
-);
+}) => {
+	const targetContent = `${id} Lorem ipsum dolor sit amet consectetur adipisicing elit. Totam, excepturi autem. Modi excepturi officia soluta nostrum voluptatum. Iure ea, aspernatur odio quos corporis, sit consectetur doloremque esse atque facere veritatis!`;
+
+	return (
+		<ClayLayout.Row>
+			<ClayLayout.Col md={6}>
+				<ClayForm.Group>
+					<label className="control-label">{label}</label>
+					<div
+						className="translation-editor-preview"
+						dangerouslySetInnerHTML={{__html: sourceContent}}
+						dir={sourceContentDir}
+					/>
+				</ClayForm.Group>
+			</ClayLayout.Col>
+			<ClayLayout.Col md={6}>
+				<ClayForm.Group>
+					<label className="control-label">{label}</label>
+					<ClassicEditor
+						data={targetContent}
+						editorConfig={{
+							...editorConfiguration.editorConfig,
+							contentsLangDirection: targetContentDir,
+						}}
+						name={id}
+						onChange={(data) => {
+							console.log({
+								equal: targetContent === data.trim(),
+								data: data.trim(),
+								targetContent,
+							});
+
+							if (targetContent !== data.trim()) {
+								onChange(data);
+							}
+						}}
+					/>
+					<input
+						defaultValue={targetContent}
+						name={id}
+						type="hidden"
+					/>
+					<TranslateFieldFeedback
+						message={fieldStatus.message}
+						status={fieldStatus.status}
+					/>
+				</ClayForm.Group>
+			</ClayLayout.Col>
+		</ClayLayout.Row>
+	);
+};
 
 const TranslateFieldInput = ({
 	fieldStatus,
