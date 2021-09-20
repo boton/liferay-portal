@@ -24,6 +24,11 @@ import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+
 import javax.portlet.PortletURL;
 
 import javax.servlet.http.HttpServletRequest;
@@ -48,6 +53,27 @@ public class ImportTranslationDisplayContext {
 		_liferayPortletResponse = liferayPortletResponse;
 		_model = model;
 		_title = title;
+
+		_importErrors = Collections.emptyMap();
+		_importSuccess = Arrays.asList(
+			"web-content-name-es_ES.xlf", "web-content-name-fr_FR.xlf",
+			"web-content-name-it_IT.xlf");
+	}
+
+	public int getImportErrorsCount() {
+		return _importErrors.size();
+	}
+
+	public Map<String, Object> getImportErrorsMap() {
+		return _importErrors;
+	}
+
+	public int getImportSuccessCount() {
+		return _importSuccess.size();
+	}
+
+	public List<String> getImportSucessEntries() {
+		return _importSuccess;
 	}
 
 	public PortletURL getImportTranslationURL() {
@@ -136,6 +162,8 @@ public class ImportTranslationDisplayContext {
 	private final long _classPK;
 	private final long _groupId;
 	private final HttpServletRequest _httpServletRequest;
+	private final Map<String, Object> _importErrors;
+	private final List<String> _importSuccess;
 	private final InfoItemWorkflowProvider<Object> _infoItemWorkflowProvider;
 	private final LiferayPortletResponse _liferayPortletResponse;
 	private final Object _model;
