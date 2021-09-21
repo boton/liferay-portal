@@ -66,7 +66,7 @@ renderResponse.setTitle(LanguageUtil.get(resourceBundle, "import-translation"));
 								<%= importTranslationDisplayContext.getImportSuccessCount() %> Files Published
 							</h4>
 
-							<ul class="list-group list-group-no-bordered">
+							<ul class="list-group list-group-no-bordered list-group-sm">
 
 								<%
 								List<String> importSuccessFiles = importTranslationDisplayContext.getImportSuccessEntries();
@@ -74,7 +74,7 @@ renderResponse.setTitle(LanguageUtil.get(resourceBundle, "import-translation"));
 								for (String importSuccessFile : importSuccessFiles) {
 								%>
 
-									<li class="align-items-center list-group-item list-group-item-flex py-2">
+									<li class="align-items-center list-group-item list-group-item-flex">
 										<div class="autofit-col autofit-col-expand">
 											<section class="autofit-section">
 												<div class="list-group-title"><%= importSuccessFile %></div>
@@ -115,7 +115,7 @@ renderResponse.setTitle(LanguageUtil.get(resourceBundle, "import-translation"));
 								for (Map.Entry<String, String> entryImportError : importErrorsFilesMap.entrySet()) {
 								%>
 
-									<li class="align-items-center list-group-item list-group-item-flex py-2">
+									<li class="align-items-center list-group-item list-group-item-flex">
 										<div class="autofit-col autofit-col-expand">
 											<div class="list-group-title"><%= entryImportError.getKey() %></div>
 											<div class="text-danger"><%= entryImportError.getValue() %></div>
