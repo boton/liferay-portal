@@ -73,7 +73,7 @@ renderResponse.setTitle(LanguageUtil.get(resourceBundle, "import-translation"));
 							for (String importSuccessFile : importSuccessFiles) {
 							%>
 
-								<li class="align-items-center list-group-item list-group-item-flex">
+								<li class="align-items-center list-group-item list-group-item-flex py-2">
 									<div class="autofit-col autofit-col-expand">
 										<section class="autofit-section">
 											<div class="list-group-title"><%= importSuccessFile %></div>
@@ -112,7 +112,7 @@ renderResponse.setTitle(LanguageUtil.get(resourceBundle, "import-translation"));
 							for (Map.Entry<String, String> entryImportError : importErrorsFilesMap.entrySet()) {
 							%>
 
-								<li class="align-items-center list-group-item list-group-item-flex">
+								<li class="align-items-center list-group-item list-group-item-flex py-2">
 									<div class="autofit-col autofit-col-expand">
 										<div class="list-group-title"><%= entryImportError.getKey() %></div>
 
