@@ -63,7 +63,15 @@ renderResponse.setTitle(LanguageUtil.get(resourceBundle, "import-translation"));
 										symbol="check-circle-full"
 									/>
 								</span>
-								<%= importTranslationDisplayContext.getImportSuccessCount() %> Files Published
+
+								<c:choose>
+									<c:when test="<%= (importTranslationDisplayContext.getImportSuccessCount() > 1) && (importTranslationDisplayContext.getImportErrorsCount() == 0) %>">
+										All Files Published
+									</c:when>
+									<c:otherwise>
+										<%= importTranslationDisplayContext.getImportSuccessCount() %> Files Published
+									</c:otherwise>
+								</c:choose>
 							</h4>
 
 							<ul class="list-group list-group-no-bordered list-group-sm">
