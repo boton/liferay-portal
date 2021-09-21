@@ -40,7 +40,7 @@ renderResponse.setTitle(LanguageUtil.get(resourceBundle, "import-translation"));
 								</div>
 							</li>
 							<li class="tbar-item">
-								<div class="metadata-type-button-row tbar-section text-right">
+								<div class="tbar-section text-right">
 									<aui:button cssClass="btn-sm" href="<%= importTranslationDisplayContext.getRedirect() %>" primary="<%= true %>" value="done" />
 								</div>
 							</li>
@@ -165,7 +165,7 @@ renderResponse.setTitle(LanguageUtil.get(resourceBundle, "import-translation"));
 								</div>
 							</li>
 							<li class="tbar-item">
-								<div class="metadata-type-button-row tbar-section text-right">
+								<div class="tbar-section text-right">
 									<aui:button cssClass="btn-sm mr-3" href="<%= importTranslationDisplayContext.getRedirect() %>" type="cancel" />
 
 									<aui:button cssClass="btn-sm mr-3" id="saveDraftBtn" primary="<%= false %>" type="submit" value="<%= importTranslationDisplayContext.getSaveButtonLabel() %>" />
