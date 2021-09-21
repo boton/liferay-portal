@@ -28,120 +28,125 @@ renderResponse.setTitle(LanguageUtil.get(resourceBundle, "import-translation"));
 <div class="translation">
 	<c:choose>
 		<c:when test="<%= true %>">
-			<nav class="component-tbar subnav-tbar-light tbar">
-				<clay:container-fluid>
-					<ul class="tbar-nav">
-						<li class="tbar-item tbar-item-expand">
-							<div class="pl-2 tbar-section text-left">
-								<h2 class="h4 mb-0 text-truncate-inline" title="<%= HtmlUtil.escapeAttribute(importTranslationDisplayContext.getTitle()) %>">
-									<span class="text-truncate"><%= HtmlUtil.escape(importTranslationDisplayContext.getTitle()) %></span>
-								</h2>
-							</div>
-						</li>
-						<li class="tbar-item">
-							<div class="metadata-type-button-row tbar-section text-right">
-								<aui:button cssClass="btn-sm" href="<%= importTranslationDisplayContext.getRedirect() %>" primary="<%= true %>" value="done" />
-							</div>
-						</li>
-					</ul>
-				</clay:container-fluid>
-			</nav>
+			<div class="translation-import">
+				<nav class="component-tbar subnav-tbar-light tbar">
+					<clay:container-fluid>
+						<ul class="tbar-nav">
+							<li class="tbar-item tbar-item-expand">
+								<div class="pl-2 tbar-section text-left">
+									<h2 class="h4 mb-0 text-truncate-inline" title="<%= HtmlUtil.escapeAttribute(importTranslationDisplayContext.getTitle()) %>">
+										<span class="text-truncate"><%= HtmlUtil.escape(importTranslationDisplayContext.getTitle()) %></span>
+									</h2>
+								</div>
+							</li>
+							<li class="tbar-item">
+								<div class="metadata-type-button-row tbar-section text-right">
+									<aui:button cssClass="btn-sm" href="<%= importTranslationDisplayContext.getRedirect() %>" primary="<%= true %>" value="done" />
+								</div>
+							</li>
+						</ul>
+					</clay:container-fluid>
+				</nav>
 
-			<clay:container-fluid
-				cssClass="container-view"
-			>
-				<clay:sheet
-					cssClass="translation-import-body-form"
+				<clay:container-fluid
+					cssClass="container-view"
 				>
-					<h3 class="mb-4">web-content-name-translations.zip (filename)</h3>
+					<clay:sheet
+						cssClass="translation-import-body-form"
+					>
+						<h3 class="mb-4">web-content-name-translations.zip (filename)</h3>
 
-					<c:if test="<%= importTranslationDisplayContext.getImportSuccessCount() > 0 %>">
-						<h4 class="text-success">
-							<span class="mr-2">
-								<clay:icon
-									symbol="check-circle-full"
-								/>
-							</span>
-							<%= importTranslationDisplayContext.getImportSuccessCount() %> Files Published
-						</h4>
+						<c:if test="<%= importTranslationDisplayContext.getImportSuccessCount() > 0 %>">
+							<h4 class="text-success">
+								<span class="mr-2">
+									<clay:icon
+										symbol="check-circle-full"
+									/>
+								</span>
+								<%= importTranslationDisplayContext.getImportSuccessCount() %> Files Published
+							</h4>
 
-						<ul class="list-group list-group-no-bordered">
+							<ul class="list-group list-group-no-bordered">
 
-							<%
-							List<String> importSuccessFiles = importTranslationDisplayContext.getImportSuccessEntries();
+								<%
+								List<String> importSuccessFiles = importTranslationDisplayContext.getImportSuccessEntries();
 
-							for (String importSuccessFile : importSuccessFiles) {
-							%>
+								for (String importSuccessFile : importSuccessFiles) {
+								%>
 
-								<li class="align-items-center list-group-item list-group-item-flex py-2">
-									<div class="autofit-col autofit-col-expand">
-										<section class="autofit-section">
-											<div class="list-group-title"><%= importSuccessFile %></div>
-										</section>
-									</div>
+									<li class="align-items-center list-group-item list-group-item-flex py-2">
+										<div class="autofit-col autofit-col-expand">
+											<section class="autofit-section">
+												<div class="list-group-title"><%= importSuccessFile %></div>
+											</section>
+										</div>
 
-									<div class="autofit-col text-right text-success">
-										<clay:icon
-											symbol="check-circle-full"
-										/>
-									</div>
-								</li>
+										<div class="autofit-col text-right text-success">
+											<div class="list-group-icon">
+												<clay:icon
+													symbol="check-circle-full"
+												/>
+											</div>
+										</div>
+									</li>
 
-							<%
-							}
-							%>
+								<%
+								}
+								%>
 
-						</ul>
-					</c:if>
+							</ul>
+						</c:if>
 
-					<c:if test="<%= importTranslationDisplayContext.getImportErrorsCount() > 0 %>">
-						<h4 class="text-danger">
-							<span class="mr-2">
-								<clay:icon
-									symbol="exclamation-full"
-								/>
-							</span>
-							<%= importTranslationDisplayContext.getImportErrorsCount() %> Errors: <small>Some files could not be published, check them and upload another file.</small>
-						</h4>
+						<c:if test="<%= importTranslationDisplayContext.getImportErrorsCount() > 0 %>">
+							<h4 class="text-danger">
+								<span class="mr-2">
+									<clay:icon
+										symbol="exclamation-full"
+									/>
+								</span>
+								<%= importTranslationDisplayContext.getImportErrorsCount() %> Errors: <small>Some files could not be published, check them and upload another file.</small>
+							</h4>
 
-						<ul class="list-group list-group-no-bordered">
+							<ul class="list-group list-group-no-bordered">
 
-							<%
-							Map<String, String> importErrorsFilesMap = importTranslationDisplayContext.getImportErrorsMap();
+								<%
+								Map<String, String> importErrorsFilesMap = importTranslationDisplayContext.getImportErrorsMap();
 
-							for (Map.Entry<String, String> entryImportError : importErrorsFilesMap.entrySet()) {
-							%>
+								for (Map.Entry<String, String> entryImportError : importErrorsFilesMap.entrySet()) {
+								%>
 
-								<li class="align-items-center list-group-item list-group-item-flex py-2">
-									<div class="autofit-col autofit-col-expand">
-										<div class="list-group-title"><%= entryImportError.getKey() %></div>
+									<li class="align-items-center list-group-item list-group-item-flex py-2">
+										<div class="autofit-col autofit-col-expand">
+											<div class="list-group-title"><%= entryImportError.getKey() %></div>
+											<div class="text-danger"><%= entryImportError.getValue() %></div>
+										</div>
 
-										<div class="text-danger"><%= entryImportError.getValue() %></div>
-									</div>
+										<div class="autofit-col text-danger text-right">
+											<div class="list-group-icon">
+												<clay:icon
+													symbol="exclamation-full"
+												/>
+											</div>
+										</div>
+									</li>
 
-									<div class="autofit-col text-danger text-right">
-										<clay:icon
-											symbol="exclamation-full"
-										/>
-									</div>
-								</li>
+								<%
+								}
+								%>
 
-							<%
-							}
-							%>
+							</ul>
 
-						</ul>
-
-						<clay:link
-							displayType="secondary"
-							href="<%= importTranslationDisplayContext.getRedirect() %>"
-							label="Upload Another File"
-							small="<%= true %>"
-							type="button"
-						/>
-					</c:if>
-				</clay:sheet>
-			</clay:container-fluid>
+							<clay:link
+								displayType="secondary"
+								href="<%= importTranslationDisplayContext.getRedirect() %>"
+								label="Upload Another File"
+								small="<%= true %>"
+								type="button"
+							/>
+						</c:if>
+					</clay:sheet>
+				</clay:container-fluid>
+			</div>
 		</c:when>
 		<c:otherwise>
 			<aui:form action="<%= importTranslationDisplayContext.getImportTranslationURL() %>" cssClass="translation-import" name="fm">
