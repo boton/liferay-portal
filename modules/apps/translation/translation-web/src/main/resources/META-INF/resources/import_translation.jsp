@@ -116,7 +116,7 @@ renderResponse.setTitle(LanguageUtil.get(resourceBundle, "import-translation"));
 									<div class="autofit-col autofit-col-expand">
 										<div class="list-group-title"><%= entryImportError.getKey() %></div>
 
-										<p class="text-danger"><%= entryImportError.getValue() %></p>
+										<div class="text-danger"><%= entryImportError.getValue() %></div>
 									</div>
 
 									<div class="autofit-col text-danger text-right">
