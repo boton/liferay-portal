@@ -68,12 +68,24 @@ renderResponse.setTitle(LanguageUtil.get(resourceBundle, "import-translation"));
 						<ul class="list-group list-group-no-bordered">
 
 							<%
-							List<String> importSuccessFiles = importTranslationDisplayContext.getImportSucessEntries();
+							List<String> importSuccessFiles = importTranslationDisplayContext.getImportSuccessEntries();
 
 							for (String importSuccessFile : importSuccessFiles) {
 							%>
 
-								<li class="list-group-item"><div class="list-group-title"><%= importSuccessFile %></div></li>
+								<li class="align-items-center list-group-item list-group-item-flex">
+									<div class="autofit-col autofit-col-expand">
+										<section class="autofit-section">
+											<div class="list-group-title"><%= importSuccessFile %></div>
+										</section>
+									</div>
+
+									<div class="autofit-col text-right text-success">
+										<clay:icon
+											symbol="check-circle-full"
+										/>
+									</div>
+								</li>
 
 							<%
 							}
@@ -83,7 +95,50 @@ renderResponse.setTitle(LanguageUtil.get(resourceBundle, "import-translation"));
 					</c:if>
 
 					<c:if test="<%= importTranslationDisplayContext.getImportErrorsCount() > 0 %>">
+						<h4 class="text-danger">
+							<span class="mr-2">
+								<clay:icon
+									symbol="exclamation-full"
+								/>
+							</span>
+							<%= importTranslationDisplayContext.getImportErrorsCount() %> Errors: <small>Some files could not be published, check them and retry the upload.</small>
+						</h4>
 
+						<ul class="list-group list-group-no-bordered">
+
+							<%
+							Map<String, String> importErrorsFilesMap = importTranslationDisplayContext.getImportErrorsMap();
+
+							for (Map.Entry<String, String> entryImportError : importErrorsFilesMap.entrySet()) {
+							%>
+
+								<li class="align-items-center list-group-item list-group-item-flex">
+									<div class="autofit-col autofit-col-expand">
+										<div class="list-group-title"><%= entryImportError.getKey() %></div>
+
+										<p class="text-danger"><%= entryImportError.getValue() %></p>
+									</div>
+
+									<div class="autofit-col text-danger text-right">
+										<clay:icon
+											symbol="exclamation-full"
+										/>
+									</div>
+								</li>
+
+							<%
+							}
+							%>
+
+						</ul>
+
+						<clay:link
+							displayType="secondary"
+							href="<%= importTranslationDisplayContext.getRedirect() %>"
+							label="Retry Upload"
+							small="<%= true %>"
+							type="button"
+						/>
 					</c:if>
 				</clay:sheet>
 			</clay:container-fluid>

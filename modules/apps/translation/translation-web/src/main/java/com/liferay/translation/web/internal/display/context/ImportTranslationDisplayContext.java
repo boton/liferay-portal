@@ -19,13 +19,13 @@ import com.liferay.petra.portlet.url.builder.PortletURLBuilder;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.model.Layout;
 import com.liferay.portal.kernel.portlet.LiferayPortletResponse;
+import com.liferay.portal.kernel.util.HashMapBuilder;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -54,7 +54,15 @@ public class ImportTranslationDisplayContext {
 		_model = model;
 		_title = title;
 
-		_importErrors = Collections.emptyMap();
+		_importErrors = HashMapBuilder.put(
+			"web-content-name-en_GB.xlf",
+			"The ID of this file does not match" +
+				" any of the currently used languages."
+		).put(
+			"web-content-name-en_US.xlf",
+			"The ID of this file does not match" +
+				" any of the currently used languages."
+		).build();
 		_importSuccess = Arrays.asList(
 			"web-content-name-es_ES.xlf", "web-content-name-fr_FR.xlf",
 			"web-content-name-it_IT.xlf");
@@ -64,7 +72,7 @@ public class ImportTranslationDisplayContext {
 		return _importErrors.size();
 	}
 
-	public Map<String, Object> getImportErrorsMap() {
+	public Map<String, String> getImportErrorsMap() {
 		return _importErrors;
 	}
 
@@ -72,7 +80,7 @@ public class ImportTranslationDisplayContext {
 		return _importSuccess.size();
 	}
 
-	public List<String> getImportSucessEntries() {
+	public List<String> getImportSuccessEntries() {
 		return _importSuccess;
 	}
 
@@ -162,7 +170,7 @@ public class ImportTranslationDisplayContext {
 	private final long _classPK;
 	private final long _groupId;
 	private final HttpServletRequest _httpServletRequest;
-	private final Map<String, Object> _importErrors;
+	private final Map<String, String> _importErrors;
 	private final List<String> _importSuccess;
 	private final InfoItemWorkflowProvider<Object> _infoItemWorkflowProvider;
 	private final LiferayPortletResponse _liferayPortletResponse;
