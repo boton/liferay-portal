@@ -101,7 +101,7 @@ renderResponse.setTitle(LanguageUtil.get(resourceBundle, "import-translation"));
 									symbol="exclamation-full"
 								/>
 							</span>
-							<%= importTranslationDisplayContext.getImportErrorsCount() %> Errors: <small>Some files could not be published, check them and retry the upload.</small>
+							<%= importTranslationDisplayContext.getImportErrorsCount() %> Errors: <small>Some files could not be published, check them and upload another file.</small>
 						</h4>
 
 						<ul class="list-group list-group-no-bordered">
@@ -135,7 +135,7 @@ renderResponse.setTitle(LanguageUtil.get(resourceBundle, "import-translation"));
 						<clay:link
 							displayType="secondary"
 							href="<%= importTranslationDisplayContext.getRedirect() %>"
-							label="Retry Upload"
+							label="Upload Another File"
 							small="<%= true %>"
 							type="button"
 						/>
