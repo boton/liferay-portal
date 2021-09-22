@@ -72,10 +72,10 @@ renderResponse.setTitle(LanguageUtil.get(resourceBundle, "import-translation"));
 
 								<c:choose>
 									<c:when test="<%= (importTranslationDisplayContext.getImportSuccessCount() > 1) && (importTranslationDisplayContext.getImportErrorsCount() == 0) %>">
-										All Files Published
+										<liferay-ui:message key="all-files-published" />
 									</c:when>
 									<c:otherwise>
-										<%= importTranslationDisplayContext.getImportSuccessCount() %> Files Published
+										<liferay-ui:message arguments="<%= importTranslationDisplayContext.getImportSuccessCount() %>" key='<%= (importTranslationDisplayContext.getImportSuccessCount() == 1) ? "x-file-published" : "x-files-published" %>' />
 									</c:otherwise>
 								</c:choose>
 							</h4>
@@ -118,7 +118,10 @@ renderResponse.setTitle(LanguageUtil.get(resourceBundle, "import-translation"));
 										symbol="exclamation-full"
 									/>
 								</span>
-								<%= importTranslationDisplayContext.getImportErrorsCount() %> Errors: <small>Some files could not be published, check them and upload another file.</small>
+
+								<liferay-ui:message arguments="<%= importTranslationDisplayContext.getImportErrorsCount() %>" key='<%= (importTranslationDisplayContext.getImportErrorsCount() == 1) ? "x-error" : "x-errors" %>' />
+
+								<small><liferay-ui:message key="some-files-could-not-be-published-check-them-and-upload-another-file" /></small>
 							</h4>
 
 							<ul class="list-group list-group-no-bordered">
