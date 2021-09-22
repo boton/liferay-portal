@@ -41,7 +41,13 @@ renderResponse.setTitle(LanguageUtil.get(resourceBundle, "import-translation"));
 							</li>
 							<li class="tbar-item">
 								<div class="tbar-section text-right">
-									<aui:button cssClass="btn-sm" href="<%= importTranslationDisplayContext.getRedirect() %>" primary="<%= true %>" value="done" />
+									<clay:link
+										displayType="primary"
+										href="<%= importTranslationDisplayContext.getRedirect() %>"
+										label="done"
+										small="<%= true %>"
+										type="button"
+									/>
 								</div>
 							</li>
 						</ul>
