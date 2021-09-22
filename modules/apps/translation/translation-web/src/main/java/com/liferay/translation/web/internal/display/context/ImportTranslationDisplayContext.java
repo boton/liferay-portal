@@ -84,6 +84,10 @@ public class ImportTranslationDisplayContext {
 		return _importSuccess;
 	}
 
+	public String getImportTranslationResetURL() {
+		return "/import-translation-reset-url";
+	}
+
 	public PortletURL getImportTranslationURL() {
 		return PortletURLBuilder.createActionURL(
 			_liferayPortletResponse
@@ -148,6 +152,10 @@ public class ImportTranslationDisplayContext {
 
 	public String getTitle() throws PortalException {
 		return _title;
+	}
+
+	public String getUploadedFileName() {
+		return "web-content-name-translations.zip";
 	}
 
 	public boolean isPending() throws PortalException {
