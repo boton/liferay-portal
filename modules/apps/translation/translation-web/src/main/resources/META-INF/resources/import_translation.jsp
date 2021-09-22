@@ -60,7 +60,7 @@ renderResponse.setTitle(LanguageUtil.get(resourceBundle, "import-translation"));
 					<clay:sheet
 						cssClass="translation-import-body-form"
 					>
-						<h3 class="mb-4">web-content-name-translations.zip (filename)</h3>
+						<h3 class="mb-4"><%= importTranslationDisplayContext.getUploadedFileName() %></h3>
 
 						<c:if test="<%= importTranslationDisplayContext.getImportSuccessCount() > 0 %>">
 							<h4 class="text-success">
@@ -152,7 +152,7 @@ renderResponse.setTitle(LanguageUtil.get(resourceBundle, "import-translation"));
 
 							<clay:link
 								displayType="secondary"
-								href="<%= importTranslationDisplayContext.getRedirect() %>"
+								href="<%= importTranslationDisplayContext.getImportTranslationResetURL() %>"
 								label="Upload Another File"
 								small="<%= true %>"
 								type="button"
