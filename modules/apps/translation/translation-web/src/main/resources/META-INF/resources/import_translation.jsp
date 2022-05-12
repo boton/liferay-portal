@@ -43,15 +43,33 @@ String exceptionErrorMessage = null;
 						<div class="tbar-section text-right">
 							<div class="btn-group">
 								<div class="btn-group-item">
-									<aui:button cssClass="btn-sm" href="<%= importTranslationDisplayContext.getRedirect() %>" type="cancel" />
+									<clay:link
+										displayType="secondary"
+										href="<%= importTranslationDisplayContext.getRedirect() %>"
+										label="cancel"
+										small="<%= true %>"
+										type="button"
+									/>
 								</div>
 
 								<div class="btn-group-item">
-									<aui:button cssClass="btn-sm" disabled="<%= true %>" primary="<%= false %>" type="submit" value="<%= importTranslationDisplayContext.getSaveButtonLabel() %>" />
+									<clay:button
+										disabled="<%= true %>"
+										displayType="secondary"
+										label="<%= importTranslationDisplayContext.getSaveButtonLabel() %>"
+										small="<%= true %>"
+										type="submit"
+									/>
 								</div>
 
 								<div class="btn-group-item">
-									<aui:button cssClass="btn-sm" disabled="<%= true %>" primary="<%= true %>" type="submit" value="<%= importTranslationDisplayContext.getPublishButtonLabel() %>" />
+									<clay:button
+										disabled="<%= true %>"
+										displayType="primary"
+										label="<%= importTranslationDisplayContext.getPublishButtonLabel() %>"
+										small="<%= true %>"
+										type="submit"
+									/>
 								</div>
 						</div>
 					</li>
