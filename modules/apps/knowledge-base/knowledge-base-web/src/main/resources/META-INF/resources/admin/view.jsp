@@ -49,6 +49,21 @@ KBArticleURLHelper kbArticleURLHelper = new KBArticleURLHelper(renderRequest, re
 />
 
 <div class="closed sidenav-container sidenav-right" id="<portlet:namespace />infoPanelId">
+	<clay:container-fluid
+		cssClass="bg-white mt-5"
+	>
+		<div>
+			<react:component
+				module="admin/js/Navigation"
+				props='<%=
+					HashMapBuilder.<String, Object>put(
+						"testProp", "testValue"
+					).build()
+				%>'
+			/>
+		</div>
+	</clay:container-fluid>
+
 	<liferay-portlet:resourceURL copyCurrentRenderParameters="<%= false %>" id="infoPanel" var="sidebarPanelURL">
 		<portlet:param name="parentResourceClassNameId" value="<%= String.valueOf(parentResourceClassNameId) %>" />
 		<portlet:param name="parentResourcePrimKey" value="<%= String.valueOf(parentResourcePrimKey) %>" />
