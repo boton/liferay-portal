@@ -24,10 +24,42 @@ const ITEM_TYPES_SYMBOL = {
 	folder: 'folder',
 };
 
+// TODO: we need specific actions depending on the types: root, folder, or article.
+
+const _FOLDER_DROPDOWN_ITEMS = [
+	{
+		href: '/mock_url',
+		label: Liferay.Language.get('edit'),
+		symbolLeft: 'pencil',
+	},
+	{
+		href: '/mock_url',
+		label: Liferay.Language.get('import'),
+		symbolLeft: 'import',
+	},
+	{
+		href: '/mock_url',
+		label: Liferay.Language.get('move'),
+		symbolLeft: 'move-folder',
+	},
+	{type: 'divider'},
+	{
+		href: '/mock_url',
+		label: Liferay.Language.get('permissions'),
+		symbolLeft: 'password-policies',
+	},
+	{
+		href: '/mock_url',
+		label: Liferay.Language.get('delete'),
+		symbolLeft: 'trash',
+	},
+];
+
 const TEST_ITEMS = [
 	{
 		children: [
 			{
+				actions: _FOLDER_DROPDOWN_ITEMS,
 				children: [
 					{
 						href: '/mock_url',
@@ -68,6 +100,7 @@ const TEST_ITEMS = [
 				type: 'folder',
 			},
 			{
+				actions: _FOLDER_DROPDOWN_ITEMS,
 				href: '/mock_url',
 				id: 1,
 				name: 'Company',
@@ -75,6 +108,7 @@ const TEST_ITEMS = [
 			},
 
 			{
+				actions: _FOLDER_DROPDOWN_ITEMS,
 				href: '/mock_url',
 				id: 2,
 				name: 'Design Team',
@@ -94,25 +128,25 @@ const TEST_ITEMS = [
 	},
 ];
 
-const getFolderDropdownItems = () => [
-	{label: Liferay.Language.get('edit'), symbolLeft: 'pencil'},
-	{label: Liferay.Language.get('import'), symbolLeft: 'import'},
-	{
-		label: Liferay.Language.get('move'),
-		symbolLeft: 'move-folder',
-	},
-	{type: 'divider'},
-	{
-		label: Liferay.Language.get('permissions'),
-		symbolLeft: 'password-policies',
-	},
-	{label: Liferay.Language.get('delete'), symbolLeft: 'trash'},
-];
-
 export default function Navigation({
 	items = TEST_ITEMS,
 	selectedItemId = TEST_ITEMS[0].children[0].children[1].id,
 }) {
+	const handleClickItem = (event, item) => {
+		event.stopPropagation();
+		event.preventDefault();
+
+		// BUG: Disabled on folder because we are navigate when expand dropdown actions
+
+		if (item.type === 'folder') {
+			return;
+		}
+
+		// TODO: navigate to item.href when we have proper URLs
+
+		navigate(window.location.toString());
+	};
+
 	return (
 		<ClayTreeView
 			defaultItems={items}
@@ -124,12 +158,7 @@ export default function Navigation({
 				return (
 					<ClayTreeView.Item
 						onClick={(event) => {
-							event.stopPropagation();
-							event.preventDefault();
-
-							// TODO: navigate to item.href when we have proper URLs
-
-							navigate(window.location.toString());
+							handleClickItem(event, item);
 						}}
 					>
 						<ClayTreeView.ItemStack>
@@ -150,28 +179,26 @@ export default function Navigation({
 												>
 													<ClayIcon symbol="plus" />
 												</ClayButton>
-												<ClayDropDownWithItems
-													items={getFolderDropdownItems()}
-													trigger={
-														<ClayButton
-															displayType={null}
-															monospaced
-														>
-															<ClayIcon symbol="ellipsis-v" />
-														</ClayButton>
-													}
-												/>
+
+												{item?.actions?.length && (
+													<ClayDropDownWithItems
+														items={item.actions}
+														trigger={
+															<ClayButton
+																displayType={
+																	null
+																}
+																monospaced
+															>
+																<ClayIcon symbol="ellipsis-v" />
+															</ClayButton>
+														}
+													/>
+												)}
 											</>
 										}
 										onClick={(event) => {
-											event.stopPropagation();
-											event.preventDefault();
-
-											// TODO: navigate to item.href when we have proper URLs
-
-											navigate(
-												window.location.toString()
-											);
+											handleClickItem(event, item);
 										}}
 									>
 										<ClayIcon
