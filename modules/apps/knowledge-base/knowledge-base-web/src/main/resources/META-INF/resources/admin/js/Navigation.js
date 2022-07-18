@@ -20,8 +20,8 @@ import {navigate} from 'frontend-js-web';
 import React from 'react';
 
 const ITEM_TYPES_SYMBOL = {
+	article: 'document-text',
 	folder: 'folder',
-	page: 'document-text',
 };
 
 const TEST_ITEMS = [
@@ -32,12 +32,12 @@ const TEST_ITEMS = [
 					{
 						id: 5,
 						name: 'Welcome to Liferay',
-						type: 'page',
+						type: 'article',
 					},
 					{
 						id: 6,
 						name: 'Our Company Values',
-						type: 'page',
+						type: 'article',
 					},
 				],
 				id: 4,
@@ -53,7 +53,7 @@ const TEST_ITEMS = [
 			{
 				id: 3,
 				name: 'Weekly Notes',
-				type: 'page',
+				type: 'article',
 			},
 		],
 		id: 0,
