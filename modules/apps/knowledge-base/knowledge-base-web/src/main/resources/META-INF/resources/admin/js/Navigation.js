@@ -92,6 +92,7 @@ export default function Navigation({
 				return (
 					<ClayTreeView.Item
 						onClick={(event) => {
+							event.stopPropagation();
 							event.preventDefault();
 							console.log('navigate to: ', item.name);
 
@@ -131,6 +132,7 @@ export default function Navigation({
 											</>
 										}
 										onClick={(event) => {
+											event.stopPropagation();
 											event.preventDefault();
 											console.log(
 												'navigate to: ',
