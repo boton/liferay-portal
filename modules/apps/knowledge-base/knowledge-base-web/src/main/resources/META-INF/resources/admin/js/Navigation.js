@@ -35,6 +35,23 @@ const TEST_ITEMS = [
 						type: 'article',
 					},
 					{
+						children: [
+							{
+								id: 7,
+								name: 'Lead by Serving',
+								type: 'article',
+							},
+							{
+								id: 8,
+								name: 'Value People',
+								type: 'article',
+							},
+							{
+								id: 9,
+								name: 'Stay Nerdy',
+								type: 'article',
+							},
+						],
 						id: 6,
 						name: 'Our Company Values',
 						type: 'article',
