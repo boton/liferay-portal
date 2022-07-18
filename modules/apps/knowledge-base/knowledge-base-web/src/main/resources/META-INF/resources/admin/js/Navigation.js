@@ -30,6 +30,7 @@ const TEST_ITEMS = [
 			{
 				children: [
 					{
+						href: '/mock_url',
 						id: 5,
 						name: 'Welcome to Liferay',
 						type: 'article',
@@ -37,42 +38,56 @@ const TEST_ITEMS = [
 					{
 						children: [
 							{
+								href: '/mock_url',
 								id: 7,
 								name: 'Lead by Serving',
 								type: 'article',
 							},
 							{
+								href: '/mock_url',
 								id: 8,
 								name: 'Value People',
 								type: 'article',
 							},
 							{
+								href: '/mock_url',
 								id: 9,
 								name: 'Stay Nerdy',
 								type: 'article',
 							},
 						],
+						href: '/mock_url',
 						id: 6,
 						name: 'Our Company Values',
 						type: 'article',
 					},
 				],
+				href: '/mock_url',
 				id: 4,
 				name: 'Introduction',
 				type: 'folder',
 			},
-			{id: 1, name: 'Company', type: 'folder'},
 			{
+				href: '/mock_url',
+				id: 1,
+				name: 'Company',
+				type: 'folder',
+			},
+
+			{
+				href: '/mock_url',
 				id: 2,
 				name: 'Design Team',
 				type: 'folder',
 			},
 			{
+				href: '/mock_url',
 				id: 3,
 				name: 'Weekly Notes',
 				type: 'article',
 			},
 		],
+		href: '/mock_url',
 		id: 0,
 		name: 'Home',
 		type: 'folder',
@@ -111,10 +126,10 @@ export default function Navigation({
 						onClick={(event) => {
 							event.stopPropagation();
 							event.preventDefault();
-							console.log('navigate to: ', item.name);
 
-							// navigate(window.location.toString());
+							// TODO: navigate to item.href when we have proper URLs
 
+							navigate(window.location.toString());
 						}}
 					>
 						<ClayTreeView.ItemStack>
@@ -151,15 +166,12 @@ export default function Navigation({
 										onClick={(event) => {
 											event.stopPropagation();
 											event.preventDefault();
-											console.log(
-												'navigate to: ',
-												item.name
+
+											// TODO: navigate to item.href when we have proper URLs
+
+											navigate(
+												window.location.toString()
 											);
-
-											// navigate(
-											// 	window.location.toString()
-											// );
-
 										}}
 									>
 										<ClayIcon
