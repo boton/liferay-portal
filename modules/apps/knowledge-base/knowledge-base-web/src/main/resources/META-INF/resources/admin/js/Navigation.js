@@ -16,6 +16,7 @@ import ClayButton from '@clayui/button';
 import {TreeView as ClayTreeView} from '@clayui/core';
 import {ClayDropDownWithItems} from '@clayui/drop-down';
 import ClayIcon from '@clayui/icon';
+import ClayLink from '@clayui/link';
 import {navigate} from 'frontend-js-web';
 import React from 'react';
 
@@ -28,28 +29,33 @@ const ITEM_TYPES_SYMBOL = {
 
 const _FOLDER_DROPDOWN_ITEMS = [
 	{
-		href: '/mock_url',
+		editArticleURL: '/mock_edit_url',
+		href: '/mock_navigation_url',
 		label: Liferay.Language.get('edit'),
 		symbolLeft: 'pencil',
 	},
 	{
-		href: '/mock_url',
+		editArticleURL: '/mock_edit_url',
+		href: '/mock_navigation_url',
 		label: Liferay.Language.get('import'),
 		symbolLeft: 'import',
 	},
 	{
-		href: '/mock_url',
+		editArticleURL: '/mock_edit_url',
+		href: '/mock_navigation_url',
 		label: Liferay.Language.get('move'),
 		symbolLeft: 'move-folder',
 	},
 	{type: 'divider'},
 	{
-		href: '/mock_url',
+		editArticleURL: '/mock_edit_url',
+		href: '/mock_navigation_url',
 		label: Liferay.Language.get('permissions'),
 		symbolLeft: 'password-policies',
 	},
 	{
-		href: '/mock_url',
+		editArticleURL: '/mock_edit_url',
+		href: '/mock_navigation_url',
 		label: Liferay.Language.get('delete'),
 		symbolLeft: 'trash',
 	},
@@ -62,7 +68,8 @@ const TEST_ITEMS = [
 				actions: _FOLDER_DROPDOWN_ITEMS,
 				children: [
 					{
-						href: '/mock_url',
+						editArticleURL: '/mock_edit_url',
+						href: '/mock_navigation_url',
 						id: 5,
 						name: 'Welcome to Liferay',
 						type: 'article',
@@ -70,38 +77,44 @@ const TEST_ITEMS = [
 					{
 						children: [
 							{
-								href: '/mock_url',
+								editArticleURL: '/mock_edit_url',
+								href: '/mock_navigation_url',
 								id: 7,
 								name: 'Lead by Serving',
 								type: 'article',
 							},
 							{
-								href: '/mock_url',
+								editArticleURL: '/mock_edit_url',
+								href: '/mock_navigation_url',
 								id: 8,
 								name: 'Value People',
 								type: 'article',
 							},
 							{
-								href: '/mock_url',
+								editArticleURL: '/mock_edit_url',
+								href: '/mock_navigation_url',
 								id: 9,
 								name: 'Stay Nerdy',
 								type: 'article',
 							},
 						],
-						href: '/mock_url',
+						editArticleURL: '/mock_edit_url',
+						href: '/mock_navigation_url',
 						id: 6,
 						name: 'Our Company Values',
 						type: 'article',
 					},
 				],
-				href: '/mock_url',
+				editArticleURL: '/mock_edit_url',
+				href: '/mock_navigation_url',
 				id: 4,
 				name: 'Introduction',
 				type: 'folder',
 			},
 			{
 				actions: _FOLDER_DROPDOWN_ITEMS,
-				href: '/mock_url',
+				editArticleURL: '/mock_edit_url',
+				href: '/mock_navigation_url',
 				id: 1,
 				name: 'Company',
 				type: 'folder',
@@ -109,19 +122,22 @@ const TEST_ITEMS = [
 
 			{
 				actions: _FOLDER_DROPDOWN_ITEMS,
-				href: '/mock_url',
+				editArticleURL: '/mock_edit_url',
+				href: '/mock_navigation_url',
 				id: 2,
 				name: 'Design Team',
 				type: 'folder',
 			},
 			{
-				href: '/mock_url',
+				editArticleURL: '/mock_edit_url',
+				href: '/mock_navigation_url',
 				id: 3,
 				name: 'Weekly Notes',
 				type: 'article',
 			},
 		],
-		href: '/mock_url',
+		editArticleURL: '/mock_edit_url',
+		href: '/mock_navigation_url',
 		id: 0,
 		name: 'Home',
 		type: 'folder',
@@ -173,12 +189,14 @@ export default function Navigation({
 									<ClayTreeView.Item
 										actions={
 											<>
-												<ClayButton
+												<ClayLink
+													button
 													displayType={null}
+													href={item.editArticleURL}
 													monospaced
 												>
 													<ClayIcon symbol="plus" />
-												</ClayButton>
+												</ClayLink>
 
 												{item?.actions?.length && (
 													<ClayDropDownWithItems
