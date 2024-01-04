@@ -18,6 +18,10 @@ export class ApplicationsMenuPage {
 			exact: true,
 			name: 'Objects',
 		});
+		this.FDSMenuItem = page.getByRole('menuitem', {
+			exact: true,
+			name: 'Data Sets',
+		});
 		this.page = page;
 		this.signInButton = page.getByRole('button', {name: 'Sign In'});
 	}
@@ -29,6 +33,11 @@ export class ApplicationsMenuPage {
 	async goToObjects() {
 		await this.goToControlPanel();
 		await this.objectsMenuItem.click();
+	}
+
+	async goToFDS() {
+		await this.goToControlPanel();
+		await this.FDSMenuItem.click();
 	}
 
 	async goToInstanceSettings() {
