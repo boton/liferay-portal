@@ -44,7 +44,7 @@ else if (group.isStagingGroup()) {
 %>
 
 <div class="control-menu-nav-item control-menu-nav-item-content">
-	<h1 class="control-menu-level-1-heading mb-0 text-truncate" data-qa-id="headerTitle"><%= HtmlUtil.escape(portletTitle) %></h1>
+	<h1 class="control-menu-level-1-heading mb-0" data-qa-id="headerTitle"><%= HtmlUtil.escape(portletTitle) %></h1>
 
 	<c:if test="<%= liveGroup.isStaged() && !liveGroup.isStagedPortlet(portletDisplay.getRootPortletId()) %>">
 		<c:choose>
