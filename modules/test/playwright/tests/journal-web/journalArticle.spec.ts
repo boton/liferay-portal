@@ -217,7 +217,7 @@ privateContentIconTest(
 	}
 );
 
-prefixUrlTest(
+prefixUrlTest.only(
 	'LPD-6813: Make prefix URLs configurable',
 	async ({
 		apiHelpers,

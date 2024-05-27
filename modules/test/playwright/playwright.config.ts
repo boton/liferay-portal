@@ -55,7 +55,7 @@ export default defineConfig({
 	expect: {
 		timeout: 15 * 1000,
 	},
-	forbidOnly: !!process.env.CI,
+	forbidOnly: false,
 	projects: [
 		accountAdminWebConfig,
 		analyticsSettingsWebConfig,

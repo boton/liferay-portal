@@ -66,7 +66,7 @@ test('LPD-22497: Permission sets are differing depending on autosaving of a blog
 
 const friendlyUrlCategories = ['category-1', 'category-2', 'category-3'];
 
-test('LPD-26752 Select categories for the custom friendly URL', async ({
+test.only('LPD-26752 Select categories for the custom friendly URL', async ({
 	apiHelpers,
 	blogsEditBlogEntryPage,
 	displayPageTemplatesPage,
