@@ -17,6 +17,10 @@ import getPageDefinition from '../layout-content-page-editor-web/utils/getPageDe
 import getWidgetDefinition from '../layout-content-page-editor-web/utils/getWidgetDefinition';
 import {blogsPagesTest} from './fixtures/blogsPagesTest';
 
+import type {ApiHelpers} from '../../helpers/ApiHelpers';
+import type {PageEditorPage} from '../../pages/layout-content-page-editor-web/PageEditorPage';
+import type {DisplayPageTemplatesPage} from '../../pages/layout-page-template-admin-web/DisplayPageTemplatesPage';
+
 const test = mergeTests(
 	apiHelpersTest,
 	isolatedSiteTest,
@@ -78,30 +82,53 @@ test('LPD-26752 Select categories for the custom friendly URL', async ({
 }) => {
 	const vocabularyName = getRandomString();
 
-	const {id: vocabularyId} =
-		await apiHelpers.headlessAdminTaxonomy.createVocabulary({
-			name: vocabularyName,
-			siteId: site.id,
-		});
-
-	for (const categoryName of friendlyUrlCategories) {
-		await apiHelpers.headlessAdminTaxonomy.createCategory({
-			name: categoryName,
-			vocabularyId,
-		});
-	}
-
-	await displayPageTemplatesPage.goto(site.friendlyUrlPath);
-
-	const displayPageTemplateName = getRandomString();
-
-	await displayPageTemplatesPage.publishNewTemplate({
-		contentType: 'Blogs Entry',
-		name: displayPageTemplateName,
+	await friendlyURLCategoriesSetup({
+		apiHelpers,
+		displayPageTemplatesPage,
+		page,
+		pageEditorPage,
+		site,
+		vocabularyName,
 	});
 
-	await displayPageTemplatesPage.markAsDefault(displayPageTemplateName);
+	await blogsEditBlogEntryPage.goto(site.friendlyUrlPath);
 
+	const title = getRandomString();
+
+	await blogsEditBlogEntryPage.editBlogEntry({
+		content: getRandomString(),
+		friendlyUrl: {categories: friendlyUrlCategories, vocabularyName},
+		publish: false,
+		title,
+	});
+
+	await expect(
+		page.getByText(`/-/blogs/${friendlyUrlCategories.join('/')}/`)
+	).toBeVisible();
+
+	await page.getByRole('button', {name: 'Publish'}).click();
+	await waitForSuccessAlert(page);
+
+	const response = await page.goto(`/web${site.friendlyUrlPath}/b/${title}`);
+
+	await expect(response.url()).toContain(
+		`/web${site.friendlyUrlPath}/b/${friendlyUrlCategories.join(
+			'/'
+		)}/${title}`
+	);
+});
+
+async function createAssetPublisherAndConfigure({
+	apiHelpers,
+	page,
+	pageEditorPage,
+	site,
+}: {
+	apiHelpers: ApiHelpers;
+	page;
+	pageEditorPage: PageEditorPage;
+	site: Site;
+}) {
 	const widgetId = getRandomString();
 
 	const widgetDefinition = getWidgetDefinition({
@@ -118,7 +145,7 @@ test('LPD-26752 Select categories for the custom friendly URL', async ({
 
 	await pageEditorPage.goto(layout, site.friendlyUrlPath);
 
-	const topper = await pageEditorPage.getTopper(widgetId);
+	const topper = pageEditorPage.getTopper(widgetId);
 
 	await topper.hover();
 	await clickAndExpectToBeVisible({
@@ -166,30 +193,71 @@ test('LPD-26752 Select categories for the custom friendly URL', async ({
 		page,
 		'Success:The page was published successfully.'
 	);
+}
 
-	await blogsEditBlogEntryPage.goto(site.friendlyUrlPath);
+async function createCategories({
+	apiHelpers,
+	site,
+	vocabularyName,
+}: {
+	apiHelpers: ApiHelpers;
+	site: Site;
+	vocabularyName: string;
+}) {
+	const {id: vocabularyId} =
+		await apiHelpers.headlessAdminTaxonomy.createVocabulary({
+			name: vocabularyName,
+			siteId: site.id,
+		});
 
-	const title = getRandomString();
+	for (const categoryName of friendlyUrlCategories) {
+		await apiHelpers.headlessAdminTaxonomy.createCategory({
+			name: categoryName,
+			vocabularyId,
+		});
+	}
+}
 
-	await blogsEditBlogEntryPage.editBlogEntry({
-		content: getRandomString(),
-		friendlyUrl: {categories: friendlyUrlCategories, vocabularyName},
-		publish: false,
-		title,
+async function createDPTandMarkAsDefault({
+	displayPageTemplatesPage,
+	site,
+}: {
+	displayPageTemplatesPage: DisplayPageTemplatesPage;
+	site: Site;
+}) {
+	await displayPageTemplatesPage.goto(site.friendlyUrlPath);
+
+	const displayPageTemplateName = getRandomString();
+
+	await displayPageTemplatesPage.publishNewTemplate({
+		contentType: 'Blogs Entry',
+		name: displayPageTemplateName,
 	});
 
-	await expect(
-		page.getByText(`/-/blogs/${friendlyUrlCategories.join('/')}/`)
-	).toBeVisible();
+	await displayPageTemplatesPage.markAsDefault(displayPageTemplateName);
+}
 
-	await page.getByRole('button', {name: 'Publish'}).click();
-	await waitForSuccessAlert(page);
-
-	const response = await page.goto(`/web${site.friendlyUrlPath}/b/${title}`);
-
-	await expect(response.url()).toContain(
-		`/web${site.friendlyUrlPath}/b/${friendlyUrlCategories.join(
-			'/'
-		)}/${title}`
-	);
-});
+async function friendlyURLCategoriesSetup({
+	apiHelpers,
+	displayPageTemplatesPage,
+	page,
+	pageEditorPage,
+	site,
+	vocabularyName,
+}: {
+	apiHelpers: ApiHelpers;
+	displayPageTemplatesPage: DisplayPageTemplatesPage;
+	page;
+	pageEditorPage: PageEditorPage;
+	site: Site;
+	vocabularyName: string;
+}) {
+	await createCategories({apiHelpers, site, vocabularyName});
+	await createDPTandMarkAsDefault({displayPageTemplatesPage, site});
+	await createAssetPublisherAndConfigure({
+		apiHelpers,
+		page,
+		pageEditorPage,
+		site,
+	});
+}
