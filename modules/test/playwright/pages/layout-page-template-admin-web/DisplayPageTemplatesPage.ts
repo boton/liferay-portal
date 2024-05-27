@@ -8,6 +8,15 @@ import {Locator, Page} from '@playwright/test';
 import {PORTLET_URLS} from '../../utils/portletUrls';
 import {waitForSuccessAlert} from '../../utils/waitForSuccessAlert';
 
+export enum DPT_CONTENT_SUBTYPE {
+	BASIC_WEB_CONTENT = 'Basic Web Content',
+}
+
+export enum DPT_CONTENT_TYPE {
+	WEB_CONTENT_ARTICLE = 'Web Content Article',
+	BLOGS_ENTRY = 'Blogs Entry',
+}
+
 export class DisplayPageTemplatesPage {
 	readonly page: Page;
 
@@ -32,8 +41,8 @@ export class DisplayPageTemplatesPage {
 		contentType,
 		name,
 	}: {
-		contentSubtype?: string;
-		contentType: string;
+		contentSubtype?: DPT_CONTENT_SUBTYPE;
+		contentType: DPT_CONTENT_TYPE;
 		name: string;
 	}) {
 		await this.newButton.click();

@@ -3,6 +3,7 @@
  * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
+import {DPT_CONTENT_TYPE} from '../../pages/layout-page-template-admin-web/DisplayPageTemplatesPage';
 import {clickAndExpectToBeVisible} from '../../utils/clickAndExpectToBeVisible';
 import getRandomString from '../../utils/getRandomString';
 import {waitForSuccessAlert} from '../../utils/waitForSuccessAlert';
@@ -127,7 +128,7 @@ async function createDPTandMarkAsDefault({
 	const displayPageTemplateName = getRandomString();
 
 	await displayPageTemplatesPage.publishNewTemplate({
-		contentType: 'Blogs Entry',
+		contentType: DPT_CONTENT_TYPE.BLOGS_ENTRY,
 		name: displayPageTemplateName,
 	});
 

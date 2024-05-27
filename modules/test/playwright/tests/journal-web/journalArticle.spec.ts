@@ -11,6 +11,10 @@ import {featureFlagsTest} from '../../fixtures/featureFlagsTest';
 import {isolatedSiteTest} from '../../fixtures/isolatedSiteTest';
 import {loginTest} from '../../fixtures/loginTest';
 import {workflowPagesTest} from '../../fixtures/workflowPagesTest';
+import {
+	DPT_CONTENT_SUBTYPE,
+	DPT_CONTENT_TYPE,
+} from '../../pages/layout-page-template-admin-web/DisplayPageTemplatesPage';
 import {clickAndExpectToBeVisible} from '../../utils/clickAndExpectToBeVisible';
 import fillAndClickOutside from '../../utils/fillAndClickOutside';
 import getRandomString from '../../utils/getRandomString';
@@ -240,8 +244,8 @@ prefixUrlTest(
 		const displayPageTemplateName = getRandomString();
 
 		await displayPageTemplatesPage.publishNewTemplate({
-			contentSubtype: 'Basic Web Content',
-			contentType: 'Web Content Article',
+			contentSubtype: DPT_CONTENT_SUBTYPE.BASIC_WEB_CONTENT,
+			contentType: DPT_CONTENT_TYPE.WEB_CONTENT_ARTICLE,
 			name: displayPageTemplateName,
 		});
 
