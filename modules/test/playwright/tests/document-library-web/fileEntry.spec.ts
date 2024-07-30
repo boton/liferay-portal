@@ -29,6 +29,44 @@ export const testFeatureFlagsEnabled = mergeTests(
 export const testUploadMultipleFieldsWithCustomDocumentType =
 	mergeTests(baseTest);
 
+baseTest(
+	'Check if Ordering by Modified Date working, after editing a document',
+	{
+		tag: '@LPD-32483',
+	},
+	async ({documentLibraryEditFilePage, documentLibraryPage, page, site}) => {
+		const title = getRandomString();
+		await documentLibraryEditFilePage.publishNewBasicFileEntry(
+			title,
+			site.friendlyUrlPath
+		);
+		const title2 = getRandomString();
+		await documentLibraryEditFilePage.publishNewBasicFileEntry(
+			title2,
+			site.friendlyUrlPath
+		);
+
+		await documentLibraryPage.editFileEntry(title);
+		await documentLibraryEditFilePage.descriptionInput.fill(
+			getRandomString()
+		);
+		await documentLibraryEditFilePage.publishButton.click();
+
+		await documentLibraryPage.orderBy(
+			documentLibraryPage.ORDER_MENU_ITEM.MODIFIED_DATE
+		);
+		await documentLibraryPage.orderBy(
+			documentLibraryPage.ORDER_MENU_ITEM.DESCENDING
+		);
+
+		await expect(
+			page
+				.locator(`dd.card-page-item[data-title="${title}"]`)
+				.getAttribute('id')
+		).resolves.toMatch(/_entries_1$/);
+	}
+);
+
 testFeatureFlagsEnabled(
 	'LPD-16658 Show a success message after scheduling a new file',
 	async ({documentLibraryEditFilePage, documentLibraryPage, page}) => {
