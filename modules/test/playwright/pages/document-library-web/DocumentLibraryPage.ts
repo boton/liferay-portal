@@ -9,9 +9,10 @@ import {clickAndExpectToBeVisible} from '../../utils/clickAndExpectToBeVisible';
 import {PORTLET_URLS} from '../../utils/portletUrls';
 
 export class DocumentLibraryPage {
-	readonly optionsMenu: Locator;
-	readonly page: Page;
 	readonly exportImportOptionsMenuItem: Locator;
+	readonly optionsMenu: Locator;
+	readonly orderMenu: Locator;
+	readonly page: Page;
 
 	constructor(page: Page) {
 		this.exportImportOptionsMenuItem = page.getByRole('menuitem', {
@@ -20,6 +21,7 @@ export class DocumentLibraryPage {
 		this.optionsMenu = page
 			.getByTestId('headerOptions')
 			.getByLabel('Options');
+		this.orderMenu = page.getByLabel('Order');
 		this.page = page;
 	}
 
@@ -138,5 +140,12 @@ export class DocumentLibraryPage {
 		await this.optionsMenu
 			.and(this.page.locator('[aria-haspopup]'))
 			.click();
+	}
+	async orderBy(name: 'Descending' | 'Modified Date') {
+		await clickAndExpectToBeVisible({
+			autoClick: true,
+			target: this.orderMenu,
+			trigger: this.page.getByRole('menuitem', {name}),
+		});
 	}
 }
