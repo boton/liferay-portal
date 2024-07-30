@@ -52,14 +52,14 @@ baseTest(
 			title,
 			site.friendlyUrlPath
 		);
-		await expect(page.getByRole('link', { name: title })).toBeVisible();
+		await expect(page.getByRole('link', {name: title})).toBeVisible();
 
 		const title2 = getRandomString();
 		await documentLibraryEditFilePage.publishNewBasicFileEntry(
 			title2,
 			site.friendlyUrlPath
 		);
-		await expect(page.getByRole('link', { name: title2 })).toBeVisible();
+		await expect(page.getByRole('link', {name: title2})).toBeVisible();
 
 		await documentLibraryPage.editFileEntry(title);
 		await documentLibraryEditFilePage.descriptionInput.fill(
