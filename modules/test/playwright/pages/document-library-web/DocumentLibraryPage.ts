@@ -147,7 +147,10 @@ export class DocumentLibraryPage {
 			.click();
 	}
 	async orderBy(name: string) {
-		await this.orderMenu.click();
-		await this.page.getByRole('menuitem', {name}).click();
+		await clickAndExpectToBeVisible({
+			autoClick: true,
+			target: this.orderMenu,
+			trigger: this.page.getByRole('menuitem', {name}),
+		});
 	}
 }
