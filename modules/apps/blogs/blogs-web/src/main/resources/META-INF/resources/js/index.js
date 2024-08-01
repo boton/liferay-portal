@@ -4,6 +4,7 @@
  */
 
 export {default as AssetCategoriesFriendlyUrlSelector} from './blogs/AssetCategoriesFriendlyUrlSelector';
+export {default as AssetCategoriesSeletionBox} from './blogs/AssetCategoriesSeletionBox';
 export {default as blogs} from './blogs/blogs';
 
 export {default as BlogEntriesManagementToolbarPropsTransformer} from './blogs_admin/BlogEntriesManagementToolbarPropsTransformer';

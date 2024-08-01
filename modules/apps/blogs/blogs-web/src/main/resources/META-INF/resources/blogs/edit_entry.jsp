@@ -222,7 +222,7 @@ renderResponse.setTitle(blogsEditEntryDisplayContext.getPageTitle(resourceBundle
 								</div>
 
 								<react:component
-									module="{AssetCategoriesFriendlyUrlSelector} from blogs-web"
+									module="{AssetCategoriesSeletionBox} from blogs-web"
 									props='<%=
 										HashMapBuilder.<String, Object>put(
 											"automaticURL", automaticURL
