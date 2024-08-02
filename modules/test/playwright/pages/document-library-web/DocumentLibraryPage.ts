@@ -101,6 +101,10 @@ export class DocumentLibraryPage {
 				.locator(`.card-body:has-text('${entryTitle}')`)
 				.getByLabel('Actions'),
 		});
+
+		this.page
+			.locator('.control-menu-nav-item', {hasText: entryTitle})
+			.waitFor();
 	}
 
 	async goToCreateNewFile() {

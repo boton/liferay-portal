@@ -105,6 +105,11 @@ export class DocumentLibraryEditFilePage {
 		else {
 			await this.publishButton.click();
 		}
+
+		await waitForSuccessAlert(
+			this.page,
+			'Success:Your request completed successfully.'
+		);
 	}
 	async publishNewBasicFileEntryWithoutGoTo(title: string) {
 		await this.titleSelector.fill(title);

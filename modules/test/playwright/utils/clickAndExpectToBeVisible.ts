@@ -24,6 +24,8 @@ export async function clickAndExpectToBeVisible({
 		await expect(target).toBeVisible({timeout});
 
 		if (autoClick) {
+			await target.click({trial: true});
+
 			await target.click();
 		}
 	}).toPass();
