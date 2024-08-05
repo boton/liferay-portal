@@ -43,20 +43,14 @@ export default function AssetCategoriesSeletionBox({
 	const [disabled, setDisabled] = useState<boolean>(Boolean(initialDisabled));
 	const [_, currentCategories] = categories;
 
-	const inputAddonNodeRef = useRef(
-		document.querySelector(
-			`[for="${portletNamespace}urlTitle"] + .form-text`
-		)
-	);
-
-	const friendlyURLinputRef = useRef(
+	const friendlyURLInputRef = useRef(
 		document.getElementById(`${portletNamespace}urlTitle`)
 	);
 
 	useEffect(() => {
-		const input = friendlyURLinputRef.current;
+		const friendlyURLInput = friendlyURLInputRef.current;
 
-		if (input) {
+		if (friendlyURLInput) {
 			const mutationObserver = new MutationObserver((mutations) => {
 				mutations.forEach((mutation) => {
 					if (
@@ -69,7 +63,7 @@ export default function AssetCategoriesSeletionBox({
 				});
 			});
 
-			mutationObserver.observe(input, {
+			mutationObserver.observe(friendlyURLInput, {
 				attributeFilter: ['disabled'],
 				attributes: true,
 			});
@@ -79,6 +73,12 @@ export default function AssetCategoriesSeletionBox({
 			};
 		}
 	}, []);
+
+	const inputAddonNodeRef = useRef(
+		document.querySelector(
+			`[for="${portletNamespace}urlTitle"] + .form-text`
+		)
+	);
 
 	useEffect(() => {
 		if (inputAddonNodeRef.current) {
