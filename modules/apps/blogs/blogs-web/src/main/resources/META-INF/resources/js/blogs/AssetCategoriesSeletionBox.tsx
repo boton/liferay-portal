@@ -4,7 +4,12 @@
  */
 
 import {ClayDualListBox} from '@clayui/form';
-import React, {useState} from 'react';
+import {normalizeFriendlyURL} from 'frontend-js-web';
+import React, {useEffect, useRef, useState} from 'react';
+
+declare module 'frontend-js-web' {
+	export function normalizeFriendlyURL(text: string): string;
+}
 
 type TCategory = {
 	label: string;
@@ -12,6 +17,7 @@ type TCategory = {
 };
 
 export default function AssetCategoriesSeletionBox({
+	automaticURL: initialDisabled,
 	availableCategories: initialAvailableCategories = [
 		{label: 'cat-1', value: '1'},
 		{label: 'cat-2', value: '2'},
@@ -21,18 +27,75 @@ export default function AssetCategoriesSeletionBox({
 		{label: 'cat-4', value: '4'},
 		{label: 'cat-5', value: '5'},
 	],
+	inputAddon = '',
 	portletNamespace,
 }: {
+	automaticURL: string;
 	availableCategories?: Array<TCategory>;
 	currentCategories?: Array<TCategory>;
+	inputAddon?: string;
 	portletNamespace: string;
 }) {
 	const [categories, setCategories] = useState([
 		initialAvailableCategories,
 		initialCurrentCategories,
 	]);
-
+	const [disabled, setDisabled] = useState<boolean>(Boolean(initialDisabled));
 	const [_, currentCategories] = categories;
+
+	const inputAddonNodeRef = useRef(
+		document.querySelector(
+			`[for="${portletNamespace}urlTitle"] + .form-text`
+		)
+	);
+
+	const friendlyURLinputRef = useRef(
+		document.getElementById(`${portletNamespace}urlTitle`)
+	);
+
+	useEffect(() => {
+		const input = friendlyURLinputRef.current;
+
+		if (input) {
+			const mutationObserver = new MutationObserver((mutations) => {
+				mutations.forEach((mutation) => {
+					if (
+						mutation.type === 'attributes' &&
+						mutation.attributeName === 'disabled'
+					) {
+						const targetInput = mutation.target as HTMLFormElement;
+						setDisabled(targetInput.disabled);
+					}
+				});
+			});
+
+			mutationObserver.observe(input, {
+				attributeFilter: ['disabled'],
+				attributes: true,
+			});
+
+			return () => {
+				mutationObserver.disconnect();
+			};
+		}
+	}, []);
+
+	useEffect(() => {
+		if (inputAddonNodeRef.current) {
+			const inputAddonElement = inputAddonNodeRef.current as HTMLElement;
+
+			inputAddonElement.innerText =
+				inputAddon +
+				(disabled
+					? ''
+					: currentCategories
+							.map(
+								(category) =>
+									`${normalizeFriendlyURL(category.label)}/`
+							)
+							.join(''));
+		}
+	}, [inputAddon, inputAddonNodeRef, currentCategories, disabled]);
 
 	return (
 		<>
