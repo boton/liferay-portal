@@ -97,6 +97,88 @@ export default function AssetCategoriesSeletionBox({
 		}
 	}, [inputAddon, inputAddonNodeRef, currentCategories, disabled]);
 
+	const articleCategoriesWrapperRef = useRef(
+		document.getElementById(`${portletNamespace}categorization`)
+	);
+
+	useEffect(() => {
+		const articleCategoriesWrapper = articleCategoriesWrapperRef.current;
+
+		if (articleCategoriesWrapper) {
+			const mutationObserver = new MutationObserver((mutations) => {
+				mutations.forEach((mutation) => {
+					if (
+						mutation.type !== 'childList' ||
+						![
+							...mutation.addedNodes,
+							...mutation.removedNodes,
+						].some(
+							(node) =>
+								node instanceof HTMLInputElement &&
+								node.name.includes(
+									`${portletNamespace}assetCategoryIds`
+								)
+						)
+					) {
+						return;
+					}
+
+					const labels = articleCategoriesWrapper.querySelectorAll(
+						'.label-item-expand[id*="clay-id-"]'
+					);
+
+					if (!labels) {
+						return;
+					}
+
+					const articleCategories = Array.from(labels).map((node) => {
+						const regex = /clay-id-\d+-label-(\d+)-span/;
+						const match = node.id.match(regex);
+
+						return {
+							label: node.textContent ?? '',
+							value: match?.[1] ?? '',
+						};
+					});
+
+					setCategories(([_, actualCurrentCategories]) => {
+						const currentCategories =
+							actualCurrentCategories.filter(
+								(actualCurrentCategory) =>
+									articleCategories.some(
+										(articleCategory) =>
+											actualCurrentCategory.value ===
+											articleCategory.value
+									)
+							);
+
+						const avialableCategories = articleCategories.filter(
+							(articleCategory) =>
+								!currentCategories.some(
+									(currentCategory) =>
+										articleCategory.value ===
+										currentCategory.value
+								)
+						);
+
+						return [avialableCategories, currentCategories];
+					});
+				});
+			});
+
+			mutationObserver.observe(articleCategoriesWrapper, {
+				attributeFilter: ['value'],
+				attributes: true,
+				childList: true,
+				subtree: true,
+			});
+
+			return () => {
+				mutationObserver.disconnect();
+			};
+		}
+	}, [portletNamespace]);
+
 	return (
 		<>
 			<ClayDualListBox
