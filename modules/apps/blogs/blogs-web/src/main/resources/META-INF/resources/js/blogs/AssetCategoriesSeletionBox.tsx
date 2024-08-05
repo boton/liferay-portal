@@ -17,7 +17,6 @@ type TCategory = {
 };
 
 export default function AssetCategoriesSeletionBox({
-	automaticURL: initialDisabled,
 	availableCategories: initialAvailableCategories = [
 		{label: 'cat-1', value: '1'},
 		{label: 'cat-2', value: '2'},
@@ -27,12 +26,13 @@ export default function AssetCategoriesSeletionBox({
 		{label: 'cat-4', value: '4'},
 		{label: 'cat-5', value: '5'},
 	],
+	disabled: initialDisabled,
 	inputAddon = '',
 	portletNamespace,
 }: {
-	automaticURL: string;
 	availableCategories?: Array<TCategory>;
 	currentCategories?: Array<TCategory>;
+	disabled: boolean;
 	inputAddon?: string;
 	portletNamespace: string;
 }) {
@@ -40,7 +40,7 @@ export default function AssetCategoriesSeletionBox({
 		initialAvailableCategories,
 		initialCurrentCategories,
 	]);
-	const [disabled, setDisabled] = useState<boolean>(Boolean(initialDisabled));
+	const [disabled, setDisabled] = useState(initialDisabled);
 	const [_, currentCategories] = categories;
 
 	const friendlyURLInputRef = useRef(
