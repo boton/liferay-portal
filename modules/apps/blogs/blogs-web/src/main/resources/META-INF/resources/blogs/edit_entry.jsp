@@ -222,7 +222,7 @@ renderResponse.setTitle(blogsEditEntryDisplayContext.getPageTitle(resourceBundle
 								</div>
 
 								<react:component
-									module="{AssetCategoriesSeletionBox} from blogs-web"
+									module="{AssetCategoriesSelectionBox} from blogs-web"
 									props='<%=
 										HashMapBuilder.<String, Object>put(
 											"disabled", automaticURL

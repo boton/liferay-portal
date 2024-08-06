@@ -16,7 +16,7 @@ type TCategory = {
 	value: string;
 };
 
-export default function AssetCategoriesSeletionBox({
+export default function AssetCategoriesSelectionBox({
 	availableCategories: initialAvailableCategories = [
 		{label: 'cat-1', value: '1'},
 		{label: 'cat-2', value: '2'},
