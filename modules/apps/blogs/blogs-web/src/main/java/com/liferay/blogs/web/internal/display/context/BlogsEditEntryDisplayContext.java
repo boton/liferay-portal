@@ -48,6 +48,7 @@ import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.Constants;
 import com.liferay.portal.kernel.util.HashMapBuilder;
+import com.liferay.portal.kernel.util.ListUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.StringUtil;
@@ -566,19 +567,26 @@ public class BlogsEditEntryDisplayContext {
 			return new long[0];
 		}
 
-		_assetCategoryIds = assetEntry.getCategoryIds();
+		List<Long> assetCategoryIdsList = ListUtil.fromArray(
+			assetEntry.getCategoryIds());
+
+		assetCategoryIdsList.removeAll(
+			ListUtil.fromArray(_getCurrentFriendlyURLAssetCategoryIds()));
+
+		_assetCategoryIds = ArrayUtil.toArray(
+			assetCategoryIdsList.toArray(new Long[0]));
 
 		return _assetCategoryIds;
 	}
 
 	private long[] _getCurrentFriendlyURLAssetCategoryIds() {
-		if (friendlyURLAssetCategoryIds == null) {
-			friendlyURLAssetCategoryIds = ParamUtil.getLongValues(
+		if (_friendlyURLAssetCategoryIds == null) {
+			_friendlyURLAssetCategoryIds = ParamUtil.getLongValues(
 				_httpServletRequest, "friendlyURLAssetCategoryIds");
 		}
 
-		if (!ArrayUtil.isEmpty(friendlyURLAssetCategoryIds)) {
-			return friendlyURLAssetCategoryIds;
+		if (!ArrayUtil.isEmpty(_friendlyURLAssetCategoryIds)) {
+			return _friendlyURLAssetCategoryIds;
 		}
 
 		FriendlyURLEntry friendlyURLEntry = _getFriendlyURLEntry();
@@ -595,9 +603,9 @@ public class BlogsEditEntryDisplayContext {
 			return new long[0];
 		}
 
-		friendlyURLAssetCategoryIds = assetEntry.getCategoryIds();
+		_friendlyURLAssetCategoryIds = assetEntry.getCategoryIds();
 
-		return friendlyURLAssetCategoryIds;
+		return _friendlyURLAssetCategoryIds;
 	}
 
 	private FriendlyURLEntry _getFriendlyURLEntry() {
@@ -664,6 +672,7 @@ public class BlogsEditEntryDisplayContext {
 	private String _description;
 	private Boolean _emailEntryUpdatedEnabled;
 	private Long _entryId;
+	private long[] _friendlyURLAssetCategoryIds;
 	private final HttpServletRequest _httpServletRequest;
 	private final ItemSelector _itemSelector;
 	private final LiferayPortletResponse _liferayPortletResponse;
@@ -674,6 +683,5 @@ public class BlogsEditEntryDisplayContext {
 	private final ThemeDisplay _themeDisplay;
 	private String _title;
 	private String _urlTitle;
-	private long[] friendlyURLAssetCategoryIds;
 
 }
