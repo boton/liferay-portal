@@ -100,16 +100,9 @@ public class BlogsEditEntryDisplayContext {
 
 		JSONArray jsonArray = JSONFactoryUtil.createJSONArray();
 
-		AssetEntry assetEntry = AssetEntryLocalServiceUtil.fetchEntry(
-			PortalUtil.getClassNameId(BlogsEntry.class), getEntryId());
+		for (long assetCategoryId :
+				_getAvailableFriendlyURLAssetCategoryIds()) {
 
-		if (assetEntry == null) {
-			return jsonArray;
-		}
-
-		long[] assetCategoryIds = assetEntry.getCategoryIds();
-
-		for (long assetCategoryId : assetCategoryIds) {
 			_populateJSONArray(
 				jsonArray,
 				AssetCategoryLocalServiceUtil.getCategory(assetCategoryId));
@@ -172,9 +165,7 @@ public class BlogsEditEntryDisplayContext {
 
 		JSONArray jsonArray = JSONFactoryUtil.createJSONArray();
 
-		long[] assetCategoryIds = _getFriendlyURLAssetCategoryIds();
-
-		for (long assetCategoryId : assetCategoryIds) {
+		for (long assetCategoryId : _getCurrentFriendlyURLAssetCategoryIds()) {
 			_populateJSONArray(
 				jsonArray,
 				AssetCategoryLocalServiceUtil.getCategory(assetCategoryId));
@@ -558,14 +549,36 @@ public class BlogsEditEntryDisplayContext {
 		return _assetAutoTaggerConfiguration.isUpdateAutoTags();
 	}
 
-	private long[] _getFriendlyURLAssetCategoryIds() {
+	private long[] _getAvailableFriendlyURLAssetCategoryIds() {
 		if (_assetCategoryIds == null) {
 			_assetCategoryIds = ParamUtil.getLongValues(
-				_httpServletRequest, "friendlyURLAssetCategoryIds");
+				_httpServletRequest, "assetCategoryIds");
 		}
 
 		if (!ArrayUtil.isEmpty(_assetCategoryIds)) {
 			return _assetCategoryIds;
+		}
+
+		AssetEntry assetEntry = AssetEntryLocalServiceUtil.fetchEntry(
+			PortalUtil.getClassNameId(BlogsEntry.class), getEntryId());
+
+		if (assetEntry == null) {
+			return new long[0];
+		}
+
+		_assetCategoryIds = assetEntry.getCategoryIds();
+
+		return _assetCategoryIds;
+	}
+
+	private long[] _getCurrentFriendlyURLAssetCategoryIds() {
+		if (friendlyURLAssetCategoryIds == null) {
+			friendlyURLAssetCategoryIds = ParamUtil.getLongValues(
+				_httpServletRequest, "friendlyURLAssetCategoryIds");
+		}
+
+		if (!ArrayUtil.isEmpty(friendlyURLAssetCategoryIds)) {
+			return friendlyURLAssetCategoryIds;
 		}
 
 		FriendlyURLEntry friendlyURLEntry = _getFriendlyURLEntry();
@@ -582,9 +595,9 @@ public class BlogsEditEntryDisplayContext {
 			return new long[0];
 		}
 
-		_assetCategoryIds = assetEntry.getCategoryIds();
+		friendlyURLAssetCategoryIds = assetEntry.getCategoryIds();
 
-		return _assetCategoryIds;
+		return friendlyURLAssetCategoryIds;
 	}
 
 	private FriendlyURLEntry _getFriendlyURLEntry() {
@@ -661,5 +674,6 @@ public class BlogsEditEntryDisplayContext {
 	private final ThemeDisplay _themeDisplay;
 	private String _title;
 	private String _urlTitle;
+	private long[] friendlyURLAssetCategoryIds;
 
 }
