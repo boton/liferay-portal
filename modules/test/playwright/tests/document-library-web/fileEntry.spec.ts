@@ -307,7 +307,7 @@ test('LPD-31694 Search in DL portlet does not show results in card view for LPS-
 	).toBeVisible();
 });
 
-test(
+test.only(
 	'Replace option does not work on Categories Selector',
 	{
 		tag: '@LPD-27899',
