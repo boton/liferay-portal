@@ -92,9 +92,7 @@ export default defineConfig({
 		timeout: 15 * 1000,
 	},
 	forbidOnly: false,
-	projects: [
-		documentLibraryWebConfig,
-	],
+	projects: [documentLibraryWebConfig],
 	repeatEach: 20,
 	reporter: [
 		[
