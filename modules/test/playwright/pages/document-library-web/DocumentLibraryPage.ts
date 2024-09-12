@@ -127,7 +127,10 @@ export class DocumentLibraryPage {
 
 		await clickAndExpectToBeVisible({
 			autoClick: true,
-			target: this.page.getByRole('menuitem', {name: 'Edit'}),
+			target: this.page.getByRole('menuitem', {
+				exact: true,
+				name: 'Edit',
+			}),
 			trigger: this.page.getByRole('button', {name: 'Show Actions'}),
 		});
 	}
