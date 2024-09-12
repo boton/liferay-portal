@@ -21,28 +21,18 @@ import {waitForSuccessAlert} from '../../utils/waitForSuccessAlert';
 import getPageDefinition from '../layout-content-page-editor-web/utils/getPageDefinition';
 import getWidgetDefinition from '../layout-content-page-editor-web/utils/getWidgetDefinition';
 
-const baseTest = mergeTests(
+const test = mergeTests(
 	apiHelpersTest,
 	documentLibraryPagesTest,
 	isolatedSiteTest,
+	featureFlagsTest({
+		'LPD-10701': true,
+		'LPS-178052': true,
+	}),
 	loginTest()
 );
 
-export const testSearchInDlPortlet = mergeTests(
-	apiHelpersTest,
-	baseTest,
-	featureFlagsTest({
-		'LPS-178052': true,
-	})
-);
-export const testFeatureFlagsEnabled = mergeTests(
-	baseTest,
-	featureFlagsTest({
-		'LPD-10701': true,
-	})
-);
-
-baseTest(
+test(
 	'Check order by Relevance in Search of DL',
 	{
 		tag: '@LPD-32481',
@@ -77,7 +67,7 @@ baseTest(
 	}
 );
 
-baseTest(
+test(
 	'Check if Ordering by Modified Date working, after editing a document',
 	{
 		tag: '@LPD-32483',
@@ -117,135 +107,134 @@ baseTest(
 	}
 );
 
-testFeatureFlagsEnabled(
-	'LPD-16658 Show a success message after scheduling a new file',
-	async ({documentLibraryEditFilePage, documentLibraryPage, page}) => {
-		const scheduleDate = `01/01/${new Date().getFullYear() + 1}`;
-		const title = getRandomString();
+test('LPD-16658 Show a success message after scheduling a new file', async ({
+	documentLibraryEditFilePage,
+	documentLibraryPage,
+	page,
+}) => {
+	const scheduleDate = `01/01/${new Date().getFullYear() + 1}`;
+	const title = getRandomString();
 
-		await documentLibraryEditFilePage.publishNewFileWithScheduleDate(
-			scheduleDate,
-			title
-		);
+	await documentLibraryEditFilePage.publishNewFileWithScheduleDate(
+		scheduleDate,
+		title
+	);
 
-		await expect(page.getByRole('link', {name: title})).toBeVisible();
+	await expect(page.getByRole('link', {name: title})).toBeVisible();
 
-		const toastAlertContainer = page.locator('[id="ToastAlertContainer"]');
+	const toastAlertContainer = page.locator('[id="ToastAlertContainer"]');
 
-		await expect(toastAlertContainer).toBeVisible();
+	await expect(toastAlertContainer).toBeVisible();
 
-		await expect(toastAlertContainer).toHaveText(
-			'Success:' +
-				title +
-				' will be published on ' +
-				moment(new Date(scheduleDate)).format('M/D/YY h:mm A') +
-				'.'
-		);
-		await documentLibraryPage.deleteFileEntry(title);
-	}
-);
+	await expect(toastAlertContainer).toHaveText(
+		'Success:' +
+			title +
+			' will be published on ' +
+			moment(new Date(scheduleDate)).format('M/D/YY h:mm A') +
+			'.'
+	);
+	await documentLibraryPage.deleteFileEntry(title);
+});
 
-testFeatureFlagsEnabled(
-	'LPD-16313 Identify at a glance if a Document is visible for guests',
-	async ({documentLibraryEditFilePage, documentLibraryPage}) => {
-		const title = getRandomString();
+test('LPD-16313 Identify at a glance if a Document is visible for guests', async ({
+	documentLibraryEditFilePage,
+	documentLibraryPage,
+}) => {
+	const title = getRandomString();
 
-		await documentLibraryEditFilePage.publishNewFileWithoutGuestViewPermission(
-			title
-		);
+	await documentLibraryEditFilePage.publishNewFileWithoutGuestViewPermission(
+		title
+	);
 
-		await documentLibraryPage.changeView('cards');
+	await documentLibraryPage.changeView('cards');
 
-		await documentLibraryPage.assertPrivateFileIcon();
+	await documentLibraryPage.assertPrivateFileIcon();
 
-		await documentLibraryPage.changeView('table');
+	await documentLibraryPage.changeView('table');
 
-		await documentLibraryPage.assertPrivateFileIcon();
+	await documentLibraryPage.assertPrivateFileIcon();
 
-		await documentLibraryPage.changeView('list');
+	await documentLibraryPage.changeView('list');
 
-		await documentLibraryPage.assertPrivateFileIcon();
+	await documentLibraryPage.assertPrivateFileIcon();
 
-		await documentLibraryPage.deleteFileEntry(title);
-	}
-);
+	await documentLibraryPage.deleteFileEntry(title);
+});
 
-testFeatureFlagsEnabled(
-	'LPD-16313 Show icon in the content admin and content editor',
-	async ({documentLibraryEditFilePage, documentLibraryPage, page}) => {
-		const title = getRandomString();
+test('LPD-16313 Show icon in the content admin and content editor', async ({
+	documentLibraryEditFilePage,
+	documentLibraryPage,
+	page,
+}) => {
+	const title = getRandomString();
 
-		await documentLibraryEditFilePage.publishNewFileWithoutGuestViewPermission(
-			title
-		);
+	await documentLibraryEditFilePage.publishNewFileWithoutGuestViewPermission(
+		title
+	);
 
-		await documentLibraryPage.changeView('cards');
+	await documentLibraryPage.changeView('cards');
 
-		await documentLibraryPage.goToEditEntry(title);
+	await documentLibraryPage.goToEditEntry(title);
 
-		await documentLibraryPage.assertPrivateFileIcon();
+	await documentLibraryPage.assertPrivateFileIcon();
 
-		await documentLibraryEditFilePage.goBack();
+	await documentLibraryEditFilePage.goBack();
 
-		await page.getByRole('link', {name: title}).click();
+	await page.getByRole('link', {name: title}).click();
 
-		await documentLibraryPage.assertPrivateFileIcon();
+	await documentLibraryPage.assertPrivateFileIcon();
 
-		await documentLibraryPage.deleteFileEntry(title);
-	}
-);
+	await documentLibraryPage.deleteFileEntry(title);
+});
 
-testFeatureFlagsEnabled(
-	'LPD-16313 Show icon in the DL item selector',
-	async ({
-		documentLibraryEditDocumentTypesPage,
-		documentLibraryEditFilePage,
-		documentLibraryPage,
-	}) => {
-		const dTypeTitle = getRandomString();
-		const title = getRandomString();
+test('LPD-16313 Show icon in the DL item selector', async ({
+	documentLibraryEditDocumentTypesPage,
+	documentLibraryEditFilePage,
+	documentLibraryPage,
+}) => {
+	const dTypeTitle = getRandomString();
+	const title = getRandomString();
 
-		await documentLibraryEditDocumentTypesPage.createNewDLTypeWithUploadField(
-			dTypeTitle
-		);
+	await documentLibraryEditDocumentTypesPage.createNewDLTypeWithUploadField(
+		dTypeTitle
+	);
 
-		await documentLibraryEditFilePage.publishNewFileWithoutGuestViewPermission(
-			title
-		);
+	await documentLibraryEditFilePage.publishNewFileWithoutGuestViewPermission(
+		title
+	);
 
-		await documentLibraryEditFilePage.goToNewFileDifferentType(dTypeTitle);
+	await documentLibraryEditFilePage.goToNewFileDifferentType(dTypeTitle);
 
-		await documentLibraryEditFilePage.selectForUpdateButton.click();
+	await documentLibraryEditFilePage.selectForUpdateButton.click();
 
-		await documentLibraryEditFilePage.assertPrivateFileIconInSelectPopUp(
-			'Document'
-		);
+	await documentLibraryEditFilePage.assertPrivateFileIconInSelectPopUp(
+		'Document'
+	);
 
-		await documentLibraryEditFilePage.changeViewInItemSelector(
-			'Document',
-			'List'
-		);
+	await documentLibraryEditFilePage.changeViewInItemSelector(
+		'Document',
+		'List'
+	);
 
-		await documentLibraryEditFilePage.assertPrivateFileIconInSelectPopUp(
-			'Document'
-		);
+	await documentLibraryEditFilePage.assertPrivateFileIconInSelectPopUp(
+		'Document'
+	);
 
-		await documentLibraryEditFilePage.changeViewInItemSelector(
-			'Document',
-			'Table'
-		);
+	await documentLibraryEditFilePage.changeViewInItemSelector(
+		'Document',
+		'Table'
+	);
 
-		await documentLibraryEditFilePage.assertPrivateFileIconInSelectPopUp(
-			'Document'
-		);
+	await documentLibraryEditFilePage.assertPrivateFileIconInSelectPopUp(
+		'Document'
+	);
 
-		await documentLibraryPage.deleteFileEntry(title);
+	await documentLibraryPage.deleteFileEntry(title);
 
-		await documentLibraryPage.deleteDocumentType(dTypeTitle);
-	}
-);
+	await documentLibraryPage.deleteDocumentType(dTypeTitle);
+});
 
-baseTest(
+test(
 	'Error uploading multiples files with custom document type',
 	{
 		tag: '@LPD-29609',
@@ -275,53 +264,50 @@ baseTest(
 	}
 );
 
-testSearchInDlPortlet(
-	'LPD-31694 Search in DL portlet does not show results in card view for LPS-202909',
-	async ({
-		apiHelpers,
-		documentLibraryEditFilePage,
-		documentLibraryPage,
-		page,
-		site,
-	}) => {
-		const title = getRandomString();
-		await documentLibraryPage.goto(site.friendlyUrlPath);
-		await documentLibraryPage.goToCreateNewFile();
-		await documentLibraryEditFilePage.publishNewBasicFileEntryWithoutGoTo(
-			title
-		);
+test('LPD-31694 Search in DL portlet does not show results in card view for LPS-202909', async ({
+	apiHelpers,
+	documentLibraryEditFilePage,
+	documentLibraryPage,
+	page,
+	site,
+}) => {
+	const title = getRandomString();
+	await documentLibraryPage.goto(site.friendlyUrlPath);
+	await documentLibraryPage.goToCreateNewFile();
+	await documentLibraryEditFilePage.publishNewBasicFileEntryWithoutGoTo(
+		title
+	);
 
-		const portletId = getRandomString();
-		const widgetDefinition = getWidgetDefinition({
-			id: portletId,
-			widgetName: 'com_liferay_document_library_web_portlet_DLPortlet',
-		});
-		await apiHelpers.headlessDelivery.createSitePage({
-			pageDefinition: getPageDefinition([widgetDefinition]),
-			siteId: site.id,
-			title: getRandomString(),
-		});
+	const portletId = getRandomString();
+	const widgetDefinition = getWidgetDefinition({
+		id: portletId,
+		widgetName: 'com_liferay_document_library_web_portlet_DLPortlet',
+	});
+	await apiHelpers.headlessDelivery.createSitePage({
+		pageDefinition: getPageDefinition([widgetDefinition]),
+		siteId: site.id,
+		title: getRandomString(),
+	});
 
-		await performLogout(page);
+	await performLogout(page);
 
-		await page.goto('/web' + site.friendlyUrlPath);
+	await page.goto('/web' + site.friendlyUrlPath);
 
-		await documentLibraryPage.searchFor(title);
+	await documentLibraryPage.searchFor(title);
 
-		await clickAndExpectToBeVisible({
-			autoClick: true,
-			target: page.getByRole('menuitem', {name: 'Cards'}),
-			trigger: page.getByLabel('Select View, Currently Selected: '),
-		});
-		await expect(
-			page
-				.locator('.portlet-document-library')
-				.getByRole('link', {name: title})
-		).toBeVisible();
-	}
-);
+	await clickAndExpectToBeVisible({
+		autoClick: true,
+		target: page.getByRole('menuitem', {name: 'Cards'}),
+		trigger: page.getByLabel('Select View, Currently Selected: '),
+	});
+	await expect(
+		page
+			.locator('.portlet-document-library')
+			.getByRole('link', {name: title})
+	).toBeVisible();
+});
 
-baseTest(
+test(
 	'Replace option does not work on Categories Selector',
 	{
 		tag: '@LPD-27899',
