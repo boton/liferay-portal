@@ -112,10 +112,12 @@ export class DocumentLibraryPage {
 			.locator(`[data-title="${entryTitle}"]`)
 			.getByLabel('actions')
 			.click();
-		await this.page
-			.locator('div.dropdown-menu.show')
-			.getByRole('menuitem', {exact: true, name: 'Edit'})
-			.click();
+		const editLocator = this.page.getByRole('menuitem', {
+			exact: true,
+			name: 'Edit',
+		});
+		await editLocator.waitFor();
+		await editLocator.click();
 	}
 
 	async editFileEntry(entryTitle: string) {
