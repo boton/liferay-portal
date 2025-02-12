@@ -308,6 +308,7 @@ Map<String, Object> componentContext = journalDisplayContext.getComponentContext
 						<liferay-ui:search-container-column-date
 							cssClass="table-cell-expand-smallest table-cell-ws-nowrap"
 							name="modified-date"
+							userName="<%= curArticle.getStatusByUserName() %>"
 							value="<%= curArticle.getModifiedDate() %>"
 						/>
 
