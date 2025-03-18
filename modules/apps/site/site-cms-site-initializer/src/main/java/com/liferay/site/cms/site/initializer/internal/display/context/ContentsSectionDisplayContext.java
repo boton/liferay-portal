@@ -109,7 +109,7 @@ public class ContentsSectionDisplayContext extends BaseSectionDisplayContext {
 				).setRedirect(
 					themeDisplay.getURLCurrent()
 				).setParameter(
-					"modelResource", "{entryClassName}"
+					"modelResource", "{{entryClassName}}"
 				).setParameter(
 					"modelResourceDescription", "{embedded.name}"
 				).setParameter(

@@ -121,7 +121,7 @@ public class AllSectionDisplayContext extends BaseSectionDisplayContext {
 		).setRedirect(
 			""
 		).setParameter(
-			"modelResource", "{entryClassName}"
+			"modelResource", "{{entryClassName}}"
 		).setParameter(
 			"resourcePrimKey", "{embedded.id}"
 		).setWindowState(
