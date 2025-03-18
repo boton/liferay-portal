@@ -8,6 +8,7 @@ import formatActionURL from '../../../src/main/resources/META-INF/resources/util
 const testItem = {
 	id: 1235,
 	name: 'test_item_name',
+	nameWithHash: 'test#name',
 };
 
 describe('formatActionURL helper', () => {
@@ -137,5 +138,31 @@ describe('formatActionURL helper', () => {
 		);
 
 		expect(anotherFormattedURL).toEqual('/test/page?p_p_id=random');
+	});
+
+	it('encodes value when double braces are used', () => {
+		const URLWithDoubleBraces = '/o/data-test/{{nameWithHash}}';
+		const target = 'link';
+		const formattedURL = formatActionURL(
+			URLWithDoubleBraces,
+			testItem,
+			target
+		);
+
+		expect(formattedURL).toEqual(
+			`/o/data-test/${encodeURIComponent(testItem.nameWithHash)}`
+		);
+	});
+
+	it('does not encode value when single braces are used', () => {
+		const URLWithSingleBraces = '/o/data-test/{nameWithHash}';
+		const target = 'link';
+		const formattedURL = formatActionURL(
+			URLWithSingleBraces,
+			testItem,
+			target
+		);
+
+		expect(formattedURL).toEqual(`/o/data-test/${testItem.nameWithHash}`);
 	});
 });
