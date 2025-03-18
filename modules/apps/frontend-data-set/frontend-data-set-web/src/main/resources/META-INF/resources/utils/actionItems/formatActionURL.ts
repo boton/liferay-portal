@@ -37,23 +37,15 @@ const formatActionURL = function (
 		return '';
 	}
 
-	const replacedURL = url
-		.replace(new RegExp('{(.*?)}', 'mg'), (matched) =>
-			encodeURIComponent(
-				getValueFromItem(
-					item,
-					matched.substring(1, matched.length - 1).split('.')
-				)
-			)
-		)
-		.replace(new RegExp('(%7B.*?%7D)', 'mg'), (matched) =>
-			encodeURIComponent(
-				getValueFromItem(
-					item,
-					matched.substring(3, matched.length - 3).split('.')
-				)
-			)
-		);
+	const replacedURL = url.replace(
+		/(%7B%7B|{{)(.*?)(?:%7D%7D|}})|(?:%7B|{)(.*?)(?:%7D|})/g,
+		(_, doubleBraces, keyEncoded, keyPlain) => {
+			const key = keyEncoded ?? keyPlain;
+			const value = getValueFromItem(item, key.split('.'));
+
+			return doubleBraces ? encodeURIComponent(value) : value;
+		}
+	);
 
 	if (target === 'link' && replacedURL.includes('?')) {
 		const redirectionURL = window.location.href;
