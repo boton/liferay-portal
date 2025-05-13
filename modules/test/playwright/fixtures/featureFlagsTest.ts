@@ -81,6 +81,13 @@ function featureFlagsTest(options: FeatureFlagsOptions) {
 					originalFeatureFlags.push(...result.dependentFeatureFlags);
 				}
 
+				await page.evaluate(() => {
+					console.log(
+						"FeatureFlags['LPD-44771']",
+						Liferay.FeatureFlags['LPD-44771']
+					);
+				});
+
 				try {
 
 					// Set requested state of FFs
