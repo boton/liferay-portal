@@ -3,15 +3,16 @@
  * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
-import {FrontendDataSet} from '@liferay/frontend-data-set-web';
-import {openModal} from 'frontend-js-components-web';
-import React, {Dispatch, SetStateAction, useContext, useEffect} from 'react';
+import { FrontendDataSet } from '@liferay/frontend-data-set-web';
+import { openModal } from 'frontend-js-components-web';
+import React, { Dispatch, SetStateAction, useContext, useEffect } from 'react';
 
-import {EditAPIApplicationContext} from '../EditAPIApplicationContext';
-import {CreateAPIEndpointModalContent} from '../modals/CreateAPIEndpointModalContent';
-import {DeleteAPIEndpointModalContent} from '../modals/DeleteAPIEndpointModalContent';
-import {getFilterRelatedItemURL} from '../utils/urlUtil';
-import {getAPIEndpointsFDSProps} from './fdsUtils/endpointsFDSProps';
+import { EditAPIApplicationContext } from '../EditAPIApplicationContext';
+import { CreateAPIEndpointForm } from '../modals/CreateAPIEndpointForm';
+import { DeleteAPIEndpointModalContent } from '../modals/DeleteAPIEndpointModalContent';
+import { getFilterRelatedItemURL } from '../utils/urlUtil';
+import { getAPIEndpointsFDSProps } from './fdsUtils/endpointsFDSProps';
+import { CreateAPIEndpointModalContent } from '../modals/CreateAPIEndpointModalContent';
 
 interface APIApplicationsTableProps {
 	apiApplicationBaseURL: string;
@@ -38,8 +39,8 @@ export default function APIEndpointsTable({
 		onClick: ({loadData}: {loadData: voidReturn}) => {
 			openModal({
 				center: true,
-				contentComponent: ({closeModal}: {closeModal: voidReturn}) =>
-					CreateAPIEndpointModalContent({
+				contentComponent: ({ closeModal }: { closeModal: voidReturn }) =>
+					CreateAPIEndpointForm({
 						apiApplicationBaseURL,
 						apiEndpointsURLPath: apiURLPaths.endpoints,
 						basePath,
@@ -65,7 +66,7 @@ export default function APIEndpointsTable({
 	) => {
 		openModal({
 			center: true,
-			contentComponent: ({closeModal}: {closeModal: voidReturn}) =>
+			contentComponent: ({ closeModal }: { closeModal: voidReturn }) =>
 				DeleteAPIEndpointModalContent({
 					closeModal,
 					itemData,
@@ -83,7 +84,7 @@ export default function APIEndpointsTable({
 		loadData,
 	}: FDSItem<APIEndpointItem>) {
 		if (action.id === 'editAPIEndpoint') {
-			setMainEndpointNav({edit: itemData.id});
+			setMainEndpointNav({ edit: itemData.id });
 		}
 
 		if (action.id === 'copyEndpointURL') {
