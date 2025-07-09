@@ -13,3 +13,11 @@
 	message="view-details"
 	url="<%= importErrorsList %>"
 />
+
+<a>
+	<liferay-ui:message key="shipping" />
+
+	<clay:icon
+		symbol="eye"
+	/>
+</a>

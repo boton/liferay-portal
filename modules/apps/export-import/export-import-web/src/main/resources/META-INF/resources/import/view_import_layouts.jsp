@@ -73,6 +73,12 @@ GroupDisplayContextHelper groupDisplayContextHelper = new GroupDisplayContextHel
 			<liferay-frontend:component
 				module="{setupExportImportMocks} from exportimport-web"
 			/>
+
+			<portlet:renderURL var="importErrorDetailPortlet">
+				<portlet:param name="mvcRenderCommandName" value="/export_import/view_import_error_detail" />
+			</portlet:renderURL>
+
+			<a href="<%= importErrorDetailPortlet %>">Temporary nav to error detail page</a>
 		</c:if>
 	</c:otherwise>
 </c:choose>
