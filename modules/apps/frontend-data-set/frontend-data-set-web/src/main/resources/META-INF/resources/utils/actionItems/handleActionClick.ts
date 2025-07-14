@@ -146,15 +146,14 @@ const handleActionClick = ({
 		}
 	};
 
+	let defaultPrevented = false;
+
+	if (target === 'link') {
+		event.preventDefault();
+
+		defaultPrevented = true;
+	}
 	if (confirmationMessage) {
-		let defaultPrevented = false;
-
-		if (target === 'link') {
-			event.preventDefault();
-
-			defaultPrevented = true;
-		}
-
 		openConfirmModal({
 			message: confirmationMessage,
 			onConfirm: (isConfirmed) => {
@@ -167,7 +166,7 @@ const handleActionClick = ({
 		});
 	}
 	else {
-		doAction({defaultPrevented: false});
+		doAction({defaultPrevented});
 	}
 
 	if (closeMenu) {
