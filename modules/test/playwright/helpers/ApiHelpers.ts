@@ -105,6 +105,8 @@ export async function getHeader(
 	page: Page,
 	contentType: ContentType = 'application/json'
 ) {
+	console.log({ page });
+
 	return {
 		'Content-Type': contentType,
 		...(await getCSRFTokenHeader(page)),

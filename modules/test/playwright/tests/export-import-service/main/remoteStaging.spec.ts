@@ -16,6 +16,9 @@ import {productMenuPageTest} from '../../../fixtures/productMenuPageTest';
 import {remotePageTest} from '../../../fixtures/remotePageTest';
 import {uiElementsPageTest} from '../../../fixtures/uiElementsTest';
 import {webContentDisplayPageTest} from '../../../fixtures/webContentDisplayPageTest';
+import {createCategories} from '../../../helpers/CreateCategories';
+import getGlobalSiteId from '../../../utils/getGlobalSiteId';
+import getRandomString from '../../../utils/getRandomString';
 import {reloadUntilVisible} from '../../../utils/reloadUntilVisible';
 import getBasicWebContentStructureId from '../../../utils/structured-content/getBasicWebContentStructureId';
 import {pagesPagesTest} from '../../layout-admin-web/main/fixtures/pagesPagesTest';
@@ -133,5 +136,107 @@ test(
 		await expect(
 			remotePage.getByText('WC WebContent Content')
 		).toBeVisible();
+	}
+);
+
+test(
+	'holaaa',
+	{tag: '@wip'},
+	async ({
+		apiHelpers,
+		page,
+
+		// pageEditorPage,
+
+		remoteApiHelpers,
+
+		// remotePage,
+		// remoteStagingPage,
+		// uiElementsPage,
+		// webContentDisplayPage,
+		// widgetPagePage,
+
+	}) => {
+		test.slow();
+
+		const categoryNames = [
+			{name: getRandomString()},
+			{name: getRandomString()},
+		];
+		const vocabularyName = getRandomString();
+		const siteId = await getGlobalSiteId(apiHelpers);
+		const remoteSiteId = await getGlobalSiteId(remoteApiHelpers);
+
+		// const categories: Array<any> = await createCategories({
+		// 	apiHelpers,
+		// 	categoryNames,
+		// 	siteId,
+		// 	vocabularyName,
+		// });
+
+		// apiHelpers.data.push({
+		// 	id: categories[0].vocabularyId,
+		// 	type: 'taxonomyVocabulary',
+		// });
+
+		console.log(
+			'remoteApiHelpers.headlessAdminTaxonomy',
+			remoteApiHelpers.headlessAdminTaxonomy.postSiteTaxonomyVocabulary
+		);
+
+		// console.log({
+		// 	apiHelpers: remoteApiHelpers,
+		// 	categoryNames,
+		// 	siteId: remoteSiteId,
+		// 	vocabularyName,
+		// })
+
+		// console.log(
+		// 	await remoteApiHelpers.headlessAdminTaxonomy.postSiteTaxonomyVocabulary(
+		// 		{
+		// 			name: vocabularyName,
+		// 			siteId: remoteSiteId,
+		// 		}
+		// 	)
+		// );
+
+		const categories: any[] = await createCategories({
+			apiHelpers: remoteApiHelpers,
+			categoryNames,
+			siteId: remoteSiteId,
+			vocabularyName,
+		});
+
+		// await remoteApiHelpers.headlessAdminTaxonomy.postSiteTaxonomyVocabulary(
+		// 	{
+		// 		name: vocabularyName,
+		// 		siteId: remoteSiteId,
+		// 	}
+		// );
+
+		// remoteApiHelpers.data.push({
+		// 	id: categories[0].vocabularyId,
+		// 	type: 'taxonomyVocabulary',
+		// });
+
+		// const site = await apiHelpers.headlessSite.createSite({
+		// 	name: 'Site Name',
+		// });
+
+		// apiHelpers.data.push({id: site.id, type: 'site'});
+
+		// const remoteSite = await remoteApiHelpers.headlessSite.createSite({
+		// 	name: 'Remote Site Name',
+		// });
+
+		// remoteApiHelpers.data.push({id: remoteSite.id, type: 'site'});
+
+		await apiHelpers.jsonWebServicesStaging.enableRemoteStaging({
+			groupId: siteId,
+			remoteGroupId: remoteSiteId,
+			remotePort,
+		});
+
+		await page.pause();
 	}
 );
