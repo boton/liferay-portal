@@ -8,3 +8,5 @@ export {ExportReportEntriesAction} from './components/ExportReportEntriesAction'
 // @ts-ignore
 
 export {PagesTree} from './components/PagesTree';
+
+export {test} from './test';
