@@ -14,6 +14,8 @@ import {openToast} from 'frontend-js-components-web';
 import {debounce, fetch, getOpener, sub} from 'frontend-js-web';
 import React, {useCallback, useEffect, useRef, useState} from 'react';
 
+import '../../select_layout/css/tree.scss';
+
 export default function SelectLayoutTree({
 	checkDisplayPage,
 	config,
