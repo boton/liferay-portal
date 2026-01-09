@@ -13,6 +13,10 @@ import {sub} from 'frontend-js-web';
 import {SelectLayout} from 'layout-taglib';
 import React from 'react';
 
+// @ts-ignore
+
+import {initialPages} from '../../mocks/initialPages';
+
 export function NewExport() {
 	const {observer, onOpenChange, open} = useModal({
 		defaultOpen: false,
@@ -43,7 +47,7 @@ export function NewExport() {
 							className="p-0"
 							style={{height: '60vh'}}
 						>
-							<SelectLayout multiSelection nodes={[]} />
+							<SelectLayout multiSelection nodes={initialPages} />
 						</ClayModal.Body>
 					</ClayModal>
 				)}
