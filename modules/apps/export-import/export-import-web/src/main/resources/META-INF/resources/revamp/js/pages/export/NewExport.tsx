@@ -15,7 +15,7 @@ import React from 'react';
 
 // @ts-ignore
 
-import {initialPages} from '../../mocks/initialPages';
+import initialPages from '../../mocks/initialPages.json';
 
 export function NewExport() {
 	const {observer, onOpenChange, open} = useModal({
