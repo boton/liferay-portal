@@ -6,6 +6,11 @@
 import ClayButton from '@clayui/button';
 import ClayLayout from '@clayui/layout';
 import ClayModal, {useModal} from '@clayui/modal';
+import {sub} from 'frontend-js-web';
+
+// @ts-ignore
+
+import {SelectLayout} from 'layout-taglib';
 import React from 'react';
 
 export function NewExport() {
@@ -28,15 +33,17 @@ export function NewExport() {
 						<ClayModal.Header
 							closeButtonAriaLabel={Liferay.Language.get('close')}
 						>
-							Page Selection Modal
+							{sub(
+								Liferay.Language.get('select-x'),
+								Liferay.Language.get('pages')
+							)}
 						</ClayModal.Header>
 
-						<ClayModal.Body>
-							Lorem ipsum dolor sit, amet consectetur adipisicing
-							elit. Autem repellendus dolore excepturi minima
-							libero deserunt saepe eius officia rem architecto,
-							dignissimos deleniti soluta, placeat quisquam
-							corporis facilis sapiente? Accusamus, sunt?
+						<ClayModal.Body
+							className="p-0"
+							style={{height: '60vh'}}
+						>
+							<SelectLayout multiSelection nodes={[]} />
 						</ClayModal.Body>
 					</ClayModal>
 				)}
