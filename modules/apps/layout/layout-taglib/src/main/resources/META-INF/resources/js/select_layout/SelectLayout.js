@@ -30,6 +30,7 @@ const SelectLayout = ({
 	multiSelection,
 	namespace,
 	nodes,
+	onSelectionChange,
 	privateLayout,
 	selectedLayoutIds,
 }) => {
@@ -95,6 +96,7 @@ const SelectLayout = ({
 						items={nodes}
 						multiSelection={multiSelection}
 						onItemsCountChange={setSelectedItemsCount}
+						onSelectionChange={onSelectionChange}
 						privateLayout={privateLayout}
 						selectedLayoutIds={selectedLayoutIds}
 					/>
@@ -122,6 +124,7 @@ SelectLayout.propTypes = {
 	multiSelection: PropTypes.bool,
 	namespace: PropTypes.string,
 	nodes: PropTypes.array.isRequired,
+	onSelectionChange: PropTypes.func,
 };
 
 export default SelectLayout;

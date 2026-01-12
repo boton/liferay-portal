@@ -25,6 +25,7 @@ export default function SelectLayoutTree({
 	itemSelectorSaveEvent,
 	items: initialItems = [],
 	onItemsCountChange,
+	onSelectionChange,
 	privateLayout,
 	multiSelection,
 	selectedLayoutIds,
@@ -82,13 +83,18 @@ export default function SelectLayoutTree({
 
 		const data = Array.from(selectedItemsRef.current.values());
 
-		Liferay.fire(itemSelectorSaveEvent, {
-			data,
-		});
+		if (onSelectionChange) {
+			onSelectionChange(data);
+		}
+		else {
+			Liferay.fire(itemSelectorSaveEvent, {
+				data,
+			});
 
-		getOpener().Liferay.fire(itemSelectorSaveEvent, {
-			data,
-		});
+			getOpener().Liferay.fire(itemSelectorSaveEvent, {
+				data,
+			});
+		}
 	};
 
 	const handleSingleSelection = (item, selection) => {
@@ -104,13 +110,18 @@ export default function SelectLayoutTree({
 			value: item.payload,
 		};
 
-		Liferay.fire(itemSelectorSaveEvent, {
-			data,
-		});
+		if (onSelectionChange) {
+			onSelectionChange(data);
+		}
+		else {
+			Liferay.fire(itemSelectorSaveEvent, {
+				data,
+			});
 
-		getOpener().Liferay.fire(itemSelectorSaveEvent, {
-			data,
-		});
+			getOpener().Liferay.fire(itemSelectorSaveEvent, {
+				data,
+			});
+		}
 
 		if (selection) {
 			requestAnimationFrame(() => {
