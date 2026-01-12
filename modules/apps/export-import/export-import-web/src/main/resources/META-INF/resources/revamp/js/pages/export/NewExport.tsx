@@ -11,7 +11,7 @@ import {sub} from 'frontend-js-web';
 // @ts-ignore
 
 import {SelectLayout} from 'layout-taglib';
-import React from 'react';
+import React, {useState} from 'react';
 
 // @ts-ignore
 
@@ -21,6 +21,7 @@ export function NewExport() {
 	const {observer, onOpenChange, open} = useModal({
 		defaultOpen: false,
 	});
+	const [selectedPages, setSelectedPages] = useState<{name?: string}[]>([]);
 
 	return (
 		<ClayLayout.Sheet>
@@ -47,7 +48,13 @@ export function NewExport() {
 							className="p-0"
 							style={{height: '60vh'}}
 						>
-							<SelectLayout multiSelection nodes={initialPages} />
+							<SelectLayout
+								multiSelection
+								nodes={initialPages}
+								onSelectionChange={(seletion: any) => {
+									setSelectedPages(seletion);
+								}}
+							/>
 						</ClayModal.Body>
 					</ClayModal>
 				)}
