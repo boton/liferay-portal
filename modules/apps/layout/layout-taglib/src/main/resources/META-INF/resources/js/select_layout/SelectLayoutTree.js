@@ -77,7 +77,7 @@ export default function SelectLayoutTree({
 			onItemsCountChange(selectedItemsRef.current.size);
 		}
 
-		if (!selectedItemsRef.current.size) {
+		if (!selectedItemsRef.current.size && !onSelectionChange) {
 			return;
 		}
 
