@@ -56,9 +56,18 @@ export function NewExport() {
 								}}
 							/>
 						</ClayModal.Body>
+
+						<ClayModal.Footer
+						/>
 					</ClayModal>
 				)}
 			</ClayButton>
+			<div className="smal">
+				<strong>Pages: </strong>
+				{selectedPages.length
+					? JSON.stringify(selectedPages.map(({name}) => name))
+					: 'No Pages Selected'}
+			</div>
 		</ClayLayout.Sheet>
 	);
 }
