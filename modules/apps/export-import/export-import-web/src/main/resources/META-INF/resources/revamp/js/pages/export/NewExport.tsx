@@ -58,6 +58,24 @@ export function NewExport() {
 						</ClayModal.Body>
 
 						<ClayModal.Footer
+							last={
+								<ClayButton.Group spaced>
+									<ClayButton
+										displayType="secondary"
+										onClick={() => onOpenChange(false)}
+									>
+										{Liferay.Language.get('cancel')}
+									</ClayButton>
+
+									<ClayButton
+										onClick={() => {
+											onOpenChange(false);
+										}}
+									>
+										{Liferay.Language.get('select')}
+									</ClayButton>
+								</ClayButton.Group>
+							}
 						/>
 					</ClayModal>
 				)}
