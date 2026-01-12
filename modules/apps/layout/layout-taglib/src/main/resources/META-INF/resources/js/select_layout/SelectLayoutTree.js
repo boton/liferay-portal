@@ -264,9 +264,9 @@ export default function SelectLayoutTree({
 					}
 
 					return (
-						<ClayTreeView.Item active={false}>
+						<ClayTreeView.Item active={undefined}>
 							<ClayTreeView.ItemStack
-								active={false}
+								active={undefined}
 								onClick={(event) =>
 									onClick(
 										event,
