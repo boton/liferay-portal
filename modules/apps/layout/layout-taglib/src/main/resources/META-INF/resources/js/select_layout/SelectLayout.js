@@ -35,7 +35,9 @@ const SelectLayout = ({
 	selectedLayoutIds,
 }) => {
 	const [filter, setFilter] = useState();
-	const [selectedItemsCount, setSelectedItemsCount] = useState(0);
+	const [selectedItemsCount, setSelectedItemsCount] = useState(
+		selectedLayoutIds?.size || 0
+	);
 
 	const empty = !nodes.length;
 
