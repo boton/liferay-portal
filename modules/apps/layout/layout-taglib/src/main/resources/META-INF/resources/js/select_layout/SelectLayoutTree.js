@@ -16,6 +16,28 @@ import React, {useCallback, useEffect, useRef, useState} from 'react';
 
 import '../../select_layout/css/tree.scss';
 
+function getSelectedItems(items, selectedLayoutIds) {
+	const map = new Map();
+
+	function walk(nodes) {
+		for (const node of nodes) {
+			if (selectedLayoutIds.has(node.id)) {
+				map.set(node.id, node);
+			}
+
+			if (node.children?.length) {
+				walk(node.children);
+			}
+		}
+	}
+
+	if (items?.length && selectedLayoutIds?.size) {
+		walk(items);
+	}
+
+	return map;
+}
+
 export default function SelectLayoutTree({
 	checkDisplayPage,
 	config,
@@ -34,11 +56,11 @@ export default function SelectLayoutTree({
 
 	const [items, setItems] = useState(initialItems);
 
-	const [selectedKeys, setSelectedKeys] = useState(
-		new Set(selectedLayoutIds)
-	);
+	const [selectedKeys, setSelectedKeys] = useState(selectedLayoutIds);
 
-	const selectedItemsRef = useRef(new Map());
+	const selectedItemsRef = useRef(
+		getSelectedItems(initialItems, selectedLayoutIds)
+	);
 
 	const updateSelectedItems = (item, selection, recursive) => {
 		if (!selection.has(item.id)) {
