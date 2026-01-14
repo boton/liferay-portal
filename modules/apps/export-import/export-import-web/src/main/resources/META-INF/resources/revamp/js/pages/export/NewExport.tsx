@@ -15,7 +15,10 @@ export function NewExport() {
 		<ClayLayout.Sheet>
 			<h1>New Export UI</h1>
 
-			<PageSelector onSelectionChange={setPages} />
+			<PageSelector
+				onSelectionChange={setPages}
+				selectedPageIds={new Set(pages.map(({id}) => id))}
+			/>
 
 			<div className="smal">
 				<strong>Pages: </strong>

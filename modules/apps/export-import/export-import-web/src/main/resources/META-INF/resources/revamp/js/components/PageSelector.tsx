@@ -17,15 +17,19 @@ import React, {useState} from 'react';
 import initialPages from '../mocks/initialPages.json';
 
 export type Page = {
+	children: Page[];
+	id: string;
 	name: string;
 };
 
 export function PageSelector({
 	onSelectionChange,
 	pages = initialPages,
+	selectedPageIds,
 }: {
 	onSelectionChange: (pages: Page[]) => void;
 	pages?: Page[];
+	selectedPageIds?: Set<string>;
 }) {
 	const {observer, onOpenChange, open} = useModal();
 
@@ -62,6 +66,7 @@ export function PageSelector({
 							onSelectionChange={(seletion: Page[]) => {
 								setSelectedPages(seletion);
 							}}
+							selectedLayoutIds={selectedPageIds}
 						/>
 					</ClayModal.Body>
 
