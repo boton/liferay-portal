@@ -22,8 +22,10 @@ export type Page = {
 
 export function PageSelector({
 	onSelectionChange,
+	pages = initialPages,
 }: {
 	onSelectionChange: (pages: Page[]) => void;
+	pages?: Page[];
 }) {
 	const {observer, onOpenChange, open} = useModal();
 
@@ -56,8 +58,8 @@ export function PageSelector({
 					<ClayModal.Body className="p-0" style={{height: '60vh'}}>
 						<SelectLayout
 							multiSelection
-							nodes={initialPages}
-							onSelectionChange={(seletion: any) => {
+							nodes={pages}
+							onSelectionChange={(seletion: Page[]) => {
 								setSelectedPages(seletion);
 							}}
 						/>
