@@ -16,13 +16,27 @@ import React, {useCallback, useEffect, useRef, useState} from 'react';
 
 import '../../select_layout/css/tree.scss';
 
+function normalizeItem(item) {
+	return {
+		externalReferenceCode: item.externalReferenceCode,
+		groupId: item.groupId,
+		id: item.id,
+		layoutId: item.layoutId,
+		name: item.value,
+		privateLayout: item.privateLayout,
+		returnType: item.returnType,
+		title: item.name,
+		value: item.payload,
+	};
+}
+
 function getSelectedItems(items, selectedLayoutIds) {
 	const map = new Map();
 
 	function walk(nodes) {
 		for (const node of nodes) {
 			if (selectedLayoutIds.has(node.id)) {
-				map.set(node.id, node);
+				map.set(node.id, normalizeItem(node));
 			}
 
 			if (node.children?.length) {
@@ -56,25 +70,17 @@ export default function SelectLayoutTree({
 
 	const [items, setItems] = useState(initialItems);
 
-	const [selectedKeys, setSelectedKeys] = useState(selectedLayoutIds);
+	const [selectedKeys, setSelectedKeys] = useState(
+		new Set(selectedLayoutIds)
+	);
 
 	const selectedItemsRef = useRef(
-		getSelectedItems(initialItems, selectedLayoutIds)
+		getSelectedItems(initialItems, new Set(selectedLayoutIds))
 	);
 
 	const updateSelectedItems = (item, selection, recursive) => {
 		if (!selection.has(item.id)) {
-			selectedItemsRef.current.set(item.id, {
-				externalReferenceCode: item.externalReferenceCode,
-				groupId: item.groupId,
-				id: item.id,
-				layoutId: item.layoutId,
-				name: item.value,
-				privateLayout: item.privateLayout,
-				returnType: item.returnType,
-				title: item.name,
-				value: item.payload,
-			});
+			selectedItemsRef.current.set(item.id, normalizeItem(item));
 		}
 		else {
 			selectedItemsRef.current.delete(item.id);
@@ -120,17 +126,7 @@ export default function SelectLayoutTree({
 	};
 
 	const handleSingleSelection = (item, selection) => {
-		const data = {
-			externalReferenceCode: item.externalReferenceCode,
-			groupId: item.groupId,
-			id: item.id,
-			layoutId: item.layoutId,
-			name: item.value,
-			privateLayout: item.privateLayout,
-			returnType: item.returnType,
-			title: item.name,
-			value: item.payload,
-		};
+		const data = normalizeItem(item);
 
 		if (onSelectionChange) {
 			onSelectionChange(data);
