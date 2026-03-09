@@ -355,12 +355,19 @@ test('Staging only approved content goes to live', async ({
 	});
 
 	await pageEditorPage.publishPage();
+	await expect(
+		page.getByText(webcontentContent1, {exact: true})
+	).toBeVisible();
+
 	await pageEditorPage.goto(layout2, stagingSite.friendlyUrlPath);
 
 	await webContentDisplayPage.addWebContentWithDisplay({
 		pageType: 'content',
 		webContentName: webContent2.title,
 	});
+	await expect(
+		page.getByText(webcontentContent2, {exact: true})
+	).toBeVisible();
 	await pageEditorPage.publishPage();
 
 	await workflowTasksPage.goto(site.friendlyUrlPath);
