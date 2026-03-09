@@ -129,18 +129,28 @@ test('Staging only approved content goes to live', async ({
 
 	await pageEditorPage.goto(layout1, stagingSite.friendlyUrlPath);
 
+	console.log({
+		webContent1,
+		webcontentContent1,
+		webContent2,
+		webcontentContent2,
+	});
+
 	await webContentDisplayPage.addWebContentWithDisplay({
 		pageType: 'content',
 		webContentName: webContent1.title,
 	});
+	await expect(page.getByText(webContent1.title)).toBeVisible();
 
 	await pageEditorPage.publishPage();
+
 	await pageEditorPage.goto(layout2, stagingSite.friendlyUrlPath);
 
 	await webContentDisplayPage.addWebContentWithDisplay({
 		pageType: 'content',
 		webContentName: webContent2.title,
 	});
+	await expect(page.getByText(webContent2.title)).toBeVisible();
 	await pageEditorPage.publishPage();
 
 	await workflowTasksPage.goto(site.friendlyUrlPath);
