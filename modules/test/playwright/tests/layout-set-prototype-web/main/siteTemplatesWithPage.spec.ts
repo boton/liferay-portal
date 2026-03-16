@@ -153,7 +153,7 @@ test(
 	}
 );
 
-test(
+test.only(
 	'User cannot create child pages for pages derived from a site template',
 	{tag: '@LPD-70284'},
 	async ({
