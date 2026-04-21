@@ -5,6 +5,7 @@
 
 package com.liferay.portal.reports.engine.console.web.internal.display.lar;
 
+import com.liferay.exportimport.constants.ExportImportConstants;
 import com.liferay.exportimport.kernel.lar.DataLevel;
 import com.liferay.exportimport.kernel.lar.PortletDataHandler;
 import com.liferay.portal.reports.engine.console.constants.ReportsEngineConsolePortletKeys;
@@ -21,6 +22,11 @@ import org.osgi.service.component.annotations.Component;
 	service = PortletDataHandler.class
 )
 public class DisplayPortletDataHandler extends AdminPortletDataHandler {
+
+	@Override
+	public String getSectionKey() {
+		return ExportImportConstants.SECTION_KEY_OTHERS;
+	}
 
 	@Activate
 	@Override

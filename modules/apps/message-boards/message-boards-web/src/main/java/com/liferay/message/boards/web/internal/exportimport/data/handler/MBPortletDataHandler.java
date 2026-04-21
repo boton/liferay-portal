@@ -5,6 +5,7 @@
 
 package com.liferay.message.boards.web.internal.exportimport.data.handler;
 
+import com.liferay.exportimport.constants.ExportImportConstants;
 import com.liferay.exportimport.kernel.lar.BasePortletDataHandler;
 import com.liferay.exportimport.kernel.lar.DataLevel;
 import com.liferay.exportimport.kernel.lar.PortletDataContext;
@@ -66,6 +67,11 @@ public class MBPortletDataHandler extends BasePortletDataHandler {
 	@Override
 	public String getSchemaVersion() {
 		return _mbAdminPortletDataHandler.getSchemaVersion();
+	}
+
+	@Override
+	public String getSectionKey() {
+		return ExportImportConstants.SECTION_KEY_CONTENT;
 	}
 
 	@Override

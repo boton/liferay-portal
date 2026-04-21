@@ -8,6 +8,7 @@ package com.liferay.bookmarks.internal.exportimport.data.handler;
 import com.liferay.bookmarks.constants.BookmarksPortletKeys;
 import com.liferay.bookmarks.model.BookmarksEntry;
 import com.liferay.bookmarks.model.BookmarksFolder;
+import com.liferay.exportimport.constants.ExportImportConstants;
 import com.liferay.exportimport.kernel.lar.BasePortletDataHandler;
 import com.liferay.exportimport.kernel.lar.DataLevel;
 import com.liferay.exportimport.kernel.lar.PortletDataContext;
@@ -66,6 +67,11 @@ public class BookmarksPortletDataHandler extends BasePortletDataHandler {
 	@Override
 	public String getSchemaVersion() {
 		return _bookmarksAdminPortletDataHandler.getSchemaVersion();
+	}
+
+	@Override
+	public String getSectionKey() {
+		return ExportImportConstants.SECTION_KEY_CONTENT;
 	}
 
 	@Override

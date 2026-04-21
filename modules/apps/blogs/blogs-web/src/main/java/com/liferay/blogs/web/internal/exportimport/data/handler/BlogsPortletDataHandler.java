@@ -7,6 +7,7 @@ package com.liferay.blogs.web.internal.exportimport.data.handler;
 
 import com.liferay.blogs.constants.BlogsPortletKeys;
 import com.liferay.blogs.model.BlogsEntry;
+import com.liferay.exportimport.constants.ExportImportConstants;
 import com.liferay.exportimport.kernel.lar.BasePortletDataHandler;
 import com.liferay.exportimport.kernel.lar.DataLevel;
 import com.liferay.exportimport.kernel.lar.PortletDataContext;
@@ -64,6 +65,11 @@ public class BlogsPortletDataHandler extends BasePortletDataHandler {
 	@Override
 	public String getSchemaVersion() {
 		return _blogsAdminPortletDataHandler.getSchemaVersion();
+	}
+
+	@Override
+	public String getSectionKey() {
+		return ExportImportConstants.SECTION_KEY_CONTENT;
 	}
 
 	@Override

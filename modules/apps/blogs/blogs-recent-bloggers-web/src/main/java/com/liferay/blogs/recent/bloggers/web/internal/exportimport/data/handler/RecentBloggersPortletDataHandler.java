@@ -6,6 +6,7 @@
 package com.liferay.blogs.recent.bloggers.web.internal.exportimport.data.handler;
 
 import com.liferay.blogs.recent.bloggers.constants.RecentBloggersPortletKeys;
+import com.liferay.exportimport.constants.ExportImportConstants;
 import com.liferay.exportimport.kernel.lar.DataLevel;
 import com.liferay.exportimport.kernel.lar.DefaultConfigurationPortletDataHandler;
 import com.liferay.exportimport.kernel.lar.PortletDataHandler;
@@ -28,6 +29,11 @@ public class RecentBloggersPortletDataHandler
 	@Override
 	public String getSchemaVersion() {
 		return SCHEMA_VERSION;
+	}
+
+	@Override
+	public String getSectionKey() {
+		return ExportImportConstants.SECTION_KEY_CONTENT;
 	}
 
 	@Activate

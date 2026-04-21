@@ -6,6 +6,7 @@
 package com.liferay.comment.page.comments.web.internal.exportimport.data.handler;
 
 import com.liferay.comment.page.comments.web.internal.constants.PageCommentsPortletKeys;
+import com.liferay.exportimport.constants.ExportImportConstants;
 import com.liferay.exportimport.kernel.lar.BasePortletDataHandler;
 import com.liferay.exportimport.kernel.lar.DataLevel;
 import com.liferay.exportimport.kernel.lar.ExportImportProcessCallbackRegistry;
@@ -88,6 +89,11 @@ public class PageCommentsPortletDataHandler extends BasePortletDataHandler {
 	@Override
 	public String getSchemaVersion() {
 		return SCHEMA_VERSION;
+	}
+
+	@Override
+	public String getSectionKey() {
+		return ExportImportConstants.SECTION_KEY_CONTENT;
 	}
 
 	@Activate
