@@ -47,6 +47,7 @@ export function CreateAPIEndpointModalContent({
 	});
 
 	useEffect(() => {
+		console.log('localUIData', localUIData.httpMethod);
 		for (const key in localUIData) {
 			if (localUIData[key as keyof APIEndpointUIData] !== STR_BLANK) {
 				setDisplayError((previousErrors) => ({
