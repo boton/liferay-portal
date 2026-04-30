@@ -159,12 +159,15 @@ public class ExportPreviewResourceImpl extends BaseExportPreviewResourceImpl {
 			ManifestSummary manifestSummary =
 				portletDataContext.getManifestSummary();
 
-			long exportModelCount = portletDataHandler.getExportModelCount(
-				manifestSummary);
-			long modelDeletionCount = manifestSummary.getModelDeletionCount(
-				portletDataHandler.getDeletionSystemEventStagedModelTypes());
+			long exportModelCount = Math.max(
+				0L, portletDataHandler.getExportModelCount(manifestSummary));
+			long modelDeletionCount = Math.max(
+				0L,
+				manifestSummary.getModelDeletionCount(
+					portletDataHandler.
+						getDeletionSystemEventStagedModelTypes()));
 
-			if ((exportModelCount <= 0) && (modelDeletionCount <= 0)) {
+			if ((exportModelCount == 0) && (modelDeletionCount == 0)) {
 				continue;
 			}
 
@@ -283,16 +286,20 @@ public class ExportPreviewResourceImpl extends BaseExportPreviewResourceImpl {
 		if (portletDataHandlerControl instanceof
 				PortletDataHandlerBoolean portletDataHandlerBoolean) {
 
-			long modelAdditionCount = manifestSummary.getModelAdditionCount(
-				new StagedModelType(
-					portletDataHandlerBoolean.getClassName(),
-					portletDataHandlerBoolean.getReferrerClassName()));
-			long modelDeletionCount = manifestSummary.getModelDeletionCount(
-				new StagedModelType(
-					portletDataHandlerBoolean.getClassName(),
-					portletDataHandlerBoolean.getReferrerClassName()));
+			long modelAdditionCount = Math.max(
+				0L,
+				manifestSummary.getModelAdditionCount(
+					new StagedModelType(
+						portletDataHandlerBoolean.getClassName(),
+						portletDataHandlerBoolean.getReferrerClassName())));
+			long modelDeletionCount = Math.max(
+				0L,
+				manifestSummary.getModelDeletionCount(
+					new StagedModelType(
+						portletDataHandlerBoolean.getClassName(),
+						portletDataHandlerBoolean.getReferrerClassName())));
 
-			if ((modelAdditionCount <= 0) && (modelDeletionCount <= 0)) {
+			if ((modelAdditionCount == 0) && (modelDeletionCount == 0)) {
 				return null;
 			}
 
