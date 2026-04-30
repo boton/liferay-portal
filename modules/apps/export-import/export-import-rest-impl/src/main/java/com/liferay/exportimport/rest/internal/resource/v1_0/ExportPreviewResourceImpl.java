@@ -26,6 +26,8 @@ import com.liferay.portal.kernel.model.Portlet;
 import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.staging.StagingGroupHelper;
 
+import jakarta.ws.rs.NotFoundException;
+
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -53,6 +55,10 @@ public class ExportPreviewResourceImpl extends BaseExportPreviewResourceImpl {
 		Group group = groupLocalService.getGroupByExternalReferenceCode(
 			assetLibraryExternalReferenceCode, contextCompany.getCompanyId());
 
+		if (!group.isDepot()) {
+			throw new NotFoundException();
+		}
+
 		return _getExportPreview(group.getGroupId());
 	}
 
@@ -70,6 +76,10 @@ public class ExportPreviewResourceImpl extends BaseExportPreviewResourceImpl {
 
 		Group group = groupLocalService.getGroupByExternalReferenceCode(
 			siteExternalReferenceCode, contextCompany.getCompanyId());
+
+		if (!group.isSite()) {
+			throw new NotFoundException();
+		}
 
 		return _getExportPreview(group.getGroupId());
 	}
