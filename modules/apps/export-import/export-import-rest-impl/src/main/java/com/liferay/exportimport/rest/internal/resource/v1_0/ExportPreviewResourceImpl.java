@@ -100,6 +100,18 @@ public class ExportPreviewResourceImpl extends BaseExportPreviewResourceImpl {
 
 			portletDataHandler.prepareManifestSummary(portletDataContext);
 
+			ManifestSummary manifestSummary =
+				portletDataContext.getManifestSummary();
+
+			long exportModelCount = portletDataHandler.getExportModelCount(
+				manifestSummary);
+			long modelDeletionCount = manifestSummary.getModelDeletionCount(
+				portletDataHandler.getDeletionSystemEventStagedModelTypes());
+
+			if ((exportModelCount <= 0) && (modelDeletionCount <= 0)) {
+				continue;
+			}
+
 			String sectionKey = portletDataHandler.getSectionKey();
 
 			if (sectionKey == null) {
@@ -112,8 +124,8 @@ public class ExportPreviewResourceImpl extends BaseExportPreviewResourceImpl {
 
 			portletDataHandlers.add(
 				_toPortletDataHandler(
-					portlet, portletDataHandler,
-					portletDataContext.getManifestSummary(), locale));
+					exportModelCount, locale, manifestSummary,
+					modelDeletionCount, portlet, portletDataHandler));
 		}
 
 		List<PortletDataHandlerSection> sections = new ArrayList<>(
@@ -169,24 +181,15 @@ public class ExportPreviewResourceImpl extends BaseExportPreviewResourceImpl {
 	}
 
 	private PortletDataHandler _toPortletDataHandler(
-		Portlet portlet,
+		long exportModelCount, Locale locale, ManifestSummary manifestSummary,
+		long modelDeletionCount, Portlet portlet,
 		com.liferay.exportimport.kernel.lar.PortletDataHandler
-			portletDataHandler,
-		ManifestSummary manifestSummary, Locale locale) {
+			portletDataHandler) {
 
 		return new PortletDataHandler() {
 			{
-				setAdditionCount(
-					() -> Math.max(
-						0,
-						portletDataHandler.getExportModelCount(
-							manifestSummary)));
-				setDeletionCount(
-					() -> Math.max(
-						0,
-						manifestSummary.getModelDeletionCount(
-							portletDataHandler.
-								getDeletionSystemEventStagedModelTypes())));
+				setAdditionCount(() -> exportModelCount);
+				setDeletionCount(() -> modelDeletionCount);
 				setLabel(() -> portletDataHandler.getTitle(locale));
 				setName(portlet::getPortletId);
 				setPortletDataHandlerControls(
@@ -207,7 +210,7 @@ public class ExportPreviewResourceImpl extends BaseExportPreviewResourceImpl {
 						return transform(
 							exportPortletDataHandlerControls,
 							control -> _toPortletDataHandlerControl(
-								control, manifestSummary, locale),
+								locale, manifestSummary, control),
 							PortletDataHandlerControl.class);
 					});
 			}
@@ -215,34 +218,33 @@ public class ExportPreviewResourceImpl extends BaseExportPreviewResourceImpl {
 	}
 
 	private PortletDataHandlerControl _toPortletDataHandlerControl(
+		Locale locale, ManifestSummary manifestSummary,
 		com.liferay.exportimport.kernel.lar.PortletDataHandlerControl
-			portletDataHandlerControl,
-		ManifestSummary manifestSummary, Locale locale) {
+			portletDataHandlerControl) {
 
 		if (portletDataHandlerControl instanceof
 				PortletDataHandlerBoolean portletDataHandlerBoolean) {
+
+			long modelAdditionCount = manifestSummary.getModelAdditionCount(
+				new StagedModelType(
+					portletDataHandlerBoolean.getClassName(),
+					portletDataHandlerBoolean.getReferrerClassName()));
+			long modelDeletionCount = manifestSummary.getModelDeletionCount(
+				new StagedModelType(
+					portletDataHandlerBoolean.getClassName(),
+					portletDataHandlerBoolean.getReferrerClassName()));
+
+			if ((modelAdditionCount <= 0) && (modelDeletionCount <= 0)) {
+				return null;
+			}
 
 			return new com.liferay.exportimport.rest.dto.v1_0.
 				PortletDataHandlerBoolean() {
 
 				{
-					setAdditionCount(
-						() -> Math.max(
-							0,
-							manifestSummary.getModelAdditionCount(
-								new StagedModelType(
-									portletDataHandlerBoolean.getClassName(),
-									portletDataHandlerBoolean.
-										getReferrerClassName()))));
+					setAdditionCount(() -> modelAdditionCount);
 					setDefaultState(portletDataHandlerBoolean::getDefaultState);
-					setDeletionCount(
-						() -> Math.max(
-							0,
-							manifestSummary.getModelDeletionCount(
-								new StagedModelType(
-									portletDataHandlerBoolean.getClassName(),
-									portletDataHandlerBoolean.
-										getReferrerClassName()))));
+					setDeletionCount(() -> modelDeletionCount);
 					setDisabled(portletDataHandlerControl::isDisabled);
 					setLabel(
 						() -> _language.get(
@@ -266,7 +268,7 @@ public class ExportPreviewResourceImpl extends BaseExportPreviewResourceImpl {
 							return transform(
 								childrenPortletDataHandlerControls,
 								childControl -> _toPortletDataHandlerControl(
-									childControl, manifestSummary, locale),
+									locale, manifestSummary, childControl),
 								PortletDataHandlerControl.class);
 						});
 					setType(() -> Type.BOOLEAN);
