@@ -23,6 +23,7 @@ import com.liferay.exportimport.rest.resource.v1_0.ExportPreviewResource;
 import com.liferay.portal.kernel.language.Language;
 import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.model.Portlet;
+import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.staging.StagingGroupHelper;
 
 import java.util.ArrayList;
@@ -189,12 +190,26 @@ public class ExportPreviewResourceImpl extends BaseExportPreviewResourceImpl {
 				setLabel(() -> portletDataHandler.getTitle(locale));
 				setName(portlet::getPortletId);
 				setPortletDataHandlerControls(
-					() -> transform(
-						portletDataHandler.
-							getExportPortletDataHandlerControls(),
-						control -> _toPortletDataHandlerControl(
-							control, manifestSummary, locale),
-						PortletDataHandlerControl.class));
+					() -> {
+						com.liferay.exportimport.kernel.lar.
+							PortletDataHandlerControl[]
+								exportPortletDataHandlerControls =
+									portletDataHandler.
+										getExportPortletDataHandlerControls();
+
+						if ((exportPortletDataHandlerControls == null) ||
+							ArrayUtil.isEmpty(
+								exportPortletDataHandlerControls)) {
+
+							return null;
+						}
+
+						return transform(
+							exportPortletDataHandlerControls,
+							control -> _toPortletDataHandlerControl(
+								control, manifestSummary, locale),
+							PortletDataHandlerControl.class);
+					});
 			}
 		};
 	}
@@ -234,12 +249,26 @@ public class ExportPreviewResourceImpl extends BaseExportPreviewResourceImpl {
 							locale, portletDataHandlerControl.getLabel()));
 					setName(portletDataHandlerControl::getName);
 					setPortletDataHandlerControls(
-						() -> transform(
-							portletDataHandlerBoolean.
-								getChildrenPortletDataHandlerControls(),
-							childControl -> _toPortletDataHandlerControl(
-								childControl, manifestSummary, locale),
-							PortletDataHandlerControl.class));
+						() -> {
+							com.liferay.exportimport.kernel.lar.
+								PortletDataHandlerControl[]
+									childrenPortletDataHandlerControls =
+										portletDataHandlerBoolean.
+											getChildrenPortletDataHandlerControls();
+
+							if ((childrenPortletDataHandlerControls == null) ||
+								ArrayUtil.isEmpty(
+									childrenPortletDataHandlerControls)) {
+
+								return null;
+							}
+
+							return transform(
+								childrenPortletDataHandlerControls,
+								childControl -> _toPortletDataHandlerControl(
+									childControl, manifestSummary, locale),
+								PortletDataHandlerControl.class);
+						});
 					setType(() -> Type.BOOLEAN);
 				}
 			};
