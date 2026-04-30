@@ -187,8 +187,8 @@ public class ExportPreviewResourceImpl extends BaseExportPreviewResourceImpl {
 					modelDeletionCount, portlet, portletDataHandler));
 		}
 
-		List<PortletDataHandlerSection> sections = new ArrayList<>(
-			portletDataHandlersMap.size());
+		List<PortletDataHandlerSection> portletDataHandlerSections =
+			new ArrayList<>(portletDataHandlersMap.size());
 
 		long totalAdditionCount = 0;
 		long totalDeletionCount = 0;
@@ -196,25 +196,25 @@ public class ExportPreviewResourceImpl extends BaseExportPreviewResourceImpl {
 		for (Map.Entry<String, List<PortletDataHandler>> entry :
 				portletDataHandlersMap.entrySet()) {
 
-			long sectionAdditionCount = 0;
-			long sectionDeletionCount = 0;
+			long additionCount = 0;
+			long deletionCount = 0;
 
 			for (PortletDataHandler portletDataHandler : entry.getValue()) {
-				sectionAdditionCount += portletDataHandler.getAdditionCount();
-				sectionDeletionCount += portletDataHandler.getDeletionCount();
+				additionCount += portletDataHandler.getAdditionCount();
+				deletionCount += portletDataHandler.getDeletionCount();
 			}
 
-			totalAdditionCount += sectionAdditionCount;
-			totalDeletionCount += sectionDeletionCount;
+			totalAdditionCount += additionCount;
+			totalDeletionCount += deletionCount;
 
-			long finalSectionAdditionCount = sectionAdditionCount;
-			long finalSectionDeletionCount = sectionDeletionCount;
+			long finalAdditionCount = additionCount;
+			long finalDeletionCount = deletionCount;
 
-			sections.add(
+			portletDataHandlerSections.add(
 				new PortletDataHandlerSection() {
 					{
-						setAdditionCount(() -> finalSectionAdditionCount);
-						setDeletionCount(() -> finalSectionDeletionCount);
+						setAdditionCount(() -> finalAdditionCount);
+						setDeletionCount(() -> finalDeletionCount);
 						setLabel(() -> _language.get(locale, entry.getKey()));
 						setName(entry::getKey);
 						setPortletDataHandlers(
@@ -226,6 +226,8 @@ public class ExportPreviewResourceImpl extends BaseExportPreviewResourceImpl {
 				});
 		}
 
+		List<PortletDataHandlerSection> finalPortletDataHandlerSections =
+			portletDataHandlerSections;
 		long finalTotalAdditionCount = totalAdditionCount;
 		long finalTotalDeletionCount = totalDeletionCount;
 
@@ -234,7 +236,8 @@ public class ExportPreviewResourceImpl extends BaseExportPreviewResourceImpl {
 				setAdditionCount(() -> finalTotalAdditionCount);
 				setDeletionCount(() -> finalTotalDeletionCount);
 				setPortletDataHandlerSections(
-					() -> sections.toArray(new PortletDataHandlerSection[0]));
+					() -> finalPortletDataHandlerSections.toArray(
+						new PortletDataHandlerSection[0]));
 			}
 		};
 	}
