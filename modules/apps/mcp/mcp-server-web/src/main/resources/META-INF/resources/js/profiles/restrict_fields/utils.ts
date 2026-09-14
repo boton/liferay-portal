@@ -48,6 +48,18 @@ export function buildFieldTree(
 		});
 }
 
+export function getExpandedKeys(restrictFields: string | undefined): Set<Key> {
+	return new Set(
+		fromRestrictFields(restrictFields).flatMap((restrictedFieldName) => {
+			const parts = restrictedFieldName.split('.');
+
+			return parts
+				.slice(0, -1)
+				.map((_, index) => parts.slice(0, index + 1).join('.'));
+		})
+	);
+}
+
 export function getSelectedKeys(
 	tree: FieldTreeItem[],
 	restrictFields: string | undefined
