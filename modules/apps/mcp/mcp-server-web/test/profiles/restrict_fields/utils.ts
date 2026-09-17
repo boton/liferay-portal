@@ -9,6 +9,7 @@ import {
 	getSelectedKeys,
 	toRestrictFields,
 } from '../../../src/main/resources/META-INF/resources/js/profiles/restrict_fields/utils';
+import {mockPageTool} from '../../mocks/mockPageTool';
 import {mockTool} from '../../mocks/mockTool';
 
 import type {FieldTreeItem} from '../../../src/main/resources/META-INF/resources/js/profiles/restrict_fields/types';
@@ -74,6 +75,16 @@ describe('restrict fields utils', () => {
 				'keywords',
 				'name',
 			]);
+		});
+
+		it('lists the item fields of a tool returning a page', () => {
+			expect(buildFieldTree(mockPageTool.outputSchema)).toEqual(tree);
+		});
+
+		it('lists the item fields of a tool returning an array', () => {
+			expect(
+				buildFieldTree({items: mockTool.outputSchema, type: 'array'})
+			).toEqual(tree);
 		});
 
 		it('returns no fields when the tool has no output schema', () => {

@@ -13,6 +13,7 @@ import React from 'react';
 import '@testing-library/jest-dom';
 
 import RestrictFieldsModal from '../../../src/main/resources/META-INF/resources/js/profiles/restrict_fields/RestrictFieldsModal';
+import {mockPageTool} from '../../mocks/mockPageTool';
 import {mockTool} from '../../mocks/mockTool';
 
 const profileTool = {
@@ -96,6 +97,17 @@ describe('RestrictFieldsModal', () => {
 		expect(
 			screen.queryByRole('checkbox', {name: 'taxonomyCategoryIds'})
 		).toBeNull();
+	});
+
+	it('shows the item fields of a page tool instead of the page itself', async () => {
+		fetch.mockResponseOnce(JSON.stringify(mockPageTool));
+
+		renderModal();
+
+		expect(await findCheckbox('modifiedBy')).toBeVisible();
+		expect(checkbox('description')).toBeVisible();
+		expect(screen.queryByRole('checkbox', {name: 'items'})).toBeNull();
+		expect(screen.queryByRole('checkbox', {name: 'totalCount'})).toBeNull();
 	});
 
 	it('reveals the nested fields when a parent is expanded', async () => {
@@ -336,5 +348,27 @@ describe('RestrictFieldsModal', () => {
 			})
 		);
 		expect(onSaved).toHaveBeenCalledTimes(1);
+	});
+
+	it('saves the item field names of a page tool', async () => {
+		fetch.mockResponseOnce(JSON.stringify(mockPageTool));
+
+		renderModal();
+
+		await userEvent.click(await findCheckbox('description'));
+
+		fetch.mockResponseOnce(JSON.stringify({}));
+
+		await userEvent.click(screen.getByRole('button', {name: 'save'}));
+
+		await waitFor(() =>
+			expect(fetch).toHaveBeenLastCalledWith(
+				'/o/mcp/server-profile-tools/by-external-reference-code/PROFILE_TOOL_ERC',
+				expect.objectContaining({
+					body: JSON.stringify({restrictFields: 'description'}),
+					method: 'PATCH',
+				})
+			)
+		);
 	});
 });
