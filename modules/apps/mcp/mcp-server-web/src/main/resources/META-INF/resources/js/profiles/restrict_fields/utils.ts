@@ -19,33 +19,14 @@ const LOCALIZED_FIELD_NAME_SUFFIX = '_i18n';
 const RESTRICT_FIELDS_SEPARATOR = ',';
 
 export function buildFieldTree(
-	schema: JSONSchema | undefined,
-	parentPath = ''
+	schema: JSONSchema | undefined
 ): FieldTreeItem[] {
-	const properties = schema?.properties;
+	const itemsSchema =
+		schema?.type === 'array' ? schema : schema?.properties?.items;
 
-	if (!properties) {
-		return [];
-	}
-
-	return Object.keys(properties)
-		.filter(
-			(name) =>
-				!EXCLUDED_FIELD_NAMES.has(name) &&
-				!name.endsWith(LOCALIZED_FIELD_NAME_SUFFIX) &&
-				!properties[name].writeOnly
-		)
-		.sort()
-		.map((name) => {
-			const id = parentPath ? `${parentPath}.${name}` : name;
-
-			const children = buildFieldTree(
-				getChildSchema(properties[name]),
-				id
-			);
-
-			return children.length ? {children, id, name} : {id, name};
-		});
+	return buildFieldTreeItems(
+		itemsSchema?.type === 'array' ? itemsSchema.items : schema
+	);
 }
 
 export function getExpandedKeys(restrictFields: string | undefined): Set<Key> {
@@ -76,6 +57,36 @@ export function toRestrictFields(
 	return getRestrictedFieldIds(tree, selectedKeys).join(
 		RESTRICT_FIELDS_SEPARATOR
 	);
+}
+
+function buildFieldTreeItems(
+	schema: JSONSchema | undefined,
+	parentPath = ''
+): FieldTreeItem[] {
+	const properties = schema?.properties;
+
+	if (!properties) {
+		return [];
+	}
+
+	return Object.keys(properties)
+		.filter(
+			(name) =>
+				!EXCLUDED_FIELD_NAMES.has(name) &&
+				!name.endsWith(LOCALIZED_FIELD_NAME_SUFFIX) &&
+				!properties[name].writeOnly
+		)
+		.sort()
+		.map((name) => {
+			const id = parentPath ? `${parentPath}.${name}` : name;
+
+			const children = buildFieldTreeItems(
+				getChildSchema(properties[name]),
+				id
+			);
+
+			return children.length ? {children, id, name} : {id, name};
+		});
 }
 
 function fromRestrictFields(restrictFields: string | undefined): string[] {
