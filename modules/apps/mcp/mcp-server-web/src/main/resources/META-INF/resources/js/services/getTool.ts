@@ -4,14 +4,11 @@
  */
 
 import {Tool} from '../types';
-import ApiHelper, {RequestResult} from './ApiHelper';
+import ApiHelper from './ApiHelper';
 import {TOOL_SETS_URL} from './constants';
 
-export function getTool(
-	toolSetName: string,
-	toolName: string
-): Promise<RequestResult<Tool>> {
-	return ApiHelper.get<Tool>(
+export function getTool(toolSetName: string, toolName: string) {
+	return ApiHelper.get<Pick<Tool, 'outputSchema'>>(
 		`${TOOL_SETS_URL}/${encodeURIComponent(toolSetName)}/tools/${encodeURIComponent(toolName)}?fields=outputSchema&nestedFields=outputSchema`
 	);
 }
