@@ -3,6 +3,7 @@
  * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
+import ClayBadge from '@clayui/badge';
 import ClayButton from '@clayui/button';
 import {TreeView} from '@clayui/core';
 import {ClayCheckbox} from '@clayui/form';
@@ -218,65 +219,115 @@ export default function RestrictFieldsModal({
 										selectionMode="multiple-recursive"
 										showExpanderOnHover={false}
 									>
-										{(item: FieldTreeItem) => (
-											<TreeView.Item
-												className={getRowClassName(
-													item
-												)}
-											>
-												<TreeView.ItemStack
-													expandOnClick={false}
-													expanderDisabled={
-														!isExpandable(item)
-													}
-													onKeyDown={(event) => {
-														if (
-															event.key ===
-																'ArrowRight' &&
-															!isExpandable(item)
-														) {
-															event.preventDefault();
+										{(item: FieldTreeItem) => {
+											const fieldCountId = item.children
+												? `${item.id}-field-count`
+												: undefined;
+
+											return (
+												<TreeView.Item
+													className={getRowClassName(
+														item
+													)}
+												>
+													<TreeView.ItemStack
+														aria-describedby={
+															fieldCountId
 														}
-													}}
-												>
-													<ClayCheckbox checked />
-
-													<span className="font-weight-normal pl-1 text-3">
-														<Highlight
-															query={trimmedQuery}
-															text={item.name}
+														expandOnClick={false}
+														expanderDisabled={
+															!isExpandable(item)
+														}
+														onKeyDown={(event) => {
+															if (
+																event.key ===
+																	'ArrowRight' &&
+																!isExpandable(
+																	item
+																)
+															) {
+																event.preventDefault();
+															}
+														}}
+													>
+														<ClayCheckbox
+															aria-describedby={
+																fieldCountId
+															}
+															checked
 														/>
-													</span>
-												</TreeView.ItemStack>
 
-												<TreeView.Group
-													items={item.children}
-												>
-													{(child: FieldTreeItem) => (
-														<TreeView.Item
-															className={getRowClassName(
-																child
-															)}
-														>
-															<ClayCheckbox
-																checked
+														<span className="font-weight-normal pl-1 text-3">
+															<Highlight
+																query={
+																	trimmedQuery
+																}
+																text={item.name}
 															/>
+														</span>
 
-															<span className="font-weight-normal pl-1 text-3">
-																<Highlight
-																	query={
-																		trimmedQuery
-																	}
-																	text={
-																		child.name
+														{!!item.children && (
+															<span
+																id={
+																	fieldCountId
+																}
+															>
+																<ClayBadge
+																	aria-hidden="true"
+																	displayType="secondary"
+																	label={
+																		item.fieldCount
 																	}
 																/>
+
+																<span className="sr-only">
+																	{Liferay.Util.sub(
+																		item.fieldCount ===
+																			1
+																			? Liferay.Language.get(
+																					'x-field'
+																				)
+																			: Liferay.Language.get(
+																					'x-fields'
+																				),
+																		item.fieldCount
+																	)}
+																</span>
 															</span>
-														</TreeView.Item>
-													)}
-												</TreeView.Group>
-											</TreeView.Item>
-										)}
+														)}
+													</TreeView.ItemStack>
+
+													<TreeView.Group
+														items={item.children}
+													>
+														{(
+															child: FieldTreeItem
+														) => (
+															<TreeView.Item
+																className={getRowClassName(
+																	child
+																)}
+															>
+																<ClayCheckbox
+																	checked
+																/>
+
+																<span className="font-weight-normal pl-1 text-3">
+																	<Highlight
+																		query={
+																			trimmedQuery
+																		}
+																		text={
+																			child.name
+																		}
+																	/>
+																</span>
+															</TreeView.Item>
+														)}
+													</TreeView.Group>
+												</TreeView.Item>
+											);
+										}}
 									</TreeView>
 								</>
 							) : (

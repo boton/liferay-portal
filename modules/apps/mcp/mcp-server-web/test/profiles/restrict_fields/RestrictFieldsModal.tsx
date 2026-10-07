@@ -5,7 +5,7 @@
 
 // eslint-disable-next-line @liferay/portal/no-cross-module-deep-import
 import {checkAccessibility} from '@liferay/layout-js-components-web/test/__lib__/index';
-import {render, screen, waitFor} from '@testing-library/react';
+import {render, screen, waitFor, within} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import fetch from 'jest-fetch-mock';
 import React from 'react';
@@ -170,6 +170,38 @@ describe('RestrictFieldsModal', () => {
 		await userEvent.click(checkbox('modifiedBy'));
 
 		expect(screen.getByText('7-items-selected')).toBeInTheDocument();
+	});
+
+	it('shows next to each group how many fields selecting it adds', async () => {
+		fetch.mockResponseOnce(JSON.stringify(mockTool));
+
+		renderModal();
+
+		await findCheckbox('modifiedBy');
+
+		expect(within(row('modifiedBy')).getByText('6')).toBeVisible();
+		expect(within(row('description')).queryByText('1')).toBeNull();
+
+		await expand('auditEvents');
+
+		expect(within(row('creator')).getByText('2')).toBeVisible();
+	});
+
+	it('describes each group to assistive technology with its field count', async () => {
+		fetch.mockResponseOnce(JSON.stringify(mockTool));
+
+		renderModal();
+
+		await findCheckbox('modifiedBy');
+
+		expect(checkbox('modifiedBy')).toHaveAccessibleName('modifiedBy');
+		expect(checkbox('modifiedBy')).toHaveAccessibleDescription('6-fields');
+		expect(row('modifiedBy')).toHaveAccessibleDescription('6-fields');
+		expect(checkbox('description')).not.toHaveAccessibleDescription();
+
+		await userEvent.click(checkbox('modifiedBy'));
+
+		expect(screen.getByText('6-items-selected')).toBeInTheDocument();
 	});
 
 	it('clears the selection with the deselect all action', async () => {
