@@ -127,30 +127,26 @@ export default function DateFilter({
 					/>
 				)}
 
-				<ClayLayout.Col md="auto">
-					<ClayForm.Group className="mb-0">
-						<label aria-hidden="true" className="invisible">
-							&nbsp;
-						</label>
+				{!(
+					editing.range === Range.All &&
+					appliedValue.range === Range.All
+				) && (
+					<ClayLayout.Col md="auto">
+						<ClayForm.Group className="mb-0">
+							<label aria-hidden="true" className="invisible">
+								&nbsp;
+							</label>
 
-						<div className="d-flex">
-							{!(
-								editing.range === Range.All &&
-								appliedValue.range === Range.All
-							) && (
-								<ClayButton
-									disabled={
-										isDirty ? !validation.isValid : true
-									}
-									displayType="secondary"
-									onClick={handleShowResults}
-								>
-									{Liferay.Language.get('show-results')}
-								</ClayButton>
-							)}
-						</div>
-					</ClayForm.Group>
-				</ClayLayout.Col>
+							<ClayButton
+								disabled={isDirty ? !validation.isValid : true}
+								displayType="secondary"
+								onClick={handleShowResults}
+							>
+								{Liferay.Language.get('show-results')}
+							</ClayButton>
+						</ClayForm.Group>
+					</ClayLayout.Col>
+				)}
 			</ClayLayout.Row>
 
 			{appliedValue.range !== Range.All && (
