@@ -5,7 +5,6 @@
 
 import ClayAlert from '@clayui/alert';
 import ClayButton from '@clayui/button';
-import ClayForm from '@clayui/form';
 import ClayLayout from '@clayui/layout';
 import {sub} from 'frontend-js-web';
 import React, {useMemo, useState} from 'react';
@@ -131,20 +130,17 @@ export default function DateFilter({
 					editing.range === Range.All &&
 					appliedValue.range === Range.All
 				) && (
-					<ClayLayout.Col md="auto">
-						<ClayForm.Group className="mb-0">
-							<label aria-hidden="true" className="invisible">
-								&nbsp;
-							</label>
-
-							<ClayButton
-								disabled={isDirty ? !validation.isValid : true}
-								displayType="secondary"
-								onClick={handleShowResults}
-							>
-								{Liferay.Language.get('show-results')}
-							</ClayButton>
-						</ClayForm.Group>
+					<ClayLayout.Col
+						className="form-group-item-label-spacer pt-3 pt-sm-0"
+						md="auto"
+					>
+						<ClayButton
+							disabled={isDirty ? !validation.isValid : true}
+							displayType="secondary"
+							onClick={handleShowResults}
+						>
+							{Liferay.Language.get('show-results')}
+						</ClayButton>
 					</ClayLayout.Col>
 				)}
 			</ClayLayout.Row>
